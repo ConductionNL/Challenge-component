@@ -6,56 +6,154 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
+use Gedmo\Mapping\Annotation as Gedmo;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * An entity representing a Challenge.
+ *
+ * This entity represents Challenge
+ *
+ * @author Robert Zondervan <robert@conduction.nl>
+ *
+ * @category entity
+ *
+ * @license EUPL <https://github.com/ConductionNL/productenendienstencatalogus/blob/master/LICENSE.md>
+ *
+ * @ApiResource(
+ *     normalizationContext={"groups"={"read"}, "enable_max_depth"=true},
+ *     denormalizationContext={"groups"={"write"}, "enable_max_depth"=true},
+ *     itemOperations={
+ *          "get",
+ *          "put",
+ *          "delete",
+ *          "get_change_logs"={
+ *              "path"="/challenges/{id}/change_log",
+ *              "method"="get",
+ *              "swagger_context" = {
+ *                  "summary"="Changelogs",
+ *                  "description"="Gets al the change logs for this resource"
+ *              }
+ *          },
+ *          "get_audit_trail"={
+ *              "path"="/challenges/{id}/audit_trail",
+ *              "method"="get",
+ *              "swagger_context" = {
+ *                  "summary"="Audittrail",
+ *                  "description"="Gets the audit trail for this resource"
+ *              }
+ *          }
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\ChallengeRepository")
+ * @Gedmo\Loggable(logEntryClass="App\Entity\ChangeLog")
+ * @ORM\HasLifecycleCallbacks
+ *
+ * @ApiFilter(BooleanFilter::class)
+ * @ApiFilter(OrderFilter::class)
+ * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
+ * @ApiFilter(SearchFilter::class)
+
  */
 class Challenge
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @var UuidInterface The UUID identifier of this object
+     *
+     * @example e2984465-190a-4562-829e-a8cca81aa35d
+     *
+     *
+     * @Groups({"read"})
+     * @Assert\Uuid
+     * @ORM\Id
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private $id;
 
     /**
+     * @var string The name of the challenge
+     *
+     * @Gedmo\Versioned
+     * @example my challenge
+     * @Groups({"read","write"})
+     * @Assert\Length(
+     *     max=255
+     * )
+     * @Assert\NotNull
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @var string The description of the challenge
+     *
+     * @Gedmo\Versioned
+     * @example This is the best challenge ever
+     * @Groups({"read","write"})
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
     /**
+     * @var string The catchphrase of the challenge
+     *
+     * @Gedmo\Versioned
+     * @example Please consider this challenge!
+     * @Groups({"read","write"})
      * @ORM\Column(type="text", nullable=true)
      */
     private $catchPhrase;
 
     /**
+     * @var DateTime the moment this challenge closes
+     *
+     * @Groups({"read", "write"})
      * @ORM\Column(type="datetime")
      */
     private $dateClose;
 
     /**
+     * @var DateTime The moment this challenge was created by the submitter
+     *
+     * @Groups({"read"})
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateCreated;
 
     /**
+     * @var DateTime The moment this challenge was modified by the submitter
+     *
+     * @Groups({"read"})
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateModified;
 
     /**
+     * @var array the submitters that submitted this challenge
+     *
+     * @Groups({"read", "write"})
      * @ORM\Column(type="array")
      */
-    private $subitters = [];
+    private $submitters = [];
 
     /**
+     * @var ArrayCollection the pitches that are submitted to this challenge
+     *
+     * @Groups({"read", "write"})
+     * @MaxDepth(1)
      * @ORM\OneToMany(targetEntity="App\Entity\Pitch", mappedBy="challenge")
      */
     private $pitches;
@@ -65,7 +163,7 @@ class Challenge
         $this->pitches = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
@@ -142,14 +240,14 @@ class Challenge
         return $this;
     }
 
-    public function getSubitters(): ?array
+    public function getSubmitters(): ?array
     {
-        return $this->subitters;
+        return $this->submitters;
     }
 
-    public function setSubitters(array $subitters): self
+    public function setSubmitters(array $submitters): self
     {
-        $this->subitters = $subitters;
+        $this->submitters = $submitters;
 
         return $this;
     }
