@@ -1041,7 +1041,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Challenge:jsonld' } }
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Challenge:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
                   'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
@@ -1051,7 +1051,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Challenge:jsonld' } }
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Challenge:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
                   'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
@@ -1061,58 +1061,318 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Challenge'
+                  $ref: '#/components/schemas/Challenge-read'
             application/json+hal:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Challenge'
+                  $ref: '#/components/schemas/Challenge-read'
             application/vnd.api+json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Challenge'
+                  $ref: '#/components/schemas/Challenge-read'
             application/json+vnd.api:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Challenge'
+                  $ref: '#/components/schemas/Challenge-read'
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Challenge'
+                  $ref: '#/components/schemas/Challenge-read'
             application/health+json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Challenge'
+                  $ref: '#/components/schemas/Challenge-read'
             application/json+health:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Challenge'
+                  $ref: '#/components/schemas/Challenge-read'
             application/xml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Challenge'
+                  $ref: '#/components/schemas/Challenge-read'
             application/x-yaml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Challenge'
+                  $ref: '#/components/schemas/Challenge-read'
             text/csv:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Challenge'
+                  $ref: '#/components/schemas/Challenge-read'
             text/html:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Challenge'
+                  $ref: '#/components/schemas/Challenge-read'
       parameters:
+        -
+          name: 'order[id]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[name]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[description]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[catchPhrase]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[dateClose]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[dateCreated]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[dateModified]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[submitters]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'dateClose[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateClose[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateClose[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateClose[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: id
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'id[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: name
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'name[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: description
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'description[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: catchPhrase
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'catchPhrase[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: dateClose
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateClose[]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: dateCreated
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: dateModified
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: submitters
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'submitters[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: deepObject
+          explode: true
         -
           name: page
           in: query
@@ -1205,43 +1465,43 @@ paths:
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/Challenge:jsonld'
+                $ref: '#/components/schemas/Challenge:jsonld-read'
             application/json+ld:
               schema:
-                $ref: '#/components/schemas/Challenge:jsonld'
+                $ref: '#/components/schemas/Challenge:jsonld-read'
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/json+hal:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/json+vnd.api:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/health+json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/json+health:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             text/html:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
           links:
             GetChallengeItem:
               parameters:
@@ -1256,43 +1516,43 @@ paths:
         content:
           application/ld+json:
             schema:
-              $ref: '#/components/schemas/Challenge:jsonld'
+              $ref: '#/components/schemas/Challenge:jsonld-write'
           application/json+ld:
             schema:
-              $ref: '#/components/schemas/Challenge:jsonld'
+              $ref: '#/components/schemas/Challenge:jsonld-write'
           application/hal+json:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           application/json+hal:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           application/vnd.api+json:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           application/json+vnd.api:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           application/json:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           application/health+json:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           application/json+health:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           application/xml:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           application/x-yaml:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           text/csv:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           text/html:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
         description: 'The new Challenge resource'
       parameters:
         -
@@ -1414,93 +1674,47 @@ paths:
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/Challenge:jsonld'
+                $ref: '#/components/schemas/Challenge:jsonld-read'
             application/json+ld:
               schema:
-                $ref: '#/components/schemas/Challenge:jsonld'
+                $ref: '#/components/schemas/Challenge:jsonld-read'
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/json+hal:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/json+vnd.api:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/health+json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/json+health:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             text/html:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
         404:
           description: 'Resource not found'
       produces:
         - application/health+json
-    delete:
-      tags:
-        - Challenge
-      operationId: deleteChallengeItem
-      summary: 'Removes the Challenge resource.'
-      responses:
-        204:
-          description: 'Challenge resource deleted'
-        404:
-          description: 'Resource not found'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        -
-          name: Authorization
-          description: 'The JWT of the entity performing the request'
-          in: header
-        -
-          name: API-Version
-          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
-          example: 1.0.1
-          in: header
-        -
-          name: X-NLX-Logrecord-ID
-          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
-          in: header
-        -
-          name: X-NLX-Request-Process-Id
-          description: 'A process id for purpose registration (doelbinding)'
-          in: header
-        -
-          name: X-NLX-Request-Data-Elements
-          description: 'A list of requested data elements'
-          in: header
-        -
-          name: X-NLX-Request-Data-Subject
-          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
-          in: header
-        -
-          name: X-NLX-Audit-Clarification
-          description: 'A clarification as to why a request has been made  (doelbinding)'
-          in: header
     put:
       tags:
         - Challenge
@@ -1548,43 +1762,43 @@ paths:
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/Challenge:jsonld'
+                $ref: '#/components/schemas/Challenge:jsonld-read'
             application/json+ld:
               schema:
-                $ref: '#/components/schemas/Challenge:jsonld'
+                $ref: '#/components/schemas/Challenge:jsonld-read'
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/json+hal:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/json+vnd.api:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/health+json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/json+health:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             text/html:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
         400:
           description: 'Invalid input'
         404:
@@ -1593,49 +1807,54 @@ paths:
         content:
           application/ld+json:
             schema:
-              $ref: '#/components/schemas/Challenge:jsonld'
+              $ref: '#/components/schemas/Challenge:jsonld-write'
           application/json+ld:
             schema:
-              $ref: '#/components/schemas/Challenge:jsonld'
+              $ref: '#/components/schemas/Challenge:jsonld-write'
           application/hal+json:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           application/json+hal:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           application/vnd.api+json:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           application/json+vnd.api:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           application/json:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           application/health+json:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           application/json+health:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           application/xml:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           application/x-yaml:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           text/csv:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
           text/html:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/Challenge-write'
         description: 'The updated Challenge resource'
-    patch:
+    delete:
       tags:
         - Challenge
-      operationId: patchChallengeItem
-      summary: 'Updates the Challenge resource.'
+      operationId: deleteChallengeItem
+      summary: 'Removes the Challenge resource.'
+      responses:
+        204:
+          description: 'Challenge resource deleted'
+        404:
+          description: 'Resource not found'
       parameters:
         -
           name: id
@@ -1672,83 +1891,268 @@ paths:
           name: X-NLX-Audit-Clarification
           description: 'A clarification as to why a request has been made  (doelbinding)'
           in: header
+  '/challenges/{id}/audit_trail':
+    get:
+      tags:
+        - Challenge
+      operationId: get_audit_trailChallengeItem
+      summary: 'Retrieves a Challenge resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
       responses:
         200:
-          description: 'Challenge resource updated'
+          description: 'Challenge resource response'
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/Challenge:jsonld'
+                $ref: '#/components/schemas/Challenge:jsonld-read'
             application/json+ld:
               schema:
-                $ref: '#/components/schemas/Challenge:jsonld'
+                $ref: '#/components/schemas/Challenge:jsonld-read'
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/json+hal:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/json+vnd.api:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/health+json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/json+health:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/Challenge-read'
             text/html:
               schema:
-                $ref: '#/components/schemas/Challenge'
-        400:
-          description: 'Invalid input'
+                $ref: '#/components/schemas/Challenge-read'
         404:
           description: 'Resource not found'
-      requestBody:
-        content:
-          application/ld+json:
-            schema:
-              $ref: '#/components/schemas/Challenge:jsonld'
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Challenge'
-          application/hal+json:
-            schema:
-              $ref: '#/components/schemas/Challenge'
-          application/vnd.api+json:
-            schema:
-              $ref: '#/components/schemas/Challenge'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/Challenge'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Challenge'
-          applications/x-yaml:
-            schema:
-              $ref: '#/components/schemas/Challenge'
-          text/csv:
-            schema:
-              $ref: '#/components/schemas/Challenge'
-          text/html:
-            schema:
-              $ref: '#/components/schemas/Challenge'
-        description: 'The updated Challenge resource'
+      produces:
+        - application/health+json
+  '/challenges/{id}/change_log':
+    get:
+      tags:
+        - Challenge
+      operationId: get_change_logsChallengeItem
+      summary: 'Retrieves a Challenge resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Challenge resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Challenge:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Challenge:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Challenge-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Challenge-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Challenge-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Challenge-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Challenge-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Challenge-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Challenge-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Challenge-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Challenge-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Challenge-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Challenge-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
   /change_logs:
     get:
       tags:
@@ -2646,6 +3050,1107 @@ paths:
             schema:
               $ref: '#/components/schemas/ChangeLog-write'
         description: 'The updated ChangeLog resource'
+  /pitches:
+    get:
+      tags:
+        - Pitch
+      operationId: getPitchCollection
+      summary: 'Retrieves the collection of Pitch resources.'
+      responses:
+        200:
+          description: 'Pitch collection response'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Pitch:jsonld-read' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/json+ld:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Pitch:jsonld-read' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pitch-read'
+            application/json+hal:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pitch-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pitch-read'
+            application/json+vnd.api:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pitch-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pitch-read'
+            application/health+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pitch-read'
+            application/json+health:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pitch-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pitch-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pitch-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pitch-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pitch-read'
+      parameters:
+        -
+          name: 'order[id]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[name]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[description]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[dateSubmitted]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[dateCreated]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[dateModified]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[submitters]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'dateSubmitted[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateSubmitted[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateSubmitted[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateSubmitted[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: id
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'id[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: name
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'name[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: description
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'description[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: dateSubmitted
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateSubmitted[]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: dateCreated
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: dateModified
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: submitters
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'submitters[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: deepObject
+          explode: true
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+            default: 1
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      produces:
+        - application/health+json
+    post:
+      tags:
+        - Pitch
+      operationId: postPitchCollection
+      summary: 'Creates a Pitch resource.'
+      responses:
+        201:
+          description: 'Pitch resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Pitch:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Pitch:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+          links:
+            GetPitchItem:
+              parameters:
+                id: '$response.body#/id'
+              operationId: getPitchItem
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /pitches/{id}`.'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Pitch:jsonld-write'
+          application/json+ld:
+            schema:
+              $ref: '#/components/schemas/Pitch:jsonld-write'
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          application/json+hal:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          application/json+vnd.api:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          application/health+json:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          application/json+health:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          application/x-yaml:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          text/csv:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+        description: 'The new Pitch resource'
+      parameters:
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+  '/pitches/{id}':
+    get:
+      tags:
+        - Pitch
+      operationId: getPitchItem
+      summary: 'Retrieves a Pitch resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Pitch resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Pitch:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Pitch:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
+    put:
+      tags:
+        - Pitch
+      operationId: putPitchItem
+      summary: 'Replaces the Pitch resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+      responses:
+        200:
+          description: 'Pitch resource updated'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Pitch:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Pitch:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Pitch:jsonld-write'
+          application/json+ld:
+            schema:
+              $ref: '#/components/schemas/Pitch:jsonld-write'
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          application/json+hal:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          application/json+vnd.api:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          application/health+json:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          application/json+health:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          application/x-yaml:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          text/csv:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Pitch-write'
+        description: 'The updated Pitch resource'
+    delete:
+      tags:
+        - Pitch
+      operationId: deletePitchItem
+      summary: 'Removes the Pitch resource.'
+      responses:
+        204:
+          description: 'Pitch resource deleted'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+  '/pitches/{id}/audit_trail':
+    get:
+      tags:
+        - Pitch
+      operationId: get_audit_trailPitchItem
+      summary: 'Retrieves a Pitch resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Pitch resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Pitch:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Pitch:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
+  '/pitches/{id}/change_log':
+    get:
+      tags:
+        - Pitch
+      operationId: get_change_logsPitchItem
+      summary: 'Retrieves a Pitch resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Pitch resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Pitch:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Pitch:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Pitch-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
 components:
   schemas:
     AuditTrail-read:
@@ -2909,16 +4414,83 @@ components:
         '@type':
           readOnly: true
           type: string
-    Challenge:
+    Challenge-read:
       type: object
-      description: ''
+      description: 'An entity representing a Challenge.'
       properties:
         id:
           readOnly: true
-          type: integer
-    'Challenge:jsonld':
+          description: 'The UUID identifier of this object'
+          externalDocs:
+            url: 'http://schema.org/identifier'
+          type: string
+        name:
+          description: 'The name of the challenge'
+          type: string
+        description:
+          description: 'The description of the challenge'
+          type: string
+        catchPhrase:
+          description: 'The catchphrase of the challenge'
+          type: string
+        dateClose:
+          description: 'the moment this challenge closes'
+          type: string
+          format: date-time
+        dateCreated:
+          readOnly: true
+          description: 'The moment this challenge was created by the submitter'
+          type: string
+          format: date-time
+        dateModified:
+          readOnly: true
+          description: 'The moment this challenge was modified by the submitter'
+          type: string
+          format: date-time
+        submitters:
+          description: 'the submitters that submitted this challenge'
+          type: array
+          items:
+            type: string
+        pitches:
+          description: 'the pitches that are submitted to this challenge'
+          type: array
+          items:
+            $ref: '#/components/schemas/Pitch-read'
+      required:
+        - name
+    Challenge-write:
       type: object
-      description: ''
+      description: 'An entity representing a Challenge.'
+      required:
+        - name
+      properties:
+        name:
+          description: 'The name of the challenge'
+          type: string
+        description:
+          description: 'The description of the challenge'
+          type: string
+        catchPhrase:
+          description: 'The catchphrase of the challenge'
+          type: string
+        dateClose:
+          description: 'the moment this challenge closes'
+          type: string
+          format: date-time
+        submitters:
+          description: 'the submitters that submitted this challenge'
+          type: array
+          items:
+            type: string
+        pitches:
+          description: 'the pitches that are submitted to this challenge'
+          type: array
+          items:
+            $ref: '#/components/schemas/Pitch-write'
+    'Challenge:jsonld-read':
+      type: object
+      description: 'An entity representing a Challenge.'
       properties:
         '@context':
           readOnly: true
@@ -2931,7 +4503,83 @@ components:
           type: string
         id:
           readOnly: true
-          type: integer
+          description: 'The UUID identifier of this object'
+          externalDocs:
+            url: 'http://schema.org/identifier'
+          type: string
+        name:
+          description: 'The name of the challenge'
+          type: string
+        description:
+          description: 'The description of the challenge'
+          type: string
+        catchPhrase:
+          description: 'The catchphrase of the challenge'
+          type: string
+        dateClose:
+          description: 'the moment this challenge closes'
+          type: string
+          format: date-time
+        dateCreated:
+          readOnly: true
+          description: 'The moment this challenge was created by the submitter'
+          type: string
+          format: date-time
+        dateModified:
+          readOnly: true
+          description: 'The moment this challenge was modified by the submitter'
+          type: string
+          format: date-time
+        submitters:
+          description: 'the submitters that submitted this challenge'
+          type: array
+          items:
+            type: string
+        pitches:
+          description: 'the pitches that are submitted to this challenge'
+          type: array
+          items:
+            $ref: '#/components/schemas/Pitch:jsonld-read'
+      required:
+        - name
+    'Challenge:jsonld-write':
+      type: object
+      description: 'An entity representing a Challenge.'
+      required:
+        - name
+      properties:
+        '@context':
+          readOnly: true
+          type: string
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        name:
+          description: 'The name of the challenge'
+          type: string
+        description:
+          description: 'The description of the challenge'
+          type: string
+        catchPhrase:
+          description: 'The catchphrase of the challenge'
+          type: string
+        dateClose:
+          description: 'the moment this challenge closes'
+          type: string
+          format: date-time
+        submitters:
+          description: 'the submitters that submitted this challenge'
+          type: array
+          items:
+            type: string
+        pitches:
+          description: 'the pitches that are submitted to this challenge'
+          type: array
+          items:
+            $ref: '#/components/schemas/Pitch:jsonld-write'
     ChangeLog-read:
       type: object
       description: 'An resource representing a log line.'
@@ -3053,6 +4701,132 @@ components:
         '@type':
           readOnly: true
           type: string
+    Pitch-read:
+      type: object
+      description: 'An entity representing a Pitch.'
+      properties:
+        id:
+          readOnly: true
+          description: 'The UUID identifier of this object'
+          externalDocs:
+            url: 'http://schema.org/identifier'
+          type: string
+        name:
+          description: 'The name of the pitch'
+          type: string
+        description:
+          description: 'The description of the pitch'
+          type: string
+        dateSubmitted:
+          description: 'The moment this pitch was submitted'
+          type: string
+          format: date-time
+        dateCreated:
+          readOnly: true
+          description: 'The moment this pitch was created by the submitter'
+          type: string
+          format: date-time
+        dateModified:
+          readOnly: true
+          description: 'The moment this pitch was modified by the submitter'
+          type: string
+          format: date-time
+        challenge:
+          description: 'The challenge this pitch refers to'
+          $ref: '#/components/schemas/Challenge-read'
+      required:
+        - name
+    Pitch-write:
+      type: object
+      description: 'An entity representing a Pitch.'
+      required:
+        - name
+      properties:
+        name:
+          description: 'The name of the pitch'
+          type: string
+        description:
+          description: 'The description of the pitch'
+          type: string
+        dateSubmitted:
+          description: 'The moment this pitch was submitted'
+          type: string
+          format: date-time
+        challenge:
+          description: 'The challenge this pitch refers to'
+          $ref: '#/components/schemas/Challenge-write'
+    'Pitch:jsonld-read':
+      type: object
+      description: 'An entity representing a Pitch.'
+      properties:
+        '@context':
+          readOnly: true
+          type: string
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          description: 'The UUID identifier of this object'
+          externalDocs:
+            url: 'http://schema.org/identifier'
+          type: string
+        name:
+          description: 'The name of the pitch'
+          type: string
+        description:
+          description: 'The description of the pitch'
+          type: string
+        dateSubmitted:
+          description: 'The moment this pitch was submitted'
+          type: string
+          format: date-time
+        dateCreated:
+          readOnly: true
+          description: 'The moment this pitch was created by the submitter'
+          type: string
+          format: date-time
+        dateModified:
+          readOnly: true
+          description: 'The moment this pitch was modified by the submitter'
+          type: string
+          format: date-time
+        challenge:
+          description: 'The challenge this pitch refers to'
+          $ref: '#/components/schemas/Challenge:jsonld-read'
+      required:
+        - name
+    'Pitch:jsonld-write':
+      type: object
+      description: 'An entity representing a Pitch.'
+      required:
+        - name
+      properties:
+        '@context':
+          readOnly: true
+          type: string
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        name:
+          description: 'The name of the pitch'
+          type: string
+        description:
+          description: 'The description of the pitch'
+          type: string
+        dateSubmitted:
+          description: 'The moment this pitch was submitted'
+          type: string
+          format: date-time
+        challenge:
+          description: 'The challenge this pitch refers to'
+          $ref: '#/components/schemas/Challenge:jsonld-write'
 definitions:
   AuditTrail-read:
     properties:
@@ -3158,12 +4932,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-04-14 11:22:52'
+        example: '2020-05-11 08:10:37'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-04-14 11:22:52'
+        example: '2020-05-11 08:10:37'
     required: []
   AuditTrail-write:
     properties:
@@ -3173,6 +4947,124 @@ definitions:
         example: 'This log line looks suspicius'
         maxLength: 2555
     required: []
+  Challenge-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this object'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      name:
+        description: 'The name of the challenge'
+        type: string
+        example: 'my challenge'
+        maxLength: 255
+      description:
+        description: 'The description of the challenge'
+        type: string
+        example: 'This is the best challenge ever'
+      catchPhrase:
+        description: 'The catchphrase of the challenge'
+        type: string
+        example: 'Please consider this challenge!'
+      dateClose:
+        description: 'the moment this challenge closes'
+        type: \DateTime
+      dateCreated:
+        description: 'The moment this challenge was created by the submitter'
+        type: \DateTime
+      dateModified:
+        description: 'The moment this challenge was modified by the submitter'
+        type: \DateTime
+      submitters:
+        description: 'the submitters that submitted this challenge'
+        type: array
+      pitches:
+        description: 'the pitches that are submitted to this challenge'
+        type: \ArrayCollection
+    required:
+      - name
+  Challenge-write:
+    properties:
+      name:
+        description: 'The name of the challenge'
+        type: string
+        example: 'my challenge'
+        maxLength: 255
+      description:
+        description: 'The description of the challenge'
+        type: string
+        example: 'This is the best challenge ever'
+      catchPhrase:
+        description: 'The catchphrase of the challenge'
+        type: string
+        example: 'Please consider this challenge!'
+      dateClose:
+        description: 'the moment this challenge closes'
+        type: \DateTime
+      submitters:
+        description: 'the submitters that submitted this challenge'
+        type: array
+      pitches:
+        description: 'the pitches that are submitted to this challenge'
+        type: \ArrayCollection
+    required:
+      - name
+  Pitch-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this object'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      name:
+        description: 'The name of the pitch'
+        type: string
+        example: 'my challenge'
+        maxLength: 255
+      description:
+        description: 'The description of the pitch'
+        type: string
+        example: 'This is the best challenge ever'
+      dateSubmitted:
+        description: 'The moment this pitch was submitted'
+        type: \DateTime
+      dateCreated:
+        description: 'The moment this pitch was created by the submitter'
+        type: \DateTime
+      dateModified:
+        description: 'The moment this pitch was modified by the submitter'
+        type: \DateTime
+      submitters:
+        description: 'the submitters that submitted this challenge'
+        type: array
+      challenge:
+        description: 'The challenge this pitch refers to'
+        type: \Challenge
+    required:
+      - name
+  Pitch-write:
+    properties:
+      name:
+        description: 'The name of the pitch'
+        type: string
+        example: 'my challenge'
+        maxLength: 255
+      description:
+        description: 'The description of the pitch'
+        type: string
+        example: 'This is the best challenge ever'
+      dateSubmitted:
+        description: 'The moment this pitch was submitted'
+        type: \DateTime
+      submitters:
+        description: 'the submitters that submitted this challenge'
+        type: array
+      challenge:
+        description: 'The challenge this pitch refers to'
+        type: \Challenge
+    required:
+      - name
   ChangeLog-read:
     properties:
       id:
@@ -3211,12 +5103,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-04-14 11:22:52'
+        example: '2020-05-11 08:10:37'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-04-14 11:22:52'
+        example: '2020-05-11 08:10:37'
     required: []
   ChangeLog-write:
     properties:
@@ -3236,9 +5128,15 @@ tags:
   -
     name: Challenge
     description: |
+      An entity representing a Challenge.
       
+      This entity represents Challenge
+  -
+    name: Pitch
+    description: |
+      An entity representing a Pitch.
       
-      
+      This entity represents Pitch
   -
     name: ChangeLog
     description: |
