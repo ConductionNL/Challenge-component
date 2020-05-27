@@ -2,18 +2,18 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use Gedmo\Mapping\Annotation as Gedmo;
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -62,7 +62,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiFilter(OrderFilter::class)
  * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
  * @ApiFilter(SearchFilter::class)
-
  */
 class Challenge
 {
@@ -85,6 +84,7 @@ class Challenge
      * @var string The name of the challenge
      *
      * @Gedmo\Versioned
+     *
      * @example my challenge
      * @Groups({"read","write"})
      * @Assert\Length(
@@ -99,6 +99,7 @@ class Challenge
      * @var string The description of the challenge
      *
      * @Gedmo\Versioned
+     *
      * @example This is the best challenge ever
      * @Groups({"read","write"})
      * @ORM\Column(type="text", nullable=true)
@@ -109,6 +110,7 @@ class Challenge
      * @var string The catchphrase of the challenge
      *
      * @Gedmo\Versioned
+     *
      * @example Please consider this challenge!
      * @Groups({"read","write"})
      * @ORM\Column(type="text", nullable=true)
