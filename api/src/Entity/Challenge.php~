@@ -8,17 +8,20 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * An entity representing a Pitch.
+ * An entity representing a Challenge.
  *
- * This entity represents Pitch
+ * This entity represents Challenge
  *
  * @author Robert Zondervan <robert@conduction.nl>
  *
@@ -34,7 +37,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "put",
  *          "delete",
  *          "get_change_logs"={
- *              "path"="/pitches/{id}/change_log",
+ *              "path"="/challenges/{id}/change_log",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Changelogs",
@@ -42,7 +45,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              }
  *          },
  *          "get_audit_trail"={
- *              "path"="/pitches/{id}/audit_trail",
+ *              "path"="/challenges/{id}/audit_trail",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Audittrail",
@@ -51,8 +54,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          }
  *     }
  * )
- * @ORM\Entity(repositoryClass="App\Repository\PitchRepository")
- * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
+ * @ORM\Entity(repositoryClass="App\Repository\ChallengeRepository")
+ * @Gedmo\Loggable(logEntryClass="App\Entity\ChangeLog")
  * @ORM\HasLifecycleCallbacks
  *
  * @ApiFilter(BooleanFilter::class)
@@ -60,7 +63,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
  * @ApiFilter(SearchFilter::class)
  */
-class Pitch
+class Challenge
 {
     /**
      * @var UuidInterface The UUID identifier of this object
@@ -78,7 +81,7 @@ class Pitch
     private $id;
 
     /**
-     * @var string The name of the pitch
+     * @var string The name of the challenge
      *
      * @Gedmo\Versioned
      *
@@ -93,7 +96,7 @@ class Pitch
     private $name;
 
     /**
-     * @var string The description of the pitch
+     * @var string The description of the challenge
      *
      * @Gedmo\Versioned
      *
@@ -104,15 +107,26 @@ class Pitch
     private $description;
 
     /**
-     * @var DateTime The moment this pitch was submitted
+     * @var string The catchphrase of the challenge
      *
+     * @Gedmo\Versioned
+     *
+     * @example Please consider this challenge!
      * @Groups({"read","write"})
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $dateSubmitted;
+    private $catchPhrase;
 
     /**
-     * @var DateTime The moment this pitch was created by the submitter
+     * @var DateTime the moment this challenge closes
+     *
+     * @Groups({"read", "write"})
+     * @ORM\Column(type="datetime")
+     */
+    private $dateClose;
+
+    /**
+     * @var DateTime The moment this challenge was created by the submitter
      *
      * @Groups({"read"})
      * @Gedmo\Timestampable(on="create")
@@ -121,7 +135,7 @@ class Pitch
     private $dateCreated;
 
     /**
-     * @var DateTime The moment this pitch was modified by the submitter
+     * @var DateTime The moment this challenge was modified by the submitter
      *
      * @Groups({"read"})
      * @Gedmo\Timestampable(on="update")
@@ -138,13 +152,18 @@ class Pitch
     private $submitters = [];
 
     /**
-     * @var Challenge The challenge this pitch refers to
+     * @var ArrayCollection the pitches that are submitted to this challenge
      *
-     * @Groups({"read","write"})
-     * @ORM\ManyToOne(targetEntity="App\Entity\Challenge", inversedBy="pitches")
-     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"read", "write"})
+     * @MaxDepth(1)
+     * @ORM\OneToMany(targetEntity="App\Entity\Pitch", mappedBy="challenge")
      */
-    private $challenge;
+    private $pitches;
+
+    public function __construct()
+    {
+        $this->pitches = new ArrayCollection();
+    }
 
     public function getId(): ?Uuid
     {
@@ -168,21 +187,33 @@ class Pitch
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    public function getDateSubmitted(): ?\DateTimeInterface
+    public function getCatchPhrase(): ?string
     {
-        return $this->dateSubmitted;
+        return $this->catchPhrase;
     }
 
-    public function setDateSubmitted(\DateTimeInterface $dateSubmitted): self
+    public function setCatchPhrase(?string $catchPhrase): self
     {
-        $this->dateSubmitted = $dateSubmitted;
+        $this->catchPhrase = $catchPhrase;
+
+        return $this;
+    }
+
+    public function getDateClose(): ?\DateTimeInterface
+    {
+        return $this->dateClose;
+    }
+
+    public function setDateClose(\DateTimeInterface $dateClose): self
+    {
+        $this->dateClose = $dateClose;
 
         return $this;
     }
@@ -211,14 +242,45 @@ class Pitch
         return $this;
     }
 
-    public function getChallenge(): ?Challenge
+    public function getSubmitters(): ?array
     {
-        return $this->challenge;
+        return $this->submitters;
     }
 
-    public function setChallenge(?Challenge $challenge): self
+    public function setSubmitters(array $submitters): self
     {
-        $this->challenge = $challenge;
+        $this->submitters = $submitters;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Pitch[]
+     */
+    public function getPitches(): Collection
+    {
+        return $this->pitches;
+    }
+
+    public function addPitch(Pitch $pitch): self
+    {
+        if (!$this->pitches->contains($pitch)) {
+            $this->pitches[] = $pitch;
+            $pitch->setChallenge($this);
+        }
+
+        return $this;
+    }
+
+    public function removePitch(Pitch $pitch): self
+    {
+        if ($this->pitches->contains($pitch)) {
+            $this->pitches->removeElement($pitch);
+            // set the owning side to null (unless already changed)
+            if ($pitch->getChallenge() === $this) {
+                $pitch->setChallenge(null);
+            }
+        }
 
         return $this;
     }
