@@ -3,14 +3,14 @@ entries:
   chrc:
   - apiVersion: v1
     appVersion: V.0.1
-    created: "2020-06-18T07:19:28.199792648Z"
+    created: "2020-06-29T12:45:27.574349452Z"
     description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
       interface beschikbaar.&#039;'
-    digest: bfc56528a9f9f3f68014cef7dccb7d44d9bab538a52741a90a210ebbf29ef8da
+    digest: ce6540de6f276dae63b6ad61c8d68c9deb9983052a1a7d641a4c8e836c87abe9
     home: chrc.zaakonline.nl
     icon: chrc.zaakonline.nl
     name: chrc
     urls:
     - chrc-0.1.0.tgz
     version: 0.1.0
-generated: "2020-06-18T07:19:28.063822449Z"
+generated: "2020-06-29T12:45:27.569209252Z"
