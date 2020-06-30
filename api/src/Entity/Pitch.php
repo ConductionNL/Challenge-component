@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PitchRepository;
 use Cassandra\Decimal;
@@ -52,6 +51,7 @@ class Pitch
 {
     /**
      * @var UuidInterface The UUID identifier of this pitch.
+     *
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
      * @Assert\Uuid
@@ -65,6 +65,7 @@ class Pitch
 
     /**
      * @var string The name of this pitch.
+     *
      * @example Glorious swimming pools by SwimmingPool Enterprise
      *
      * @Assert\NotNull
@@ -79,6 +80,7 @@ class Pitch
 
     /**
      * @var string The description of this pitch.
+     *
      * @example Pitch made by SwimmingPool Enterprise
      *
      * @Assert\Length(
@@ -92,6 +94,7 @@ class Pitch
 
     /**
      * @var string The submitter(s) of this pitch.
+     *
      * @example https://cc.zuid-drecht.nl/organizations/
      *
      * @Gedmo\Versioned
@@ -102,6 +105,7 @@ class Pitch
 
     /**
      * @var string The required budget for this pitch.
+     *
      * @example 150000.00
      *
      * @Gedmo\Versioned

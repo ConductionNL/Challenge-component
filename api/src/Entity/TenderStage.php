@@ -4,14 +4,11 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\TenderStageRepository;
-use Doctrine\ORM\Mapping as ORM;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -50,6 +47,7 @@ class TenderStage
 {
     /**
      * @var UuidInterface The UUID identifier of this tender stage.
+     *
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
      * @Assert\Uuid
@@ -63,6 +61,7 @@ class TenderStage
 
     /**
      * @var string The name of this tender stage.
+     *
      * @example Enrollment
      *
      * @Assert\NotNull
@@ -77,6 +76,7 @@ class TenderStage
 
     /**
      * @var string The description of this tender stage.
+     *
      * @example During this stage providers can sign up for this tender.
      *
      * @Assert\Length(
@@ -90,6 +90,7 @@ class TenderStage
 
     /**
      * @var string The requirements to complete this tender stage.
+     *
      * @example A minimum of 5 providers need to be signed up.
      *
      * @Gedmo\Versioned

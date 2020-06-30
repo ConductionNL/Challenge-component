@@ -2,12 +2,9 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\DealRepository;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\UuidInterface;
@@ -51,6 +48,7 @@ class Deal
 {
     /**
      * @var UuidInterface The UUID identifier of this deal.
+     *
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
      * @Assert\Uuid
@@ -64,6 +62,7 @@ class Deal
 
     /**
      * @var string The name of this deal.
+     *
      * @example Deal between SwimmingPool Enterprise and ABC Corp
      *
      * @Assert\NotNull
@@ -78,6 +77,7 @@ class Deal
 
     /**
      * @var string The description of this deal.
+     *
      * @example This deal is an agreement between SwimmingPool Enterprise and ABC Corp.
      *
      * @Assert\Length(
@@ -91,6 +91,7 @@ class Deal
 
     /**
      * @var string The contractor(s) of this tender.
+     *
      * @example https://cc.zuid-drecht.nl/organizations/
      *
      * @Gedmo\Versioned
