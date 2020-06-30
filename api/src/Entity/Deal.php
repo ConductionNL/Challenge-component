@@ -101,7 +101,6 @@ class Deal
 
     /**
      * @var string Documents stating this deal.
-     * @example https://cc.zuid-drecht.nl/organizations/
      *
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
