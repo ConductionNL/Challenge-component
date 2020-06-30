@@ -4,8 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\PitchRepository;
-use Cassandra\Decimal;
+use App\Repository\DealRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A pitch is used by providers to present their solution/product/service for the tender.
+ * A deal is used when the submitter of the tender has an agreement with a person/organization.
  *
  * @ApiResource(
  *     attributes={"pagination_items_per_page"=30},
@@ -28,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "put",
  *          "delete",
  *          "get_change_logs"={
- *              "path"="/pitches/{id}/change_log",
+ *              "path"="/deals/{id}/change_log",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Changelogs",
@@ -36,7 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              }
  *          },
  *          "get_audit_trail"={
- *              "path"="/pitches/{id}/audit_trail",
+ *              "path"="/deals/{id}/audit_trail",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Audittrail",
@@ -45,13 +44,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          }
  *     }
  * )
- * @ORM\Entity(repositoryClass=PitchRepository::class)
+ * @ORM\Entity(repositoryClass=DealRepository::class)
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
  */
-class Pitch
+class Deal
 {
     /**
-     * @var UuidInterface The UUID identifier of this pitch.
+     * @var UuidInterface The UUID identifier of this deal.
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
      * @Assert\Uuid
@@ -64,8 +63,8 @@ class Pitch
     private $id;
 
     /**
-     * @var string The name of this pitch.
-     * @example Glorious swimming pools by SwimmingPool Enterprise
+     * @var string The name of this deal.
+     * @example Deal between SwimmingPool Enterprise and ABC Corp
      *
      * @Assert\NotNull
      * @Assert\Length(
@@ -78,8 +77,8 @@ class Pitch
     private $name;
 
     /**
-     * @var string The description of this pitch.
-     * @example Pitch made by SwimmingPool Enterprise
+     * @var string The description of this deal.
+     * @example This deal is an agreement between SwimmingPool Enterprise and ABC Corp.
      *
      * @Assert\Length(
      *      max = 255
@@ -91,27 +90,17 @@ class Pitch
     private $description;
 
     /**
-     * @var string The submitter(s) of this pitch.
+     * @var string The contractor(s) of this tender.
      * @example https://cc.zuid-drecht.nl/organizations/
      *
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
      * @ORM\Column(type="array")
      */
-    private $submitters = [];
+    private $contractors = [];
 
     /**
-     * @var string The required budget for this pitch.
-     * @example 150000.00
-     *
-     * @Gedmo\Versioned
-     * @Groups({"read", "write"})
-     * @ORM\Column(type="decimal", precision=8, scale=2, nullable=true)
-     */
-    private $requiredBudget;
-
-    /**
-     * @var string The document(s) of this tender.
+     * @var string Documents stating this deal.
      *
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
@@ -120,65 +109,37 @@ class Pitch
     private $documents = [];
 
     /**
-     * @Gedmo\Versioned
-     * @Assert\DateTime
-     * @Groups({"read", "write"})
-     * @ORM\Column(type="datetime")
-     */
-    private $dateSubmitted;
-
-    /**
      * @Groups({"read","write"})
      * @MaxDepth(1)
-     * @ORM\ManyToOne(targetEntity=Tender::class, inversedBy="pitches")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToOne(targetEntity=Tender::class, mappedBy="deal", cascade={"persist", "remove"})
      */
     private $tender;
 
     /**
      * @Groups({"read","write"})
      * @MaxDepth(1)
-     * @ORM\ManyToMany(targetEntity=PitchStage::class)
+     * @ORM\OneToOne(targetEntity=Proposal::class, inversedBy="deal", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $stages;
+    private $proposal;
 
     /**
-     * @Groups({"read","write"})
-     * @MaxDepth(1)
-     * @ORM\ManyToOne(targetEntity=PitchStage::class)
-     */
-    private $currentStage;
-
-    /**
-     * @Groups({"read","write"})
-     * @MaxDepth(1)
-     * @ORM\OneToMany(targetEntity=Proposal::class, mappedBy="pitch")
-     */
-    private $proposals;
-
-    /**
-     * @var Datetime The moment this pitch was created
+     * @var Datetime The moment this deal was created
      *
      * @Groups({"read"})
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
 
     /**
-     * @var Datetime The moment this pitch was last updated
+     * @var Datetime The moment this deal was last updated
      *
      * @Groups({"read"})
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $modified;
-
-    public function __construct()
-    {
-        $this->stages = new ArrayCollection();
-        $this->proposals = new ArrayCollection();
-    }
 
     public function getId()
     {
@@ -209,26 +170,14 @@ class Pitch
         return $this;
     }
 
-    public function getSubmitters(): ?array
+    public function getContractors(): ?array
     {
-        return $this->submitters;
+        return $this->contractors;
     }
 
-    public function setSubmitters(array $submitters): self
+    public function setContractors(array $contractors): self
     {
-        $this->submitters = $submitters;
-
-        return $this;
-    }
-
-    public function getRequiredBudget(): ?string
-    {
-        return $this->requiredBudget;
-    }
-
-    public function setRequiredBudget(?string $requiredBudget): self
-    {
-        $this->requiredBudget = $requiredBudget;
+        $this->contractors = $contractors;
 
         return $this;
     }
@@ -245,18 +194,6 @@ class Pitch
         return $this;
     }
 
-    public function getDateSubmitted(): ?\DateTimeInterface
-    {
-        return $this->dateSubmitted;
-    }
-
-    public function setDateSubmitted(\DateTimeInterface $dateSubmitted): self
-    {
-        $this->dateSubmitted = $dateSubmitted;
-
-        return $this;
-    }
-
     public function getTender(): ?Tender
     {
         return $this->tender;
@@ -266,74 +203,23 @@ class Pitch
     {
         $this->tender = $tender;
 
-        return $this;
-    }
-
-    /**
-     * @return Collection|PitchStage[]
-     */
-    public function getStages(): Collection
-    {
-        return $this->stages;
-    }
-
-    public function addStage(PitchStage $stage): self
-    {
-        if (!$this->stages->contains($stage)) {
-            $this->stages[] = $stage;
+        // set (or unset) the owning side of the relation if necessary
+        $newDeal = null === $tender ? null : $this;
+        if ($tender->getDeal() !== $newDeal) {
+            $tender->setDeal($newDeal);
         }
 
         return $this;
     }
 
-    public function removeStage(PitchStage $stage): self
+    public function getProposal(): ?Proposal
     {
-        if ($this->stages->contains($stage)) {
-            $this->stages->removeElement($stage);
-        }
-
-        return $this;
+        return $this->proposal;
     }
 
-    public function getCurrentStage(): ?PitchStage
+    public function setProposal(Proposal $proposal): self
     {
-        return $this->currentStage;
-    }
-
-    public function setCurrentStage(?PitchStage $currentStage): self
-    {
-        $this->currentStage = $currentStage;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Proposal[]
-     */
-    public function getProposals(): Collection
-    {
-        return $this->proposals;
-    }
-
-    public function addProposal(Proposal $proposal): self
-    {
-        if (!$this->proposals->contains($proposal)) {
-            $this->proposals[] = $proposal;
-            $proposal->setPitch($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProposal(Proposal $proposal): self
-    {
-        if ($this->proposals->contains($proposal)) {
-            $this->proposals->removeElement($proposal);
-            // set the owning side to null (unless already changed)
-            if ($proposal->getPitch() === $this) {
-                $proposal->setPitch(null);
-            }
-        }
+        $this->proposal = $proposal;
 
         return $this;
     }
