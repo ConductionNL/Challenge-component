@@ -80,6 +80,7 @@ class Proposal
 
     /**
      * @var string The description of this proposal.
+     *
      * @Assert\Length(
      *      max = 255
      * )

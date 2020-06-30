@@ -95,6 +95,7 @@ class Tender
      * @var string The submitter(s) of this tender.
      * @example https://cc.zuid-drecht.nl/organizations/
      *
+     * @Assert\NotNull
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
      * @ORM\Column(type="array")
