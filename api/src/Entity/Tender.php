@@ -2,117 +2,234 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\TenderRepository;
+use Cassandra\Decimal;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * A tender can be used by clients to find a possible service provider that can meet up to a certain service or product with a given budget.
+ *
+ * @ApiResource(
+ *     attributes={"pagination_items_per_page"=30},
+ *     normalizationContext={"groups"={"read"}, "enable_max_depth"=true},
+ *     denormalizationContext={"groups"={"write"}, "enable_max_depth"=true},
+ *     itemOperations={
+ *          "get",
+ *          "put",
+ *          "delete",
+ *          "get_change_logs"={
+ *              "path"="/tenders/{id}/change_log",
+ *              "method"="get",
+ *              "swagger_context" = {
+ *                  "summary"="Changelogs",
+ *                  "description"="Gets al the change logs for this resource"
+ *              }
+ *          },
+ *          "get_audit_trail"={
+ *              "path"="/tenders/{id}/audit_trail",
+ *              "method"="get",
+ *              "swagger_context" = {
+ *                  "summary"="Audittrail",
+ *                  "description"="Gets the audit trail for this resource"
+ *              }
+ *          }
+ *     }
+ * )
  * @ORM\Entity(repositoryClass=TenderRepository::class)
+ * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
+ *
  */
 class Tender
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @var UuidInterface The UUID identifier of this tender.
+     * @example e2984465-190a-4562-829e-a8cca81aa35d
+     *
+     * @Assert\Uuid
+     * @Groups({"read"})
+     * @ORM\Id
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private $id;
 
     /**
+     * @var string The name of this tender.
+     * @example Swimming pool design and construction
+     *
+     * @Assert\NotNull
+     * @Assert\Length(
+     *      max = 255
+     * )
+     * @Gedmo\Versioned
+     * @Groups({"read","write"})
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @var string The description of this tender.
+     * @example This tender requires a provider that can design and deliver a swimming pool with 2 water slides.
+     *
+     * @Assert\Length(
+     *      max = 255
+     * )
+     * @Gedmo\Versioned
+     * @Groups({"read","write"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $description;
 
     /**
+     * @var string The submitter(s) of this tender.
+     * @example https://cc.zuid-drecht.nl/organizations/
+     *
+     * @Gedmo\Versioned
+     * @Groups({"read", "write"})
      * @ORM\Column(type="array")
      */
     private $submitters = [];
 
     /**
+     * @Groups({"read","write"})
+     * @MaxDepth(1)
      * @ORM\ManyToMany(targetEntity=Group::class)
      */
     private $tenderGroups;
 
     /**
+     * @var string The budget of this tender.
+     * @example 100000.00
+     *
+     * @Gedmo\Versioned
+     * @Groups({"read", "write"})
      * @ORM\Column(type="decimal", precision=8, scale=2, nullable=true)
      */
     private $budget;
 
     /**
+     * @var string The submitter(s) of this tender.
+     * @example https://cc.zuid-drecht.nl/organizations/
+     *
+     * @Gedmo\Versioned
+     * @Groups({"read", "write"})
      * @ORM\Column(type="array", nullable=true)
      */
     private $documents = [];
 
     /**
+     * @Assert\Length(
+     *      max = 255
+     * )
+     * @Gedmo\Versioned
+     * @Groups({"read", "write"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $kind;
 
     /**
+     * @Assert\Length(
+     *      max = 255
+     * )
+     * @Gedmo\Versioned
+     * @Groups({"read", "write"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $selectionCritera;
 
     /**
+     * @Assert\Length(
+     *      max = 255
+     * )
+     * @Gedmo\Versioned
+     * @Groups({"read", "write"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $catchPhrase;
 
     /**
+     * @Gedmo\Versioned
+     * @Assert\DateTime
+     * @Groups({"read", "write"})
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateClose;
 
     /**
+     * @Groups({"read","write"})
+     * @MaxDepth(1)
      * @ORM\ManyToMany(targetEntity=TenderStage::class)
      */
     private $stages;
 
     /**
+     * @Groups({"read","write"})
+     * @MaxDepth(1)
      * @ORM\ManyToOne(targetEntity=TenderStage::class)
      */
     private $currentStage;
 
     /**
+     * @Groups({"read","write"})
+     * @MaxDepth(1)
      * @ORM\OneToMany(targetEntity=Question::class, mappedBy="tender")
      */
     private $questions;
 
     /**
+     * @Groups({"read","write"})
+     * @MaxDepth(1)
      * @ORM\OneToMany(targetEntity=Entry::class, mappedBy="tender", orphanRemoval=true)
      */
     private $entries;
 
     /**
+     * @Groups({"read","write"})
+     * @MaxDepth(1)
      * @ORM\OneToMany(targetEntity=Pitch::class, mappedBy="tender")
      */
     private $pitches;
 
     /**
+     * @Groups({"read","write"})
+     * @MaxDepth(1)
      * @ORM\OneToMany(targetEntity=Proposal::class, mappedBy="tender")
      */
     private $proposals;
 
     /**
+     * @Groups({"read","write"})
+     * @MaxDepth(1)
      * @ORM\OneToOne(targetEntity=Deal::class, inversedBy="tender", cascade={"persist", "remove"})
      */
     private $deal;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @var Datetime The moment this tender was created
+     *
+     * @Groups({"read"})
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @var Datetime The moment this tender was last updated
+     *
+     * @Groups({"read"})
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $modified;
 
@@ -126,7 +243,7 @@ class Tender
         $this->proposals = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }
