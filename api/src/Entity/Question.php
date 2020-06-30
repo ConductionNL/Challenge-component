@@ -2,12 +2,9 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\QuestionRepository;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\UuidInterface;
@@ -46,12 +43,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass=QuestionRepository::class)
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
-
  */
 class Question
 {
     /**
      * @var UuidInterface The UUID identifier of this entry.
+     *
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
      * @Assert\Uuid
@@ -65,6 +62,7 @@ class Question
 
     /**
      * @var string The name of this question.
+     *
      * @example Question asked by SwimmingPool Enterprise
      *
      * @Assert\NotNull
@@ -90,6 +88,7 @@ class Question
 
     /**
      * @var string The question.
+     *
      * @example Is it possible that that deadline will be extended?
      * @Assert\Length(
      *      max = 255
@@ -102,6 +101,7 @@ class Question
 
     /**
      * @var string The answer(s) of this question.
+     *
      * @example No the deadline will not be altered
      *
      * @Gedmo\Versioned
@@ -121,6 +121,7 @@ class Question
 
     /**
      * @var string The status of this question.
+     *
      * @example Answered
      *
      * @Gedmo\Versioned
