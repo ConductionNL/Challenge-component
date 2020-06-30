@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\GroupRepository;
 use Cassandra\Decimal;
@@ -50,7 +51,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Group
 {
     /**
-     * @var UuidInterface The UUID identifier of this tender.
+     * @var UuidInterface The UUID identifier of this group.
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
      * @Assert\Uuid

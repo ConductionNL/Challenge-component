@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\DealRepository;
 use DateTime;
@@ -49,7 +50,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Deal
 {
     /**
-     * @var UuidInterface The UUID identifier of this tender.
+     * @var UuidInterface The UUID identifier of this deal.
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
      * @Assert\Uuid

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\EntryRepository;
 use DateTime;
@@ -15,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A entry for an person or group to join the tender.
+ * A entry is used when an person or group wants to join the tender.
  *
  * @ApiResource(
  *     attributes={"pagination_items_per_page"=30},
@@ -49,7 +50,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Entry
 {
     /**
-     * @var UuidInterface The UUID identifier of this tender.
+     * @var UuidInterface The UUID identifier of this entry.
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
      * @Assert\Uuid

@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A tender can be used by clients to find a possible service provider that can meet up to a certain service or product with a given budget.
+ * A tender can be used by clients to find a provider that can meet up to a certain solution/service/product with a given budget.
  *
  * @ApiResource(
  *     attributes={"pagination_items_per_page"=30},
@@ -36,7 +36,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              }
  *          },
  *          "get_audit_trail"={
- *              "path"="/tenders/{id}/audit_trail",
+ *              "path"="/tenderrs/{id}/audit_trail",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Audittrail",
@@ -119,8 +119,7 @@ class Tender
     private $budget;
 
     /**
-     * @var string The submitter(s) of this tender.
-     * @example https://cc.zuid-drecht.nl/organizations/
+     * @var string The document(s) of this tender.
      *
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
