@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Pitch;
+use App\Entity\Proposal;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Pitch|null find($id, $lockMode = null, $lockVersion = null)
- * @method Pitch|null findOneBy(array $criteria, array $orderBy = null)
- * @method Pitch[]    findAll()
- * @method Pitch[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Proposal|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Proposal|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Proposal[]    findAll()
+ * @method Proposal[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PitchRepository extends ServiceEntityRepository
+class ProposalRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Pitch::class);
+        parent::__construct($registry, Proposal::class);
     }
 
     // /**
-    //  * @return Pitch[] Returns an array of Pitch objects
+    //  * @return Proposal[] Returns an array of Proposal objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class PitchRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Pitch
+    public function findOneBySomeField($value): ?Proposal
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')
