@@ -138,6 +138,13 @@ class Question
     /**
      * @Groups({"read","write"})
      * @MaxDepth(1)
+     * @ORM\OneToMany(targetEntity=Answer::class, mappedBy="question", orphanRemoval=true)
+     */
+    private $answers;
+
+    /**
+     * @Groups({"read","write"})
+     * @MaxDepth(1)
      * @ORM\ManyToOne(targetEntity=Tender::class, inversedBy="questions")
      */
     private $tender;
@@ -166,11 +173,6 @@ class Question
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $modified;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Answer::class, mappedBy="question", orphanRemoval=true)
-     */
-    private $answers;
 
     public function __construct()
     {
@@ -261,6 +263,29 @@ class Question
         return $this;
     }
 
+    public function addAnswer(Answer $answer): self
+    {
+        if (!$this->answers->contains($answer)) {
+            $this->answers[] = $answer;
+            $answer->setQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswer(Answer $answer): self
+    {
+        if ($this->answers->contains($answer)) {
+            $this->answers->removeElement($answer);
+            // set the owning side to null (unless already changed)
+            if ($answer->getQuestion() === $this) {
+                $answer->setQuestion(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function getTender(): ?Tender
     {
         return $this->tender;
@@ -315,28 +340,5 @@ class Question
     public function getAnswers(): Collection
     {
         return $this->answers;
-    }
-
-    public function addAnswer(Answer $answer): self
-    {
-        if (!$this->answers->contains($answer)) {
-            $this->answers[] = $answer;
-            $answer->setQuestion($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAnswer(Answer $answer): self
-    {
-        if ($this->answers->contains($answer)) {
-            $this->answers->removeElement($answer);
-            // set the owning side to null (unless already changed)
-            if ($answer->getQuestion() === $this) {
-                $answer->setQuestion(null);
-            }
-        }
-
-        return $this;
     }
 }

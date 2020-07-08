@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\TenderRepository;
+use App\Repository\AnswerRepository;
 use Cassandra\Decimal;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -191,18 +191,6 @@ class Answer
     public function setAnswer(string $answer): self
     {
         $this->answer = $answer;
-
-        return $this;
-    }
-
-    public function getRelation(): ?string
-    {
-        return $this->relation;
-    }
-
-    public function setRelation(?string $relation): self
-    {
-        $this->relation = $relation;
 
         return $this;
     }
