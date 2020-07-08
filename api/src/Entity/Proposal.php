@@ -2,13 +2,9 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ProposalRepository;
-use Cassandra\Decimal;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\Uuid;
@@ -18,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A proposal is an offer that is made by a provider to make a deal with the tender submitter(s)
+ * A proposal is an offer that is made by a provider to make a deal with the tender submitter(s).
  *
  * @ApiResource(
  *     attributes={"pagination_items_per_page"=30},
@@ -48,12 +44,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass=ProposalRepository::class)
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
- *
  */
 class Proposal
 {
     /**
      * @var UuidInterface The UUID identifier of this proposal.
+     *
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
      * @Assert\Uuid
@@ -67,6 +63,7 @@ class Proposal
 
     /**
      * @var string The name of this proposal.
+     *
      * @example Proposal from SwimmingPool Enterprise
      *
      * @Assert\NotNull
@@ -102,6 +99,7 @@ class Proposal
 
     /**
      * @var string The status of this proposal.
+     *
      * @example In consideration
      *
      * @Assert\Length(

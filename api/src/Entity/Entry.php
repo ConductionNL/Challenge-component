@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\EntryRepository;
 use DateTime;
@@ -52,6 +51,7 @@ class Entry
 {
     /**
      * @var UuidInterface The UUID identifier of this entry.
+     *
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
      * @Assert\Uuid
@@ -65,6 +65,7 @@ class Entry
 
     /**
      * @var string The name of this entry.
+     *
      * @example Entry of SwimmingPool Enterprise
      *
      * @Assert\NotNull
@@ -79,6 +80,7 @@ class Entry
 
     /**
      * @var string The description of this entry.
+     *
      * @example This entry signs SwimmingPool Enterprise in for a tender
      * @Assert\Length(
      *      max = 255
@@ -91,6 +93,7 @@ class Entry
 
     /**
      * @var string The submitter(s) of this tender.
+     *
      * @example https://cc.zuid-drecht.nl/organizations/
      *
      * @Gedmo\Versioned

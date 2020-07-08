@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\TenderRepository;
 use Cassandra\Decimal;
@@ -48,12 +47,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass=TenderRepository::class)
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
- *
  */
 class Tender
 {
     /**
      * @var UuidInterface The UUID identifier of this tender.
+     *
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
      * @Assert\Uuid
@@ -67,6 +66,7 @@ class Tender
 
     /**
      * @var string The name of this tender.
+     *
      * @example Swimming pool design and construction
      *
      * @Assert\NotNull
@@ -81,6 +81,7 @@ class Tender
 
     /**
      * @var string The description of this tender.
+     *
      * @example This tender requires a provider that can design and deliver a swimming pool with 2 water slides.
      *
      * @Assert\Length(
@@ -94,6 +95,7 @@ class Tender
 
     /**
      * @var string The submitter(s) of this tender.
+     *
      * @example https://cc.zuid-drecht.nl/organizations/
      *
      * @Assert\NotNull
@@ -112,6 +114,7 @@ class Tender
 
     /**
      * @var string The budget of this tender.
+     *
      * @example 100000.00
      *
      * @Gedmo\Versioned

@@ -2,10 +2,8 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\GroupRepository;
-use Cassandra\Decimal;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -54,6 +52,7 @@ class Group
 {
     /**
      * @var UuidInterface The UUID identifier of this group.
+     *
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
      * @Assert\Uuid
@@ -67,6 +66,7 @@ class Group
 
     /**
      * @var string The name of this group.
+     *
      * @example Product tenders
      *
      * @Assert\NotNull
@@ -81,6 +81,7 @@ class Group
 
     /**
      * @var string The description of this group.
+     *
      * @example This group holds all tenders that seek for a product to be provided.
      * @Assert\Length(
      *      max = 255

@@ -2,19 +2,14 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PitchStageRepository;
-use Cassandra\Decimal;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -53,6 +48,7 @@ class PitchStage
 {
     /**
      * @var UuidInterface The UUID identifier of this pitch stage.
+     *
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
      * @Assert\Uuid
@@ -66,6 +62,7 @@ class PitchStage
 
     /**
      * @var string The name of this pitch stage.
+     *
      * @example First presentation.
      *
      * @Assert\NotNull
@@ -80,6 +77,7 @@ class PitchStage
 
     /**
      * @var string The description of this pitch stage.
+     *
      * @example This pitch stage is about the first presentation of the pitch
      *
      * @Assert\Length(
@@ -93,6 +91,7 @@ class PitchStage
 
     /**
      * @var string The requirement(s) of this pitch stage.
+     *
      * @example The pitch needs to get through the first round of pitches.
      *
      * @Gedmo\Versioned
