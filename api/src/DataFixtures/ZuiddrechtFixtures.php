@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Answer;
 use App\Entity\Deal;
 use App\Entity\Entry;
 use App\Entity\Pitch;
@@ -48,6 +49,7 @@ class ZuiddrechtFixtures extends Fixture
         $tender->setSubmitters((array)'Gemeente Zuid-Drecht');
         $tender->setBudget(150000);
         $tender->setKind('Product');
+        $tender->setDocuments(['linknaardocument', 'nogeenlinknaardocument']);
         $tender->setSelectionCritera('Moet 4 jaar ervaren zijn in het ontwerpen van zwembaden.');
         $tender->setDateClose(new \DateTime(date('2020-12-06T12:00:01+00:00')));
         $manager->persist($tender);
@@ -125,8 +127,8 @@ class ZuiddrechtFixtures extends Fixture
         $question = new Question();
         $question->setName('Grootte van het zwembad');
         $question->setDescription('Dit is een test vraag.');
-        $question->setQuestion('Is de grootte van het gevraagde zwembad bespreekbaar');
-        $question->setAnswers(['Ja de grootte van het zwembad is bespreekbaar']);
+        $question->setSubmitters(['Barry Brands']);
+        $question->setQuestion('Is de grootte van het gevraagde zwembad bespreekbaar?');
         $question->setStatus('answered');
         $question->setEntry($entry);
         $manager->persist($question);
@@ -134,6 +136,18 @@ class ZuiddrechtFixtures extends Fixture
         $manager->persist($question);
         $manager->flush();
         $question = $manager->getRepository('App:Question')->findOneBy(['id'=> $id]);
+
+        $id = Uuid::fromString('e48c893e-558c-4f20-88b0-58a8b1e87a78');
+        $answer = new Answer();
+        $answer->setName('Antwoord voor een vraag');
+        $answer->setSubmitters(['Barry Brands']);
+        $answer->setAnswer('Ja het grootte van het zwembad is te bespreken.');
+        $answer->setQuestion($question);
+        $manager->persist($answer);
+        $answer->setId($id);
+        $manager->persist($answer);
+        $manager->flush();
+        $answer = $manager->getRepository('App:Answer')->findOneBy(['id'=> $id]);
 
         $tender->addQuestion($question);
         $entry->addQuestion($question);
@@ -181,6 +195,7 @@ class ZuiddrechtFixtures extends Fixture
         $proposal->setStatus('In afwachting');
         $proposal->setPitch($pitch);
         $proposal->setTender($tender);
+        $proposal->setDocuments(['linkdocumentje', 'linknaardocumentje']);
         $manager->persist($proposal);
         $proposal->setId($id);
         $manager->persist($proposal);

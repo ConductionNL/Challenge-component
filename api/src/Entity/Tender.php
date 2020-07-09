@@ -101,7 +101,7 @@ class Tender
      * @Assert\NotNull
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="array", nullable=false)
      */
     private $submitters = [];
 
