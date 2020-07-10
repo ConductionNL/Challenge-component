@@ -16,7 +16,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class ZuiddrechtFixtures extends Fixture
 {
@@ -46,7 +45,7 @@ class ZuiddrechtFixtures extends Fixture
         $tender = new Tender();
         $tender->setName('Zwembad in Zuid-Drecht');
         $tender->setDescription('Dit is een test tender.');
-        $tender->setSubmitters((array)'Gemeente Zuid-Drecht');
+        $tender->setSubmitters((array) 'Gemeente Zuid-Drecht');
         $tender->setBudget(150000);
         $tender->setKind('Product');
         $tender->setDocuments(['linknaardocument', 'nogeenlinknaardocument']);
@@ -159,7 +158,7 @@ class ZuiddrechtFixtures extends Fixture
         $pitch = new Pitch();
         $pitch->setName('Pitch van Swimming Pool Enterprise');
         $pitch->setDescription('Dit is een test pitch.');
-        $pitch->setSubmitters(['Swimming Pool Enterprise']);
+        $pitch->setSubmitters([$this->commonGroundService->cleanUrl(['component'=>'brp', 'type'=>'ingeschrevenpersonen', 'id'=>'f3ff6653-12be-48bc-afb6-42038576eb57'])]);
         $pitch->setRequiredBudget(100000);
         $pitch->setTender($tender);
         $pitch->setDateSubmitted(new \DateTime(date('2020-7-16T12:00:01+00:00')));

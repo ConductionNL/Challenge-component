@@ -98,6 +98,8 @@ class Pitch
      *
      * @example https://cc.zuid-drecht.nl/organizations/
      *
+     * @Assert\NotNull
+     * @Assert\Url
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
      * @ORM\Column(type="array")

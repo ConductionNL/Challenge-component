@@ -6,7 +6,7 @@ entries:
     created: "2020-06-08T13:38:28.239758949Z"
     description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
       interface beschikbaar.&#039;'
-    digest: bab0b8724cf6f792b7cb8658d3a1aa8fd75f39578f98ffcb6e370014cf3dfcf9
+    digest: 8fa7366d63ff1f0777882d988c5fdb12ed09420a95d8ca8858bf10ac2c2b3ec0
     home: chrc.zaakonline.nl
     icon: chrc.zaakonline.nl
     name: chrc

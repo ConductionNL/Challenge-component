@@ -11426,6 +11426,8 @@ components:
           nullable: true
         submitters:
           description: 'The submitter(s) of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
           type: array
           items:
             type: string
@@ -11473,11 +11475,13 @@ components:
           nullable: true
       required:
         - name
+        - submitters
     Pitch-write:
       type: object
       description: 'A pitch is used by providers to present their solution/product/service for the tender.'
       required:
         - name
+        - submitters
       properties:
         name:
           description: 'The name of this pitch.'
@@ -11488,6 +11492,8 @@ components:
           nullable: true
         submitters:
           description: 'The submitter(s) of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
           type: array
           items:
             type: string
@@ -11553,6 +11559,8 @@ components:
           nullable: true
         submitters:
           description: 'The submitter(s) of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
           type: array
           items:
             type: string
@@ -11600,11 +11608,13 @@ components:
           nullable: true
       required:
         - name
+        - submitters
     'Pitch:jsonld-write':
       type: object
       description: 'A pitch is used by providers to present their solution/product/service for the tender.'
       required:
         - name
+        - submitters
       properties:
         '@context':
           readOnly: true
@@ -11624,6 +11634,8 @@ components:
           nullable: true
         submitters:
           description: 'The submitter(s) of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
           type: array
           items:
             type: string
@@ -12831,7 +12843,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-07-09 18:54:39'
+        example: '2020-07-10 14:29:45'
       created:
         description: 'The moment this entry was created'
         type: \Datetime
@@ -12861,7 +12873,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-07-09 18:54:39'
+        example: '2020-07-10 14:29:45'
       tender: []
       questions: []
     required:
@@ -12928,6 +12940,7 @@ definitions:
         description: 'The submitter(s) of this pitch.'
         type: string
         example: 'https://cc.zuid-drecht.nl/organizations/'
+        format: url
       requiredBudget:
         description: 'The required budget for this pitch.'
         type: string
@@ -12938,7 +12951,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-09 18:54:39'
+        example: '2020-07-10 14:29:45'
       created:
         description: 'The moment this pitch was created'
         type: \Datetime
@@ -12951,6 +12964,7 @@ definitions:
       proposals: []
     required:
       - name
+      - submitters
   Pitch-write:
     properties:
       name:
@@ -12967,6 +12981,7 @@ definitions:
         description: 'The submitter(s) of this pitch.'
         type: string
         example: 'https://cc.zuid-drecht.nl/organizations/'
+        format: url
       requiredBudget:
         description: 'The required budget for this pitch.'
         type: string
@@ -12977,13 +12992,14 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-09 18:54:39'
+        example: '2020-07-10 14:29:45'
       tender: []
       stages: []
       currentStage: []
       proposals: []
     required:
       - name
+      - submitters
   PitchStage-read:
     properties:
       id:
@@ -13206,7 +13222,7 @@ definitions:
       dateClose:
         type: string
         format: date-time
-        example: '2020-07-09 18:54:39'
+        example: '2020-07-10 14:29:45'
       created:
         description: 'The moment this tender was created'
         type: \Datetime
@@ -13256,7 +13272,7 @@ definitions:
       dateClose:
         type: string
         format: date-time
-        example: '2020-07-09 18:54:39'
+        example: '2020-07-10 14:29:45'
       tenderGroups: []
       stages: []
       currentStage: []
@@ -13419,12 +13435,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-09 18:54:39'
+        example: '2020-07-10 14:29:45'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-09 18:54:39'
+        example: '2020-07-10 14:29:45'
     required: []
   AuditTrail-write:
     properties:
@@ -13472,12 +13488,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-09 18:54:39'
+        example: '2020-07-10 14:29:45'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-09 18:54:39'
+        example: '2020-07-10 14:29:45'
     required: []
   ChangeLog-write:
     properties:
