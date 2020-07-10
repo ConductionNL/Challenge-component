@@ -16,7 +16,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class ZuiddrechtFixtures extends Fixture
 {
@@ -46,7 +45,7 @@ class ZuiddrechtFixtures extends Fixture
         $tender = new Tender();
         $tender->setName('Zwembad in Zuid-Drecht');
         $tender->setDescription('Dit is een test tender.');
-        $tender->setSubmitters((array)'Gemeente Zuid-Drecht');
+        $tender->setSubmitters((array) 'Gemeente Zuid-Drecht');
         $tender->setBudget(150000);
         $tender->setKind('Product');
         $tender->setDocuments(['linknaardocument', 'nogeenlinknaardocument']);
