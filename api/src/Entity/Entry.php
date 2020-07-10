@@ -3,8 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\PitchRepository;
-use Cassandra\Decimal;
+use App\Repository\EntryRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A pitch is used by providers to present their solution/product/service for the tender.
+ * A entry is used when an person or group wants to join the tender.
  *
  * @ApiResource(
  *     attributes={"pagination_items_per_page"=30},
@@ -28,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "put",
  *          "delete",
  *          "get_change_logs"={
- *              "path"="/pitches/{id}/change_log",
+ *              "path"="/entries/{id}/change_log",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Changelogs",
@@ -36,7 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              }
  *          },
  *          "get_audit_trail"={
- *              "path"="/pitches/{id}/audit_trail",
+ *              "path"="/entries/{id}/audit_trail",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Audittrail",
@@ -45,13 +44,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          }
  *     }
  * )
- * @ORM\Entity(repositoryClass=PitchRepository::class)
+ * @ORM\Entity(repositoryClass=EntryRepository::class)
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
  */
-class Pitch
+class Entry
 {
     /**
-     * @var UuidInterface The UUID identifier of this pitch.
+     * @var UuidInterface The UUID identifier of this entry.
      *
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
@@ -65,9 +64,9 @@ class Pitch
     private $id;
 
     /**
-     * @var string The name of this pitch.
+     * @var string The name of this entry.
      *
-     * @example Glorious swimming pools by SwimmingPool Enterprise
+     * @example Entry of SwimmingPool Enterprise
      *
      * @Assert\NotNull
      * @Assert\Length(
@@ -80,10 +79,9 @@ class Pitch
     private $name;
 
     /**
-     * @var string The description of this pitch.
+     * @var string The description of this entry.
      *
-     * @example Pitch made by SwimmingPool Enterprise
-     *
+     * @example This entry signs SwimmingPool Enterprise in for a tender
      * @Assert\Length(
      *      max = 255
      * )
@@ -94,7 +92,7 @@ class Pitch
     private $description;
 
     /**
-     * @var string The submitter(s) of this pitch.
+     * @var string The submitter(s) of this tender.
      *
      * @example https://cc.zuid-drecht.nl/organizations/
      *
@@ -105,73 +103,39 @@ class Pitch
     private $submitters = [];
 
     /**
-     * @var string The required budget for this pitch.
-     *
-     * @example 150000.00
-     *
-     * @Gedmo\Versioned
-     * @Groups({"read", "write"})
-     * @ORM\Column(type="decimal", precision=8, scale=2, nullable=true)
-     */
-    private $requiredBudget;
-
-    /**
-     * @var string The document(s) of this tender.
-     *
-     * @Gedmo\Versioned
-     * @Groups({"read", "write"})
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $documents = [];
-
-    /**
      * @Gedmo\Versioned
      * @Assert\DateTime
      * @Groups({"read", "write"})
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $dateSubmitted;
+    private $dateOfEntry;
 
     /**
      * @Groups({"read","write"})
      * @MaxDepth(1)
-     * @ORM\ManyToOne(targetEntity=Tender::class, inversedBy="pitches")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity=Tender::class, inversedBy="entries")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $tender;
 
     /**
      * @Groups({"read","write"})
      * @MaxDepth(1)
-     * @ORM\ManyToMany(targetEntity=PitchStage::class)
+     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="entry")
      */
-    private $stages;
+    private $questions;
 
     /**
-     * @Groups({"read","write"})
-     * @MaxDepth(1)
-     * @ORM\ManyToOne(targetEntity=PitchStage::class)
-     */
-    private $currentStage;
-
-    /**
-     * @Groups({"read","write"})
-     * @MaxDepth(1)
-     * @ORM\OneToMany(targetEntity=Proposal::class, mappedBy="pitch")
-     */
-    private $proposals;
-
-    /**
-     * @var Datetime The moment this pitch was created
+     * @var Datetime The moment this entry was created
      *
      * @Groups({"read"})
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
 
     /**
-     * @var Datetime The moment this pitch was last updated
+     * @var Datetime The moment this entry was last updated
      *
      * @Groups({"read"})
      * @Gedmo\Timestampable(on="update")
@@ -181,8 +145,7 @@ class Pitch
 
     public function __construct()
     {
-        $this->stages = new ArrayCollection();
-        $this->proposals = new ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
     public function getId(): Uuid
@@ -233,38 +196,14 @@ class Pitch
         return $this;
     }
 
-    public function getRequiredBudget(): ?string
+    public function getDateOfEntry(): ?\DateTimeInterface
     {
-        return $this->requiredBudget;
+        return $this->dateOfEntry;
     }
 
-    public function setRequiredBudget(?string $requiredBudget): self
+    public function setDateOfEntry(\DateTimeInterface $dateOfEntry): self
     {
-        $this->requiredBudget = $requiredBudget;
-
-        return $this;
-    }
-
-    public function getDocuments(): ?array
-    {
-        return $this->documents;
-    }
-
-    public function setDocuments(?array $documents): self
-    {
-        $this->documents = $documents;
-
-        return $this;
-    }
-
-    public function getDateSubmitted(): ?\DateTimeInterface
-    {
-        return $this->dateSubmitted;
-    }
-
-    public function setDateSubmitted(\DateTimeInterface $dateSubmitted): self
-    {
-        $this->dateSubmitted = $dateSubmitted;
+        $this->dateOfEntry = $dateOfEntry;
 
         return $this;
     }
@@ -282,68 +221,30 @@ class Pitch
     }
 
     /**
-     * @return Collection|PitchStage[]
+     * @return Collection|Question[]
      */
-    public function getStages(): Collection
+    public function getQuestions(): Collection
     {
-        return $this->stages;
+        return $this->questions;
     }
 
-    public function addStage(PitchStage $stage): self
+    public function addQuestion(Question $question): self
     {
-        if (!$this->stages->contains($stage)) {
-            $this->stages[] = $stage;
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+            $question->setEntry($this);
         }
 
         return $this;
     }
 
-    public function removeStage(PitchStage $stage): self
+    public function removeQuestion(Question $question): self
     {
-        if ($this->stages->contains($stage)) {
-            $this->stages->removeElement($stage);
-        }
-
-        return $this;
-    }
-
-    public function getCurrentStage(): ?PitchStage
-    {
-        return $this->currentStage;
-    }
-
-    public function setCurrentStage(?PitchStage $currentStage): self
-    {
-        $this->currentStage = $currentStage;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Proposal[]
-     */
-    public function getProposals(): Collection
-    {
-        return $this->proposals;
-    }
-
-    public function addProposal(Proposal $proposal): self
-    {
-        if (!$this->proposals->contains($proposal)) {
-            $this->proposals[] = $proposal;
-            $proposal->setPitch($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProposal(Proposal $proposal): self
-    {
-        if ($this->proposals->contains($proposal)) {
-            $this->proposals->removeElement($proposal);
+        if ($this->questions->contains($question)) {
+            $this->questions->removeElement($question);
             // set the owning side to null (unless already changed)
-            if ($proposal->getPitch() === $this) {
-                $proposal->setPitch(null);
+            if ($question->getEntry() === $this) {
+                $question->setEntry(null);
             }
         }
 
