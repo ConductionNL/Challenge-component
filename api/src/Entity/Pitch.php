@@ -136,7 +136,7 @@ class Pitch
      * @Groups({"read","write"})
      * @MaxDepth(1)
      * @ORM\ManyToOne(targetEntity=Tender::class, inversedBy="pitches")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $tender;
 

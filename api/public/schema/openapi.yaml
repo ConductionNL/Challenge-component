@@ -11445,7 +11445,10 @@ components:
           type: string
           format: date-time
         tender:
-          $ref: '#/components/schemas/Tender-read'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Tender-read'
         stages:
           type: array
           items:
@@ -11504,7 +11507,10 @@ components:
           type: string
           format: date-time
         tender:
-          $ref: '#/components/schemas/Tender-write'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Tender-write'
         stages:
           type: array
           items:
@@ -11566,7 +11572,10 @@ components:
           type: string
           format: date-time
         tender:
-          $ref: '#/components/schemas/Tender:jsonld-read'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Tender:jsonld-read'
         stages:
           type: array
           items:
@@ -11634,7 +11643,10 @@ components:
           type: string
           format: date-time
         tender:
-          $ref: '#/components/schemas/Tender:jsonld-write'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Tender:jsonld-write'
         stages:
           type: array
           items:
@@ -12819,7 +12831,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-07-08 19:12:25'
+        example: '2020-07-09 18:54:39'
       created:
         description: 'The moment this entry was created'
         type: \Datetime
@@ -12849,7 +12861,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-07-08 19:12:25'
+        example: '2020-07-09 18:54:39'
       tender: []
       questions: []
     required:
@@ -12926,7 +12938,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-08 19:12:25'
+        example: '2020-07-09 18:54:39'
       created:
         description: 'The moment this pitch was created'
         type: \Datetime
@@ -12965,7 +12977,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-08 19:12:25'
+        example: '2020-07-09 18:54:39'
       tender: []
       stages: []
       currentStage: []
@@ -13194,7 +13206,7 @@ definitions:
       dateClose:
         type: string
         format: date-time
-        example: '2020-07-08 19:12:25'
+        example: '2020-07-09 18:54:39'
       created:
         description: 'The moment this tender was created'
         type: \Datetime
@@ -13244,7 +13256,7 @@ definitions:
       dateClose:
         type: string
         format: date-time
-        example: '2020-07-08 19:12:25'
+        example: '2020-07-09 18:54:39'
       tenderGroups: []
       stages: []
       currentStage: []
@@ -13407,12 +13419,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-08 19:12:25'
+        example: '2020-07-09 18:54:39'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-08 19:12:25'
+        example: '2020-07-09 18:54:39'
     required: []
   AuditTrail-write:
     properties:
@@ -13460,12 +13472,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-08 19:12:25'
+        example: '2020-07-09 18:54:39'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-08 19:12:25'
+        example: '2020-07-09 18:54:39'
     required: []
   ChangeLog-write:
     properties:
