@@ -4,10 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AnswerRepository;
-use Cassandra\Decimal;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\Uuid;
@@ -66,6 +63,7 @@ class Answer
 
     /**
      * @var string The name of this answer.
+     *
      * @example An answer for a question.
      *
      * @Assert\Length(
@@ -79,6 +77,7 @@ class Answer
 
     /**
      * @var string The description of this answer.
+     *
      * @example This answer is an answer to a question made by Swimming Pool Enterprise for a tender.
      *
      * @Assert\Length(
@@ -92,6 +91,7 @@ class Answer
 
     /**
      * @var string The submitter(s) of this answer.
+     *
      * @example https://cc.zuid-drecht.nl/organizations/
      *
      * @Gedmo\Versioned
@@ -102,6 +102,7 @@ class Answer
 
     /**
      * @var string The answer.
+     *
      * @example Yes you can bring apples to the party.
      *
      * @Gedmo\Versioned
