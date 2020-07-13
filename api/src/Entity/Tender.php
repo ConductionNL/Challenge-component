@@ -55,10 +55,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ApiFilter(SearchFilter::class, properties={
  *     "name": "partial",
- *     "description": "partial",
- *     "budget": "exact"
+ *     "description": "partial"
  *     })
  * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
+ * @ApiFilter(RangeFilter::class, properties={"budget"})
  */
 class Tender
 {
