@@ -107,7 +107,7 @@ class Tender
     private $description;
 
     /**
-     * @var string The submitter(s) of this tender.
+     * @var array The submitter(s) of this tender.
      *
      * @example https://cc.zuid-drecht.nl/organizations/
      *
@@ -137,7 +137,7 @@ class Tender
     private $budget;
 
     /**
-     * @var string The document(s) of this tender.
+     * @var array The document(s) of this tender.
      *
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
