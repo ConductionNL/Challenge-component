@@ -12843,7 +12843,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-07-10 14:29:45'
+        example: '2020-07-10 14:32:06'
       created:
         description: 'The moment this entry was created'
         type: \Datetime
@@ -12873,7 +12873,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-07-10 14:29:45'
+        example: '2020-07-10 14:32:06'
       tender: []
       questions: []
     required:
@@ -12951,7 +12951,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-10 14:29:45'
+        example: '2020-07-10 14:32:06'
       created:
         description: 'The moment this pitch was created'
         type: \Datetime
@@ -12992,7 +12992,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-10 14:29:45'
+        example: '2020-07-10 14:32:06'
       tender: []
       stages: []
       currentStage: []
@@ -13222,7 +13222,7 @@ definitions:
       dateClose:
         type: string
         format: date-time
-        example: '2020-07-10 14:29:45'
+        example: '2020-07-10 14:32:06'
       created:
         description: 'The moment this tender was created'
         type: \Datetime
@@ -13272,7 +13272,7 @@ definitions:
       dateClose:
         type: string
         format: date-time
-        example: '2020-07-10 14:29:45'
+        example: '2020-07-10 14:32:06'
       tenderGroups: []
       stages: []
       currentStage: []
@@ -13435,12 +13435,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-10 14:29:45'
+        example: '2020-07-10 14:32:06'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-10 14:29:45'
+        example: '2020-07-10 14:32:06'
     required: []
   AuditTrail-write:
     properties:
@@ -13488,12 +13488,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-10 14:29:45'
+        example: '2020-07-10 14:32:06'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-10 14:29:45'
+        example: '2020-07-10 14:32:06'
     required: []
   ChangeLog-write:
     properties:

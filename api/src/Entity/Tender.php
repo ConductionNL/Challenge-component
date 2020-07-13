@@ -2,7 +2,12 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 use App\Repository\TenderRepository;
 use Cassandra\Decimal;
 use DateTime;
@@ -36,7 +41,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              }
  *          },
  *          "get_audit_trail"={
- *              "path"="/tenderrs/{id}/audit_trail",
+ *              "path"="/tenders/{id}/audit_trail",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Audittrail",
@@ -47,6 +52,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass=TenderRepository::class)
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
+ *
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "name": "partial",
+ *     "description": "partial",
+ *     "budget": "exact"
+ *     })
+ * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
  */
 class Tender
 {
