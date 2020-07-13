@@ -6416,6 +6416,12 @@ paths:
           schema:
             type: string
         -
+          name: submitters
+          in: query
+          required: false
+          schema:
+            type: string
+        -
           name: 'dateSubmitted[before]'
           in: query
           required: false
@@ -9768,6 +9774,12 @@ paths:
           schema:
             type: string
         -
+          name: submitters
+          in: query
+          required: false
+          schema:
+            type: string
+        -
           name: 'dateClose[before]'
           in: query
           required: false
@@ -13071,7 +13083,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-07-13 12:35:32'
+        example: '2020-07-13 12:51:00'
       created:
         description: 'The moment this entry was created'
         type: \Datetime
@@ -13101,7 +13113,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-07-13 12:35:32'
+        example: '2020-07-13 12:51:00'
       tender: []
       questions: []
     required:
@@ -13179,7 +13191,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-13 12:35:32'
+        example: '2020-07-13 12:51:00'
       created:
         description: 'The moment this pitch was created'
         type: \Datetime
@@ -13220,7 +13232,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-13 12:35:32'
+        example: '2020-07-13 12:51:00'
       tender: []
       stages: []
       currentStage: []
@@ -13450,7 +13462,7 @@ definitions:
       dateClose:
         type: string
         format: date-time
-        example: '2020-07-13 12:35:32'
+        example: '2020-07-13 12:51:00'
       created:
         description: 'The moment this tender was created'
         type: \Datetime
@@ -13500,7 +13512,7 @@ definitions:
       dateClose:
         type: string
         format: date-time
-        example: '2020-07-13 12:35:32'
+        example: '2020-07-13 12:51:00'
       tenderGroups: []
       stages: []
       currentStage: []
@@ -13663,12 +13675,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-13 12:35:32'
+        example: '2020-07-13 12:51:00'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-13 12:35:32'
+        example: '2020-07-13 12:51:00'
     required: []
   AuditTrail-write:
     properties:
@@ -13716,12 +13728,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-13 12:35:32'
+        example: '2020-07-13 12:51:00'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-13 12:35:32'
+        example: '2020-07-13 12:51:00'
     required: []
   ChangeLog-write:
     properties:
