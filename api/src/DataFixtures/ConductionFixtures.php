@@ -157,7 +157,7 @@ class ConductionFixtures extends Fixture
         $pitch = new Pitch();
         $pitch->setName('Pitch van Henk');
         $pitch->setDescription('Dit is een test pitch.');
-        $pitch->setSubmitters(['Henk']);
+        $pitch->setSubmitter('Henk');
         $pitch->setRequiredBudget(100000);
         $pitch->setTender($tender);
         $pitch->setDateSubmitted(new \DateTime(date('2020-7-16T12:00:01+00:00')));

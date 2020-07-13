@@ -6416,7 +6416,7 @@ paths:
           schema:
             type: string
         -
-          name: submitters
+          name: submitter
           in: query
           required: false
           schema:
@@ -11664,13 +11664,11 @@ components:
           description: 'The description of this pitch.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this pitch.'
+        submitter:
+          description: 'The submitter of this pitch.'
           externalDocs:
             url: 'http://schema.org/url'
-          type: array
-          items:
-            type: string
+          type: string
         requiredBudget:
           description: 'The required budget for this pitch.'
           type: string
@@ -11715,13 +11713,13 @@ components:
           nullable: true
       required:
         - name
-        - submitters
+        - submitter
     Pitch-write:
       type: object
       description: 'A pitch is used by providers to present their solution/product/service for the tender.'
       required:
         - name
-        - submitters
+        - submitter
       properties:
         name:
           description: 'The name of this pitch.'
@@ -11730,13 +11728,11 @@ components:
           description: 'The description of this pitch.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this pitch.'
+        submitter:
+          description: 'The submitter of this pitch.'
           externalDocs:
             url: 'http://schema.org/url'
-          type: array
-          items:
-            type: string
+          type: string
         requiredBudget:
           description: 'The required budget for this pitch.'
           type: string
@@ -11797,13 +11793,11 @@ components:
           description: 'The description of this pitch.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this pitch.'
+        submitter:
+          description: 'The submitter of this pitch.'
           externalDocs:
             url: 'http://schema.org/url'
-          type: array
-          items:
-            type: string
+          type: string
         requiredBudget:
           description: 'The required budget for this pitch.'
           type: string
@@ -11848,13 +11842,13 @@ components:
           nullable: true
       required:
         - name
-        - submitters
+        - submitter
     'Pitch:jsonld-write':
       type: object
       description: 'A pitch is used by providers to present their solution/product/service for the tender.'
       required:
         - name
-        - submitters
+        - submitter
       properties:
         '@context':
           readOnly: true
@@ -11872,13 +11866,11 @@ components:
           description: 'The description of this pitch.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this pitch.'
+        submitter:
+          description: 'The submitter of this pitch.'
           externalDocs:
             url: 'http://schema.org/url'
-          type: array
-          items:
-            type: string
+          type: string
         requiredBudget:
           description: 'The required budget for this pitch.'
           type: string
@@ -13083,7 +13075,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-07-13 12:51:00'
+        example: '2020-07-13 16:10:21'
       created:
         description: 'The moment this entry was created'
         type: \Datetime
@@ -13113,7 +13105,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-07-13 12:51:00'
+        example: '2020-07-13 16:10:21'
       tender: []
       questions: []
     required:
@@ -13176,8 +13168,8 @@ definitions:
         type: string
         example: 'Pitch made by SwimmingPool Enterprise'
         maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this pitch.'
+      submitter:
+        description: 'The submitter of this pitch.'
         type: string
         example: 'https://cc.zuid-drecht.nl/organizations/'
         format: url
@@ -13187,11 +13179,11 @@ definitions:
         example: '150000.00'
       documents:
         description: 'The document(s) of this tender.'
-        type: string
+        type: array
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-13 12:51:00'
+        example: '2020-07-13 16:10:21'
       created:
         description: 'The moment this pitch was created'
         type: \Datetime
@@ -13204,7 +13196,7 @@ definitions:
       proposals: []
     required:
       - name
-      - submitters
+      - submitter
   Pitch-write:
     properties:
       name:
@@ -13217,8 +13209,8 @@ definitions:
         type: string
         example: 'Pitch made by SwimmingPool Enterprise'
         maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this pitch.'
+      submitter:
+        description: 'The submitter of this pitch.'
         type: string
         example: 'https://cc.zuid-drecht.nl/organizations/'
         format: url
@@ -13228,18 +13220,18 @@ definitions:
         example: '150000.00'
       documents:
         description: 'The document(s) of this tender.'
-        type: string
+        type: array
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-13 12:51:00'
+        example: '2020-07-13 16:10:21'
       tender: []
       stages: []
       currentStage: []
       proposals: []
     required:
       - name
-      - submitters
+      - submitter
   PitchStage-read:
     properties:
       id:
@@ -13444,7 +13436,7 @@ definitions:
         maxLength: 255
       submitters:
         description: 'The submitter(s) of this tender.'
-        type: string
+        type: array
         example: 'https://cc.zuid-drecht.nl/organizations/'
       budget:
         description: 'The budget of this tender.'
@@ -13452,7 +13444,7 @@ definitions:
         example: '100000.00'
       documents:
         description: 'The document(s) of this tender.'
-        type: string
+        type: array
       kind:
         maxLength: 255
       selectionCritera:
@@ -13462,7 +13454,7 @@ definitions:
       dateClose:
         type: string
         format: date-time
-        example: '2020-07-13 12:51:00'
+        example: '2020-07-13 16:10:21'
       created:
         description: 'The moment this tender was created'
         type: \Datetime
@@ -13494,7 +13486,7 @@ definitions:
         maxLength: 255
       submitters:
         description: 'The submitter(s) of this tender.'
-        type: string
+        type: array
         example: 'https://cc.zuid-drecht.nl/organizations/'
       budget:
         description: 'The budget of this tender.'
@@ -13502,7 +13494,7 @@ definitions:
         example: '100000.00'
       documents:
         description: 'The document(s) of this tender.'
-        type: string
+        type: array
       kind:
         maxLength: 255
       selectionCritera:
@@ -13512,7 +13504,7 @@ definitions:
       dateClose:
         type: string
         format: date-time
-        example: '2020-07-13 12:51:00'
+        example: '2020-07-13 16:10:21'
       tenderGroups: []
       stages: []
       currentStage: []
@@ -13675,12 +13667,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-13 12:51:00'
+        example: '2020-07-13 16:10:21'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-13 12:51:00'
+        example: '2020-07-13 16:10:21'
     required: []
   AuditTrail-write:
     properties:
@@ -13728,12 +13720,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-13 12:51:00'
+        example: '2020-07-13 16:10:21'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-13 12:51:00'
+        example: '2020-07-13 16:10:21'
     required: []
   ChangeLog-write:
     properties:
