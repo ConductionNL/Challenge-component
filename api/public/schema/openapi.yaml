@@ -6404,6 +6404,120 @@ paths:
                   $ref: '#/components/schemas/Pitch-read'
       parameters:
         -
+          name: name
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: description
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateSubmitted[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateSubmitted[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateSubmitted[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateSubmitted[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'requiredBudget[between]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'requiredBudget[gt]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'requiredBudget[gte]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'requiredBudget[lt]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'requiredBudget[lte]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
           name: page
           in: query
           required: false
@@ -12957,7 +13071,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-07-13 12:22:56'
+        example: '2020-07-13 12:35:32'
       created:
         description: 'The moment this entry was created'
         type: \Datetime
@@ -12987,7 +13101,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-07-13 12:22:56'
+        example: '2020-07-13 12:35:32'
       tender: []
       questions: []
     required:
@@ -13065,7 +13179,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-13 12:22:56'
+        example: '2020-07-13 12:35:32'
       created:
         description: 'The moment this pitch was created'
         type: \Datetime
@@ -13106,7 +13220,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-13 12:22:56'
+        example: '2020-07-13 12:35:32'
       tender: []
       stages: []
       currentStage: []
@@ -13336,7 +13450,7 @@ definitions:
       dateClose:
         type: string
         format: date-time
-        example: '2020-07-13 12:22:56'
+        example: '2020-07-13 12:35:32'
       created:
         description: 'The moment this tender was created'
         type: \Datetime
@@ -13386,7 +13500,7 @@ definitions:
       dateClose:
         type: string
         format: date-time
-        example: '2020-07-13 12:22:56'
+        example: '2020-07-13 12:35:32'
       tenderGroups: []
       stages: []
       currentStage: []
@@ -13549,12 +13663,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-13 12:22:56'
+        example: '2020-07-13 12:35:32'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-13 12:22:56'
+        example: '2020-07-13 12:35:32'
     required: []
   AuditTrail-write:
     properties:
@@ -13602,12 +13716,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-13 12:22:56'
+        example: '2020-07-13 12:35:32'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-13 12:22:56'
+        example: '2020-07-13 12:35:32'
     required: []
   ChangeLog-write:
     properties:
