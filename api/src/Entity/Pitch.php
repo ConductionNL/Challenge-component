@@ -2,7 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\PitchRepository;
 use Cassandra\Decimal;
 use DateTime;
@@ -47,6 +51,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass=PitchRepository::class)
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
+ *
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "name": "partial",
+ *     "description": "partial",
+ *     "submitter": "partial"
+ *     })
+ * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
+ * @ApiFilter(RangeFilter::class, properties={"requiredBudget"})
  */
 class Pitch
 {
@@ -94,15 +106,17 @@ class Pitch
     private $description;
 
     /**
-     * @var string The submitter(s) of this pitch.
+     * @var string The submitter of this pitch.
      *
      * @example https://cc.zuid-drecht.nl/organizations/
      *
+     * @Assert\NotNull
+     * @Assert\Url
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="string")
      */
-    private $submitters = [];
+    private $submitter;
 
     /**
      * @var string The required budget for this pitch.
@@ -116,7 +130,7 @@ class Pitch
     private $requiredBudget;
 
     /**
-     * @var string The document(s) of this tender.
+     * @var array The document(s) of this tender.
      *
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
@@ -221,14 +235,14 @@ class Pitch
         return $this;
     }
 
-    public function getSubmitters(): ?array
+    public function getSubmitter(): ?string
     {
-        return $this->submitters;
+        return $this->submitter;
     }
 
-    public function setSubmitters(array $submitters): self
+    public function setSubmitter(string $submitter): self
     {
-        $this->submitters = $submitters;
+        $this->submitter = $submitter;
 
         return $this;
     }

@@ -2,7 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\TenderRepository;
 use Cassandra\Decimal;
 use DateTime;
@@ -36,7 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              }
  *          },
  *          "get_audit_trail"={
- *              "path"="/tenderrs/{id}/audit_trail",
+ *              "path"="/tenders/{id}/audit_trail",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Audittrail",
@@ -47,6 +51,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass=TenderRepository::class)
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
+ *
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "name": "partial",
+ *     "description": "partial",
+ *     "submitters": "partial"
+ *     })
+ * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
+ * @ApiFilter(RangeFilter::class, properties={"budget"})
  */
 class Tender
 {
@@ -94,7 +106,7 @@ class Tender
     private $description;
 
     /**
-     * @var string The submitter(s) of this tender.
+     * @var array The submitter(s) of this tender.
      *
      * @example https://cc.zuid-drecht.nl/organizations/
      *
@@ -124,7 +136,7 @@ class Tender
     private $budget;
 
     /**
-     * @var string The document(s) of this tender.
+     * @var array The document(s) of this tender.
      *
      * @Gedmo\Versioned
      * @Groups({"read", "write"})

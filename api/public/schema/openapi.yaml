@@ -6404,6 +6404,126 @@ paths:
                   $ref: '#/components/schemas/Pitch-read'
       parameters:
         -
+          name: name
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: description
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: submitter
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateSubmitted[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateSubmitted[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateSubmitted[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateSubmitted[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'requiredBudget[between]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'requiredBudget[gt]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'requiredBudget[gte]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'requiredBudget[lt]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'requiredBudget[lte]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
           name: page
           in: query
           required: false
@@ -9555,137 +9675,6 @@ paths:
           description: 'Resource not found'
       produces:
         - application/health+json
-  '/tenderrs/{id}/audit_trail':
-    get:
-      tags:
-        - Tender
-      operationId: get_audit_trailTenderItem
-      summary: 'Retrieves a Tender resource.'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        -
-          name: Authorization
-          description: 'The JWT of the entity performing the request'
-          in: header
-        -
-          name: API-Version
-          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
-          example: 1.0.1
-          in: header
-        -
-          name: X-NLX-Logrecord-ID
-          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
-          in: header
-        -
-          name: X-NLX-Request-Process-Id
-          description: 'A process id for purpose registration (doelbinding)'
-          in: header
-        -
-          name: X-NLX-Request-Data-Elements
-          description: 'A list of requested data elements'
-          in: header
-        -
-          name: X-NLX-Request-Data-Subject
-          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
-          in: header
-        -
-          name: X-NLX-Audit-Clarification
-          description: 'A clarification as to why a request has been made  (doelbinding)'
-          in: header
-        -
-          name: Link
-          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
-          in: header
-        -
-          name: 'extend[]'
-          required: false
-          description: 'An array of nested objects to include in the return object'
-          in: query
-          schema:
-            type: array
-        -
-          name: 'fields[]'
-          required: false
-          description: 'An array of fields to return in output, wil return all fields is not supplied'
-          in: query
-          schema:
-            type: array
-        -
-          name: validOn
-          required: false
-          description: 'Returns object as valid on a given date time'
-          schema:
-            type: string
-            format: date-time
-          in: query
-        -
-          name: validFrom
-          required: false
-          description: 'Returns objects valid from a given date time'
-          schema:
-            type: string
-            format: date-time
-          in: query
-        -
-          name: validUntil
-          required: false
-          description: 'Returns objects valid until a given date time'
-          schema:
-            type: string
-            format: date-time
-          in: query
-      responses:
-        200:
-          description: 'Tender resource response'
-          content:
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Tender:jsonld-read'
-            application/json+ld:
-              schema:
-                $ref: '#/components/schemas/Tender:jsonld-read'
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            application/json+hal:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            application/json+vnd.api:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            application/health+json:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            application/json+health:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            application/x-yaml:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-        404:
-          description: 'Resource not found'
-      produces:
-        - application/health+json
   /tenders:
     get:
       tags:
@@ -9772,6 +9761,126 @@ paths:
                 items:
                   $ref: '#/components/schemas/Tender-read'
       parameters:
+        -
+          name: name
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: description
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: submitters
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateClose[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateClose[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateClose[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateClose[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'budget[between]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'budget[gt]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'budget[gte]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'budget[lt]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'budget[lte]'
+          in: query
+          required: false
+          schema:
+            type: string
         -
           name: page
           in: query
@@ -10299,6 +10408,137 @@ paths:
           name: X-NLX-Audit-Clarification
           description: 'A clarification as to why a request has been made  (doelbinding)'
           in: header
+  '/tenders/{id}/audit_trail':
+    get:
+      tags:
+        - Tender
+      operationId: get_audit_trailTenderItem
+      summary: 'Retrieves a Tender resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Tender resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tender:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Tender:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
   '/tenders/{id}/change_log':
     get:
       tags:
@@ -11424,11 +11664,11 @@ components:
           description: 'The description of this pitch.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this pitch.'
-          type: array
-          items:
-            type: string
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
         requiredBudget:
           description: 'The required budget for this pitch.'
           type: string
@@ -11473,11 +11713,13 @@ components:
           nullable: true
       required:
         - name
+        - submitter
     Pitch-write:
       type: object
       description: 'A pitch is used by providers to present their solution/product/service for the tender.'
       required:
         - name
+        - submitter
       properties:
         name:
           description: 'The name of this pitch.'
@@ -11486,11 +11728,11 @@ components:
           description: 'The description of this pitch.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this pitch.'
-          type: array
-          items:
-            type: string
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
         requiredBudget:
           description: 'The required budget for this pitch.'
           type: string
@@ -11551,11 +11793,11 @@ components:
           description: 'The description of this pitch.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this pitch.'
-          type: array
-          items:
-            type: string
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
         requiredBudget:
           description: 'The required budget for this pitch.'
           type: string
@@ -11600,11 +11842,13 @@ components:
           nullable: true
       required:
         - name
+        - submitter
     'Pitch:jsonld-write':
       type: object
       description: 'A pitch is used by providers to present their solution/product/service for the tender.'
       required:
         - name
+        - submitter
       properties:
         '@context':
           readOnly: true
@@ -11622,11 +11866,11 @@ components:
           description: 'The description of this pitch.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this pitch.'
-          type: array
-          items:
-            type: string
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
         requiredBudget:
           description: 'The required budget for this pitch.'
           type: string
@@ -12831,7 +13075,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-07-10 14:03:59'
+        example: '2020-07-13 16:10:21'
       created:
         description: 'The moment this entry was created'
         type: \Datetime
@@ -12861,7 +13105,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-07-10 14:03:59'
+        example: '2020-07-13 16:10:21'
       tender: []
       questions: []
     required:
@@ -12924,21 +13168,22 @@ definitions:
         type: string
         example: 'Pitch made by SwimmingPool Enterprise'
         maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this pitch.'
+      submitter:
+        description: 'The submitter of this pitch.'
         type: string
         example: 'https://cc.zuid-drecht.nl/organizations/'
+        format: url
       requiredBudget:
         description: 'The required budget for this pitch.'
         type: string
         example: '150000.00'
       documents:
         description: 'The document(s) of this tender.'
-        type: string
+        type: array
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-10 14:03:59'
+        example: '2020-07-13 16:10:21'
       created:
         description: 'The moment this pitch was created'
         type: \Datetime
@@ -12951,6 +13196,7 @@ definitions:
       proposals: []
     required:
       - name
+      - submitter
   Pitch-write:
     properties:
       name:
@@ -12963,27 +13209,29 @@ definitions:
         type: string
         example: 'Pitch made by SwimmingPool Enterprise'
         maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this pitch.'
+      submitter:
+        description: 'The submitter of this pitch.'
         type: string
         example: 'https://cc.zuid-drecht.nl/organizations/'
+        format: url
       requiredBudget:
         description: 'The required budget for this pitch.'
         type: string
         example: '150000.00'
       documents:
         description: 'The document(s) of this tender.'
-        type: string
+        type: array
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-10 14:03:59'
+        example: '2020-07-13 16:10:21'
       tender: []
       stages: []
       currentStage: []
       proposals: []
     required:
       - name
+      - submitter
   PitchStage-read:
     properties:
       id:
@@ -13188,7 +13436,7 @@ definitions:
         maxLength: 255
       submitters:
         description: 'The submitter(s) of this tender.'
-        type: string
+        type: array
         example: 'https://cc.zuid-drecht.nl/organizations/'
       budget:
         description: 'The budget of this tender.'
@@ -13196,7 +13444,7 @@ definitions:
         example: '100000.00'
       documents:
         description: 'The document(s) of this tender.'
-        type: string
+        type: array
       kind:
         maxLength: 255
       selectionCritera:
@@ -13206,7 +13454,7 @@ definitions:
       dateClose:
         type: string
         format: date-time
-        example: '2020-07-10 14:03:59'
+        example: '2020-07-13 16:10:21'
       created:
         description: 'The moment this tender was created'
         type: \Datetime
@@ -13238,7 +13486,7 @@ definitions:
         maxLength: 255
       submitters:
         description: 'The submitter(s) of this tender.'
-        type: string
+        type: array
         example: 'https://cc.zuid-drecht.nl/organizations/'
       budget:
         description: 'The budget of this tender.'
@@ -13246,7 +13494,7 @@ definitions:
         example: '100000.00'
       documents:
         description: 'The document(s) of this tender.'
-        type: string
+        type: array
       kind:
         maxLength: 255
       selectionCritera:
@@ -13256,7 +13504,7 @@ definitions:
       dateClose:
         type: string
         format: date-time
-        example: '2020-07-10 14:03:59'
+        example: '2020-07-13 16:10:21'
       tenderGroups: []
       stages: []
       currentStage: []
@@ -13419,12 +13667,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-10 14:03:59'
+        example: '2020-07-13 16:10:21'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-10 14:03:59'
+        example: '2020-07-13 16:10:21'
     required: []
   AuditTrail-write:
     properties:
@@ -13472,12 +13720,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-10 14:03:59'
+        example: '2020-07-13 16:10:21'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-10 14:03:59'
+        example: '2020-07-13 16:10:21'
     required: []
   ChangeLog-write:
     properties:
