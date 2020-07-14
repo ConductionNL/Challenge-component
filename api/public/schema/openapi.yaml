@@ -13051,65 +13051,105 @@ definitions:
       proposal: []
     required:
       - name
-  Entry-read:
+  Tender-read:
     properties:
       id:
-        description: 'The UUID identifier of this entry.'
+        description: 'The UUID identifier of this tender.'
         type: string
         example: e2984465-190a-4562-829e-a8cca81aa35d
         format: uuid
       name:
-        description: 'The name of this entry.'
+        description: 'The name of this tender.'
         type: string
-        example: 'Entry of SwimmingPool Enterprise'
+        example: 'Swimming pool design and construction'
         maxLength: 255
       description:
-        description: 'The description of this entry.'
+        description: 'The description of this tender.'
         type: string
-        example: 'This entry signs SwimmingPool Enterprise in for a tender'
+        example: 'This tender requires a provider that can design and deliver a swimming pool with 2 water slides.'
         maxLength: 255
       submitters:
         description: 'The submitter(s) of this tender.'
-        type: string
+        type: array
         example: 'https://cc.zuid-drecht.nl/organizations/'
-      dateOfEntry:
+      budget:
+        description: 'The budget of this tender.'
+        type: string
+        example: '100000.00'
+      documents:
+        description: 'The document(s) of this tender.'
+        type: array
+      kind:
+        maxLength: 255
+      selectionCritera:
+        maxLength: 255
+      catchPhrase:
+        maxLength: 255
+      dateClose:
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
+        example: '2020-07-14 17:50:56'
       created:
-        description: 'The moment this entry was created'
+        description: 'The moment this tender was created'
         type: \Datetime
       modified:
-        description: 'The moment this entry was last updated'
+        description: 'The moment this tender was last updated'
         type: \Datetime
-      tender: []
+      tenderGroups: []
+      stages: []
+      currentStage: []
       questions: []
+      entries: []
+      pitches: []
+      proposals: []
+      deal: []
     required:
       - name
-  Entry-write:
+      - submitters
+  Tender-write:
     properties:
       name:
-        description: 'The name of this entry.'
+        description: 'The name of this tender.'
         type: string
-        example: 'Entry of SwimmingPool Enterprise'
+        example: 'Swimming pool design and construction'
         maxLength: 255
       description:
-        description: 'The description of this entry.'
+        description: 'The description of this tender.'
         type: string
-        example: 'This entry signs SwimmingPool Enterprise in for a tender'
+        example: 'This tender requires a provider that can design and deliver a swimming pool with 2 water slides.'
         maxLength: 255
       submitters:
         description: 'The submitter(s) of this tender.'
-        type: string
+        type: array
         example: 'https://cc.zuid-drecht.nl/organizations/'
-      dateOfEntry:
+      budget:
+        description: 'The budget of this tender.'
+        type: string
+        example: '100000.00'
+      documents:
+        description: 'The document(s) of this tender.'
+        type: array
+      kind:
+        maxLength: 255
+      selectionCritera:
+        maxLength: 255
+      catchPhrase:
+        maxLength: 255
+      dateClose:
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
-      tender: []
+        example: '2020-07-14 17:50:56'
+      tenderGroups: []
+      stages: []
+      currentStage: []
       questions: []
+      entries: []
+      pitches: []
+      proposals: []
+      deal: []
     required:
       - name
+      - submitters
   Group-read:
     properties:
       id:
@@ -13151,6 +13191,191 @@ definitions:
       tenders: []
     required:
       - name
+  TenderStage-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this tender stage.'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      name:
+        description: 'The name of this tender stage.'
+        type: string
+        example: Enrollment
+        maxLength: 255
+      description:
+        description: 'The description of this tender stage.'
+        type: string
+        example: 'During this stage providers can sign up for this tender.'
+        maxLength: 255
+      requirements:
+        description: 'The requirements to complete this tender stage.'
+        type: string
+        example: 'A minimum of 5 providers need to be signed up.'
+      created:
+        description: 'The moment this tender stage was created'
+        type: \Datetime
+      modified:
+        description: 'The moment this tender stage was last updated'
+        type: \Datetime
+    required:
+      - name
+  TenderStage-write:
+    properties:
+      name:
+        description: 'The name of this tender stage.'
+        type: string
+        example: Enrollment
+        maxLength: 255
+      description:
+        description: 'The description of this tender stage.'
+        type: string
+        example: 'During this stage providers can sign up for this tender.'
+        maxLength: 255
+      requirements:
+        description: 'The requirements to complete this tender stage.'
+        type: string
+        example: 'A minimum of 5 providers need to be signed up.'
+    required:
+      - name
+  Question-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this entry.'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      name:
+        description: 'The name of this question.'
+        type: string
+        example: 'Question asked by SwimmingPool Enterprise'
+        maxLength: 255
+      description:
+        description: 'The description of this question.'
+        type: string
+        maxLength: 255
+      submitters:
+        description: 'The submitter(s) of this tender.'
+        type: string
+        example: 'https://cc.zuid-drecht.nl/organizations/'
+      question:
+        description: 'The question.'
+        type: string
+        example: 'Is it possible that that deadline will be extended?'
+        maxLength: 255
+      documents:
+        description: 'The document(s) added to this question.'
+        type: string
+      status:
+        description: 'The status of this question.'
+        type: string
+        example: Answered
+      created:
+        description: 'The moment this question was created'
+        type: \Datetime
+      modified:
+        description: 'The moment this question was last updated'
+        type: \Datetime
+      answers: []
+      tender: []
+      entry: []
+    required:
+      - name
+      - submitters
+      - question
+  Question-write:
+    properties:
+      name:
+        description: 'The name of this question.'
+        type: string
+        example: 'Question asked by SwimmingPool Enterprise'
+        maxLength: 255
+      description:
+        description: 'The description of this question.'
+        type: string
+        maxLength: 255
+      submitters:
+        description: 'The submitter(s) of this tender.'
+        type: string
+        example: 'https://cc.zuid-drecht.nl/organizations/'
+      question:
+        description: 'The question.'
+        type: string
+        example: 'Is it possible that that deadline will be extended?'
+        maxLength: 255
+      documents:
+        description: 'The document(s) added to this question.'
+        type: string
+      status:
+        description: 'The status of this question.'
+        type: string
+        example: Answered
+      answers: []
+      tender: []
+      entry: []
+    required:
+      - name
+      - submitters
+      - question
+  Entry-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this entry.'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      name:
+        description: 'The name of this entry.'
+        type: string
+        example: 'Entry of SwimmingPool Enterprise'
+        maxLength: 255
+      description:
+        description: 'The description of this entry.'
+        type: string
+        example: 'This entry signs SwimmingPool Enterprise in for a tender'
+        maxLength: 255
+      submitters:
+        description: 'The submitter(s) of this tender.'
+        type: string
+        example: 'https://cc.zuid-drecht.nl/organizations/'
+      dateOfEntry:
+        type: string
+        format: date-time
+        example: '2020-07-14 17:50:56'
+      created:
+        description: 'The moment this entry was created'
+        type: \Datetime
+      modified:
+        description: 'The moment this entry was last updated'
+        type: \Datetime
+      tender: []
+      questions: []
+    required:
+      - name
+  Entry-write:
+    properties:
+      name:
+        description: 'The name of this entry.'
+        type: string
+        example: 'Entry of SwimmingPool Enterprise'
+        maxLength: 255
+      description:
+        description: 'The description of this entry.'
+        type: string
+        example: 'This entry signs SwimmingPool Enterprise in for a tender'
+        maxLength: 255
+      submitters:
+        description: 'The submitter(s) of this tender.'
+        type: string
+        example: 'https://cc.zuid-drecht.nl/organizations/'
+      dateOfEntry:
+        type: string
+        format: date-time
+        example: '2020-07-14 17:50:56'
+      tender: []
+      questions: []
+    required:
+      - name
   Pitch-read:
     properties:
       id:
@@ -13183,7 +13408,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
+        example: '2020-07-14 17:50:56'
       created:
         description: 'The moment this pitch was created'
         type: \Datetime
@@ -13224,7 +13449,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
+        example: '2020-07-14 17:50:56'
       tender: []
       stages: []
       currentStage: []
@@ -13338,231 +13563,59 @@ definitions:
       pitch: []
     required:
       - name
-  Question-read:
+  ChangeLog-read:
     properties:
       id:
-        description: 'The UUID identifier of this entry.'
+        description: 'The UUID identifier of this object'
         type: string
         example: e2984465-190a-4562-829e-a8cca81aa35d
         format: uuid
-      name:
-        description: 'The name of this question.'
+      note:
+        description: 'A note conserning this log lin'
         type: string
-        example: 'Question asked by SwimmingPool Enterprise'
-        maxLength: 255
-      description:
-        description: 'The description of this question.'
+        example: 'This log line is suspicius'
+        maxLength: 2555
+      action:
+        description: ''
         type: string
-        maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this tender.'
+      objectId:
+        description: ''
         type: string
-        example: 'https://cc.zuid-drecht.nl/organizations/'
-      question:
-        description: 'The question.'
+      objectClass:
+        description: ''
         type: string
-        example: 'Is it possible that that deadline will be extended?'
-        maxLength: 255
-      documents:
-        description: 'The document(s) added to this question.'
-        type: string
-      status:
-        description: 'The status of this question.'
-        type: string
-        example: Answered
-      created:
-        description: 'The moment this question was created'
-        type: \Datetime
-      modified:
-        description: 'The moment this question was last updated'
-        type: \Datetime
-      answers: []
-      tender: []
-      entry: []
-    required:
-      - name
-      - submitters
-      - question
-  Question-write:
-    properties:
-      name:
-        description: 'The name of this question.'
-        type: string
-        example: 'Question asked by SwimmingPool Enterprise'
-        maxLength: 255
-      description:
-        description: 'The description of this question.'
-        type: string
-        maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this tender.'
-        type: string
-        example: 'https://cc.zuid-drecht.nl/organizations/'
-      question:
-        description: 'The question.'
-        type: string
-        example: 'Is it possible that that deadline will be extended?'
-        maxLength: 255
-      documents:
-        description: 'The document(s) added to this question.'
-        type: string
-      status:
-        description: 'The status of this question.'
-        type: string
-        example: Answered
-      answers: []
-      tender: []
-      entry: []
-    required:
-      - name
-      - submitters
-      - question
-  Tender-read:
-    properties:
-      id:
-        description: 'The UUID identifier of this tender.'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      name:
-        description: 'The name of this tender.'
-        type: string
-        example: 'Swimming pool design and construction'
-        maxLength: 255
-      description:
-        description: 'The description of this tender.'
-        type: string
-        example: 'This tender requires a provider that can design and deliver a swimming pool with 2 water slides.'
-        maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this tender.'
+      version:
+        description: ''
+        type: int
+      data:
+        description: ''
         type: array
-        example: 'https://cc.zuid-drecht.nl/organizations/'
-      budget:
-        description: 'The budget of this tender.'
+      username:
+        description: ''
         type: string
-        example: '100000.00'
-      documents:
-        description: 'The document(s) of this tender.'
-        type: array
-      kind:
+      session:
+        description: 'The moment this request was created'
+        type: string
         maxLength: 255
-      selectionCritera:
-        maxLength: 255
-      catchPhrase:
-        maxLength: 255
-      dateClose:
+      dateCreated:
+        description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
-      created:
-        description: 'The moment this tender was created'
-        type: \Datetime
-      modified:
-        description: 'The moment this tender was last updated'
-        type: \Datetime
-      tenderGroups: []
-      stages: []
-      currentStage: []
-      questions: []
-      entries: []
-      pitches: []
-      proposals: []
-      deal: []
-    required:
-      - name
-      - submitters
-  Tender-write:
-    properties:
-      name:
-        description: 'The name of this tender.'
-        type: string
-        example: 'Swimming pool design and construction'
-        maxLength: 255
-      description:
-        description: 'The description of this tender.'
-        type: string
-        example: 'This tender requires a provider that can design and deliver a swimming pool with 2 water slides.'
-        maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this tender.'
-        type: array
-        example: 'https://cc.zuid-drecht.nl/organizations/'
-      budget:
-        description: 'The budget of this tender.'
-        type: string
-        example: '100000.00'
-      documents:
-        description: 'The document(s) of this tender.'
-        type: array
-      kind:
-        maxLength: 255
-      selectionCritera:
-        maxLength: 255
-      catchPhrase:
-        maxLength: 255
-      dateClose:
+        example: '2020-07-14 17:50:56'
+      dateModified:
+        description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
-      tenderGroups: []
-      stages: []
-      currentStage: []
-      questions: []
-      entries: []
-      pitches: []
-      proposals: []
-      deal: []
-    required:
-      - name
-      - submitters
-  TenderStage-read:
+        example: '2020-07-14 17:50:56'
+    required: []
+  ChangeLog-write:
     properties:
-      id:
-        description: 'The UUID identifier of this tender stage.'
+      note:
+        description: 'A note conserning this log lin'
         type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      name:
-        description: 'The name of this tender stage.'
-        type: string
-        example: Enrollment
-        maxLength: 255
-      description:
-        description: 'The description of this tender stage.'
-        type: string
-        example: 'During this stage providers can sign up for this tender.'
-        maxLength: 255
-      requirements:
-        description: 'The requirements to complete this tender stage.'
-        type: string
-        example: 'A minimum of 5 providers need to be signed up.'
-      created:
-        description: 'The moment this tender stage was created'
-        type: \Datetime
-      modified:
-        description: 'The moment this tender stage was last updated'
-        type: \Datetime
-    required:
-      - name
-  TenderStage-write:
-    properties:
-      name:
-        description: 'The name of this tender stage.'
-        type: string
-        example: Enrollment
-        maxLength: 255
-      description:
-        description: 'The description of this tender stage.'
-        type: string
-        example: 'During this stage providers can sign up for this tender.'
-        maxLength: 255
-      requirements:
-        description: 'The requirements to complete this tender stage.'
-        type: string
-        example: 'A minimum of 5 providers need to be signed up.'
-    required:
-      - name
+        example: 'This log line is suspicius'
+        maxLength: 2555
+    required: []
   AuditTrail-read:
     properties:
       id:
@@ -13667,12 +13720,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
+        example: '2020-07-14 17:50:56'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
+        example: '2020-07-14 17:50:56'
     required: []
   AuditTrail-write:
     properties:
@@ -13680,59 +13733,6 @@ definitions:
         description: 'A note conserning this log lin'
         type: string
         example: 'This log line looks suspicius'
-        maxLength: 2555
-    required: []
-  ChangeLog-read:
-    properties:
-      id:
-        description: 'The UUID identifier of this object'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      note:
-        description: 'A note conserning this log lin'
-        type: string
-        example: 'This log line is suspicius'
-        maxLength: 2555
-      action:
-        description: ''
-        type: string
-      objectId:
-        description: ''
-        type: string
-      objectClass:
-        description: ''
-        type: string
-      version:
-        description: ''
-        type: int
-      data:
-        description: ''
-        type: array
-      username:
-        description: ''
-        type: string
-      session:
-        description: 'The moment this request was created'
-        type: string
-        maxLength: 255
-      dateCreated:
-        description: 'The moment this request was created'
-        type: string
-        format: date-time
-        example: '2020-07-13 16:10:21'
-      dateModified:
-        description: 'The moment this request last Modified'
-        type: string
-        format: date-time
-        example: '2020-07-13 16:10:21'
-    required: []
-  ChangeLog-write:
-    properties:
-      note:
-        description: 'A note conserning this log lin'
-        type: string
-        example: 'This log line is suspicius'
         maxLength: 2555
     required: []
 tags:
@@ -13749,15 +13749,33 @@ tags:
       
       
   -
-    name: Entry
+    name: Tender
     description: |
-      A entry is used when an person or group wants to join the tender.
+      A tender can be used by clients to find a provider that can meet up to a certain solution/service/product with a given budget.
       
       
   -
     name: Group
     description: |
       A group is used for sorting tenders.
+      
+      
+  -
+    name: TenderStage
+    description: |
+      A tender stage is part of a tender process.
+      
+      
+  -
+    name: Question
+    description: |
+      A question is used when people or an organization have questions about the tender.
+      
+      
+  -
+    name: Entry
+    description: |
+      A entry is used when an person or group wants to join the tender.
       
       
   -
@@ -13779,31 +13797,13 @@ tags:
       
       
   -
-    name: Question
-    description: |
-      A question is used when people or an organization have questions about the tender.
-      
-      
-  -
-    name: Tender
-    description: |
-      A tender can be used by clients to find a provider that can meet up to a certain solution/service/product with a given budget.
-      
-      
-  -
-    name: TenderStage
-    description: |
-      A tender stage is part of a tender process.
-      
-      
-  -
-    name: AuditTrail
+    name: ChangeLog
     description: |
       An resource representing a log line.
       
       This entity represents a product that can be ordered via the OrderRegistratieComponent.
   -
-    name: ChangeLog
+    name: AuditTrail
     description: |
       An resource representing a log line.
       
@@ -13814,15 +13814,15 @@ securityDefinitions:
     authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
     flow: implicit
     scopes:
-      read: 'read right to the ChangeLog resource'
-      write: 'write right to the ChangeLog resource'
+      read: 'read right to the AuditTrail resource'
+      write: 'write right to the AuditTrail resource'
   JWT-Token:
     type: apiKey
     in: header
     name: Authorization
     scopes:
-      read: 'read right to the ChangeLog resource'
-      write: 'write right to the ChangeLog resource'
+      read: 'read right to the AuditTrail resource'
+      write: 'write right to the AuditTrail resource'
 host: irc.zaakonline.nl
 servers:
   -
