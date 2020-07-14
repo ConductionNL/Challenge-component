@@ -53,9 +53,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
  *
  * @ApiFilter(SearchFilter::class, properties={
- *     "name": "partial",
- *     "description": "partial",
- *     "submitter": "partial"
+ *     "name": "ipartial",
+ *     "description": "ipartial",
+ *     "submitter": "ipartial"
  *     })
  * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
  * @ApiFilter(RangeFilter::class, properties={"requiredBudget"})
