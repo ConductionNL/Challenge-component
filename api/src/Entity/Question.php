@@ -5,8 +5,11 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\QuestionRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
@@ -87,28 +90,30 @@ class Question
     private $description;
 
     /**
+     * @var string The submitter(s) of this tender.
+     *
+     * @example https://cc.zuid-drecht.nl/organizations/
+     *
+     * @Assert\NotNull
+     * @Gedmo\Versioned
+     * @Groups({"read", "write"})
+     * @ORM\Column(type="array", nullable=false)
+     */
+    private $submitters = [];
+
+    /**
      * @var string The question.
      *
      * @example Is it possible that that deadline will be extended?
      * @Assert\Length(
      *      max = 255
      * )
+     * @Assert\NotNull
      * @Gedmo\Versioned
      * @Groups({"read","write"})
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $question;
-
-    /**
-     * @var string The answer(s) of this question.
-     *
-     * @example No the deadline will not be altered
-     *
-     * @Gedmo\Versioned
-     * @Groups({"read", "write"})
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $answers = [];
 
     /**
      * @var string The document(s) added to this question.
@@ -129,6 +134,13 @@ class Question
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $status;
+
+    /**
+     * @Groups({"read","write"})
+     * @MaxDepth(1)
+     * @ORM\OneToMany(targetEntity=Answer::class, mappedBy="question", orphanRemoval=true)
+     */
+    private $answers;
 
     /**
      * @Groups({"read","write"})
@@ -162,9 +174,21 @@ class Question
      */
     private $modified;
 
-    public function getId()
+    public function __construct()
+    {
+        $this->answers = new ArrayCollection();
+    }
+
+    public function getId(): Uuid
     {
         return $this->id;
+    }
+
+    public function setId(Uuid $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -191,6 +215,18 @@ class Question
         return $this;
     }
 
+    public function getSubmitters(): ?array
+    {
+        return $this->submitters;
+    }
+
+    public function setSubmitters(array $submitters): self
+    {
+        $this->submitters = $submitters;
+
+        return $this;
+    }
+
     public function getQuestion(): ?string
     {
         return $this->question;
@@ -199,18 +235,6 @@ class Question
     public function setQuestion(string $question): self
     {
         $this->question = $question;
-
-        return $this;
-    }
-
-    public function getAnswers(): ?array
-    {
-        return $this->answers;
-    }
-
-    public function setAnswers(?array $answers): self
-    {
-        $this->answers = $answers;
 
         return $this;
     }
@@ -235,6 +259,29 @@ class Question
     public function setStatus(?string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function addAnswer(Answer $answer): self
+    {
+        if (!$this->answers->contains($answer)) {
+            $this->answers[] = $answer;
+            $answer->setQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswer(Answer $answer): self
+    {
+        if ($this->answers->contains($answer)) {
+            $this->answers->removeElement($answer);
+            // set the owning side to null (unless already changed)
+            if ($answer->getQuestion() === $this) {
+                $answer->setQuestion(null);
+            }
+        }
 
         return $this;
     }
@@ -285,5 +332,13 @@ class Question
         $this->modified = $modified;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Answer[]
+     */
+    public function getAnswers(): Collection
+    {
+        return $this->answers;
     }
 }

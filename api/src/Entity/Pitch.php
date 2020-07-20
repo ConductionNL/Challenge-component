@@ -2,7 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\PitchRepository;
 use Cassandra\Decimal;
 use DateTime;
@@ -10,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
@@ -46,6 +51,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass=PitchRepository::class)
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
+ *
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "name": "ipartial",
+ *     "description": "ipartial",
+ *     "submitter": "ipartial"
+ *     })
+ * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
+ * @ApiFilter(RangeFilter::class, properties={"requiredBudget"})
  */
 class Pitch
 {
@@ -93,15 +106,17 @@ class Pitch
     private $description;
 
     /**
-     * @var string The submitter(s) of this pitch.
+     * @var string The submitter of this pitch.
      *
      * @example https://cc.zuid-drecht.nl/organizations/
      *
+     * @Assert\NotNull
+     * @Assert\Url
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="string")
      */
-    private $submitters = [];
+    private $submitter;
 
     /**
      * @var string The required budget for this pitch.
@@ -115,7 +130,7 @@ class Pitch
     private $requiredBudget;
 
     /**
-     * @var string The document(s) of this tender.
+     * @var array The document(s) of this tender.
      *
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
@@ -135,7 +150,7 @@ class Pitch
      * @Groups({"read","write"})
      * @MaxDepth(1)
      * @ORM\ManyToOne(targetEntity=Tender::class, inversedBy="pitches")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $tender;
 
@@ -184,9 +199,16 @@ class Pitch
         $this->proposals = new ArrayCollection();
     }
 
-    public function getId()
+    public function getId(): Uuid
     {
         return $this->id;
+    }
+
+    public function setId(Uuid $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -213,14 +235,14 @@ class Pitch
         return $this;
     }
 
-    public function getSubmitters(): ?array
+    public function getSubmitter(): ?string
     {
-        return $this->submitters;
+        return $this->submitter;
     }
 
-    public function setSubmitters(array $submitters): self
+    public function setSubmitter(string $submitter): self
     {
-        $this->submitters = $submitters;
+        $this->submitter = $submitter;
 
         return $this;
     }

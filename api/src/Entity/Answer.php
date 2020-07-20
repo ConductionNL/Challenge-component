@@ -3,17 +3,18 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\PitchStageRepository;
+use App\Repository\AnswerRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A pitch stage is part of an pitch process.
+ * An answer is used to answer a question.
  *
  * @ApiResource(
  *     attributes={"pagination_items_per_page"=30},
@@ -24,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "put",
  *          "delete",
  *          "get_change_logs"={
- *              "path"="/pitch_stages/{id}/change_log",
+ *              "path"="/answers/{id}/change_log",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Changelogs",
@@ -32,7 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              }
  *          },
  *          "get_audit_trail"={
- *              "path"="/pitch_stages/{id}/audit_trail",
+ *              "path"="/answers/{id}/audit_trail",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Audittrail",
@@ -41,13 +42,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          }
  *     }
  * )
- * @ORM\Entity(repositoryClass=PitchStageRepository::class)
+ * @ORM\Entity(repositoryClass=AnswerRepository::class)
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
  */
-class PitchStage
+class Answer
 {
     /**
-     * @var UuidInterface The UUID identifier of this pitch stage.
+     * @var UuidInterface The UUID identifier of this answer.
      *
      * @example e2984465-190a-4562-829e-a8cca81aa35d
      *
@@ -61,11 +62,10 @@ class PitchStage
     private $id;
 
     /**
-     * @var string The name of this pitch stage.
+     * @var string The name of this answer.
      *
-     * @example First presentation.
+     * @example An answer for a question.
      *
-     * @Assert\NotNull
      * @Assert\Length(
      *      max = 255
      * )
@@ -76,9 +76,9 @@ class PitchStage
     private $name;
 
     /**
-     * @var string The description of this pitch stage.
+     * @var string The description of this answer.
      *
-     * @example This pitch stage is about the first presentation of the pitch
+     * @example This answer is an answer to a question made by Swimming Pool Enterprise for a tender.
      *
      * @Assert\Length(
      *      max = 255
@@ -90,18 +90,36 @@ class PitchStage
     private $description;
 
     /**
-     * @var string The requirement(s) of this pitch stage.
+     * @var string The submitter(s) of this answer.
      *
-     * @example The pitch needs to get through the first round of pitches.
+     * @example https://cc.zuid-drecht.nl/organizations/
      *
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="array")
      */
-    private $requirements = [];
+    private $submitters = [];
 
     /**
-     * @var Datetime The moment this pitch stage was created
+     * @var string The answer.
+     *
+     * @example Yes you can bring apples to the party.
+     *
+     * @Gedmo\Versioned
+     * @Groups({"read", "write"})
+     * @ORM\Column(type="string", length=255)
+     */
+    private $answer;
+
+    /**
+     * @MaxDepth(1)
+     * @ORM\ManyToOne(targetEntity=Question::class, inversedBy="answers")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $question;
+
+    /**
+     * @var Datetime The moment this deal was created
      *
      * @Groups({"read"})
      * @Gedmo\Timestampable(on="create")
@@ -110,7 +128,7 @@ class PitchStage
     private $created;
 
     /**
-     * @var Datetime The moment this pitch stage was last updated
+     * @var Datetime The moment this deal was last updated
      *
      * @Groups({"read"})
      * @Gedmo\Timestampable(on="update")
@@ -154,14 +172,38 @@ class PitchStage
         return $this;
     }
 
-    public function getRequirements(): ?array
+    public function getSubmitters(): ?array
     {
-        return $this->requirements;
+        return $this->submitters;
     }
 
-    public function setRequirements(?array $requirements): self
+    public function setSubmitters(array $submitters): self
     {
-        $this->requirements = $requirements;
+        $this->submitters = $submitters;
+
+        return $this;
+    }
+
+    public function getAnswer(): ?string
+    {
+        return $this->answer;
+    }
+
+    public function setAnswer(string $answer): self
+    {
+        $this->answer = $answer;
+
+        return $this;
+    }
+
+    public function getQuestion(): ?Question
+    {
+        return $this->question;
+    }
+
+    public function setQuestion(?Question $question): self
+    {
+        $this->question = $question;
 
         return $this;
     }

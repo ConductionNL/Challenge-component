@@ -15,6 +15,881 @@ info:
     'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'         
     
 paths:
+  /answers:
+    get:
+      tags:
+        - Answer
+      operationId: getAnswerCollection
+      summary: 'Retrieves the collection of Answer resources.'
+      responses:
+        200:
+          description: 'Answer collection response'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Answer:jsonld-read' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/json+ld:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Answer:jsonld-read' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Answer-read'
+            application/json+hal:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Answer-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Answer-read'
+            application/json+vnd.api:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Answer-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Answer-read'
+            application/health+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Answer-read'
+            application/json+health:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Answer-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Answer-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Answer-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Answer-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Answer-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+            default: 1
+        -
+          name: limit
+          in: query
+          required: false
+          description: 'The number of items per page'
+          schema:
+            type: integer
+            default: 30
+            minimum: 0
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      produces:
+        - application/health+json
+    post:
+      tags:
+        - Answer
+      operationId: postAnswerCollection
+      summary: 'Creates a Answer resource.'
+      responses:
+        201:
+          description: 'Answer resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Answer:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Answer:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+          links:
+            GetAnswerItem:
+              parameters:
+                id: '$response.body#/id'
+              operationId: getAnswerItem
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /answers/{id}`.'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Answer:jsonld-write'
+          application/json+ld:
+            schema:
+              $ref: '#/components/schemas/Answer:jsonld-write'
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          application/json+hal:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          application/json+vnd.api:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          application/health+json:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          application/json+health:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          application/x-yaml:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          text/csv:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+        description: 'The new Answer resource'
+      parameters:
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+  '/answers/{id}':
+    get:
+      tags:
+        - Answer
+      operationId: getAnswerItem
+      summary: 'Retrieves a Answer resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Answer resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Answer:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Answer:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
+    put:
+      tags:
+        - Answer
+      operationId: putAnswerItem
+      summary: 'Replaces the Answer resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+      responses:
+        200:
+          description: 'Answer resource updated'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Answer:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Answer:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Answer:jsonld-write'
+          application/json+ld:
+            schema:
+              $ref: '#/components/schemas/Answer:jsonld-write'
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          application/json+hal:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          application/json+vnd.api:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          application/health+json:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          application/json+health:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          application/x-yaml:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          text/csv:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Answer-write'
+        description: 'The updated Answer resource'
+    delete:
+      tags:
+        - Answer
+      operationId: deleteAnswerItem
+      summary: 'Removes the Answer resource.'
+      responses:
+        204:
+          description: 'Answer resource deleted'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+  '/answers/{id}/audit_trail':
+    get:
+      tags:
+        - Answer
+      operationId: get_audit_trailAnswerItem
+      summary: 'Retrieves a Answer resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Answer resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Answer:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Answer:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
+  '/answers/{id}/change_log':
+    get:
+      tags:
+        - Answer
+      operationId: get_change_logsAnswerItem
+      summary: 'Retrieves a Answer resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Answer resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Answer:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Answer:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Answer-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
   /audit_trails:
     get:
       tags:
@@ -5529,6 +6404,126 @@ paths:
                   $ref: '#/components/schemas/Pitch-read'
       parameters:
         -
+          name: name
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: description
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: submitter
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateSubmitted[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateSubmitted[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateSubmitted[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateSubmitted[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'requiredBudget[between]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'requiredBudget[gt]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'requiredBudget[gte]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'requiredBudget[lt]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'requiredBudget[lte]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
           name: page
           in: query
           required: false
@@ -8680,137 +9675,6 @@ paths:
           description: 'Resource not found'
       produces:
         - application/health+json
-  '/tenderrs/{id}/audit_trail':
-    get:
-      tags:
-        - Tender
-      operationId: get_audit_trailTenderItem
-      summary: 'Retrieves a Tender resource.'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        -
-          name: Authorization
-          description: 'The JWT of the entity performing the request'
-          in: header
-        -
-          name: API-Version
-          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
-          example: 1.0.1
-          in: header
-        -
-          name: X-NLX-Logrecord-ID
-          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
-          in: header
-        -
-          name: X-NLX-Request-Process-Id
-          description: 'A process id for purpose registration (doelbinding)'
-          in: header
-        -
-          name: X-NLX-Request-Data-Elements
-          description: 'A list of requested data elements'
-          in: header
-        -
-          name: X-NLX-Request-Data-Subject
-          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
-          in: header
-        -
-          name: X-NLX-Audit-Clarification
-          description: 'A clarification as to why a request has been made  (doelbinding)'
-          in: header
-        -
-          name: Link
-          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
-          in: header
-        -
-          name: 'extend[]'
-          required: false
-          description: 'An array of nested objects to include in the return object'
-          in: query
-          schema:
-            type: array
-        -
-          name: 'fields[]'
-          required: false
-          description: 'An array of fields to return in output, wil return all fields is not supplied'
-          in: query
-          schema:
-            type: array
-        -
-          name: validOn
-          required: false
-          description: 'Returns object as valid on a given date time'
-          schema:
-            type: string
-            format: date-time
-          in: query
-        -
-          name: validFrom
-          required: false
-          description: 'Returns objects valid from a given date time'
-          schema:
-            type: string
-            format: date-time
-          in: query
-        -
-          name: validUntil
-          required: false
-          description: 'Returns objects valid until a given date time'
-          schema:
-            type: string
-            format: date-time
-          in: query
-      responses:
-        200:
-          description: 'Tender resource response'
-          content:
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Tender:jsonld-read'
-            application/json+ld:
-              schema:
-                $ref: '#/components/schemas/Tender:jsonld-read'
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            application/json+hal:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            application/json+vnd.api:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            application/health+json:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            application/json+health:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            application/x-yaml:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/Tender-read'
-        404:
-          description: 'Resource not found'
-      produces:
-        - application/health+json
   /tenders:
     get:
       tags:
@@ -8897,6 +9761,126 @@ paths:
                 items:
                   $ref: '#/components/schemas/Tender-read'
       parameters:
+        -
+          name: name
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: description
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: submitters
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateClose[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateClose[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateClose[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateClose[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'created[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'modified[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'budget[between]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'budget[gt]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'budget[gte]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'budget[lt]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'budget[lte]'
+          in: query
+          required: false
+          schema:
+            type: string
         -
           name: page
           in: query
@@ -9424,6 +10408,137 @@ paths:
           name: X-NLX-Audit-Clarification
           description: 'A clarification as to why a request has been made  (doelbinding)'
           in: header
+  '/tenders/{id}/audit_trail':
+    get:
+      tags:
+        - Tender
+      operationId: get_audit_trailTenderItem
+      summary: 'Retrieves a Tender resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Tender resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tender:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Tender:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tender-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
   '/tenders/{id}/change_log':
     get:
       tags:
@@ -9557,6 +10672,134 @@ paths:
         - application/health+json
 components:
   schemas:
+    Answer-read:
+      type: object
+      description: 'An answer is used to answer a question.'
+      properties:
+        id:
+          readOnly: true
+          description: 'The UUID identifier of this answer.'
+          externalDocs:
+            url: 'http://schema.org/identifier'
+          type: string
+          format: uuid
+        name:
+          description: 'The name of this answer.'
+          type: string
+        description:
+          description: 'The description of this answer.'
+          type: string
+          nullable: true
+        submitters:
+          description: 'The submitter(s) of this answer.'
+          type: array
+          items:
+            type: string
+        answer:
+          description: 'The answer.'
+          type: string
+        created:
+          description: 'The moment this deal was created'
+          type: string
+          format: date-time
+          nullable: true
+        modified:
+          description: 'The moment this deal was last updated'
+          type: string
+          format: date-time
+          nullable: true
+    Answer-write:
+      type: object
+      description: 'An answer is used to answer a question.'
+      properties:
+        name:
+          description: 'The name of this answer.'
+          type: string
+        description:
+          description: 'The description of this answer.'
+          type: string
+          nullable: true
+        submitters:
+          description: 'The submitter(s) of this answer.'
+          type: array
+          items:
+            type: string
+        answer:
+          description: 'The answer.'
+          type: string
+    'Answer:jsonld-read':
+      type: object
+      description: 'An answer is used to answer a question.'
+      properties:
+        '@context':
+          readOnly: true
+          type: string
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          description: 'The UUID identifier of this answer.'
+          externalDocs:
+            url: 'http://schema.org/identifier'
+          type: string
+          format: uuid
+        name:
+          description: 'The name of this answer.'
+          type: string
+        description:
+          description: 'The description of this answer.'
+          type: string
+          nullable: true
+        submitters:
+          description: 'The submitter(s) of this answer.'
+          type: array
+          items:
+            type: string
+        answer:
+          description: 'The answer.'
+          type: string
+        created:
+          description: 'The moment this deal was created'
+          type: string
+          format: date-time
+          nullable: true
+        modified:
+          description: 'The moment this deal was last updated'
+          type: string
+          format: date-time
+          nullable: true
+    'Answer:jsonld-write':
+      type: object
+      description: 'An answer is used to answer a question.'
+      properties:
+        '@context':
+          readOnly: true
+          type: string
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        name:
+          description: 'The name of this answer.'
+          type: string
+        description:
+          description: 'The description of this answer.'
+          type: string
+          nullable: true
+        submitters:
+          description: 'The submitter(s) of this answer.'
+          type: array
+          items:
+            type: string
+        answer:
+          description: 'The answer.'
+          type: string
     AuditTrail-read:
       type: object
       description: 'An resource representing a log line.'
@@ -10421,11 +11664,11 @@ components:
           description: 'The description of this pitch.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this pitch.'
-          type: array
-          items:
-            type: string
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
         requiredBudget:
           description: 'The required budget for this pitch.'
           type: string
@@ -10442,7 +11685,10 @@ components:
           type: string
           format: date-time
         tender:
-          $ref: '#/components/schemas/Tender-read'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Tender-read'
         stages:
           type: array
           items:
@@ -10467,11 +11713,13 @@ components:
           nullable: true
       required:
         - name
+        - submitter
     Pitch-write:
       type: object
       description: 'A pitch is used by providers to present their solution/product/service for the tender.'
       required:
         - name
+        - submitter
       properties:
         name:
           description: 'The name of this pitch.'
@@ -10480,11 +11728,11 @@ components:
           description: 'The description of this pitch.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this pitch.'
-          type: array
-          items:
-            type: string
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
         requiredBudget:
           description: 'The required budget for this pitch.'
           type: string
@@ -10501,7 +11749,10 @@ components:
           type: string
           format: date-time
         tender:
-          $ref: '#/components/schemas/Tender-write'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Tender-write'
         stages:
           type: array
           items:
@@ -10542,11 +11793,11 @@ components:
           description: 'The description of this pitch.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this pitch.'
-          type: array
-          items:
-            type: string
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
         requiredBudget:
           description: 'The required budget for this pitch.'
           type: string
@@ -10563,7 +11814,10 @@ components:
           type: string
           format: date-time
         tender:
-          $ref: '#/components/schemas/Tender:jsonld-read'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Tender:jsonld-read'
         stages:
           type: array
           items:
@@ -10588,11 +11842,13 @@ components:
           nullable: true
       required:
         - name
+        - submitter
     'Pitch:jsonld-write':
       type: object
       description: 'A pitch is used by providers to present their solution/product/service for the tender.'
       required:
         - name
+        - submitter
       properties:
         '@context':
           readOnly: true
@@ -10610,11 +11866,11 @@ components:
           description: 'The description of this pitch.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this pitch.'
-          type: array
-          items:
-            type: string
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
         requiredBudget:
           description: 'The required budget for this pitch.'
           type: string
@@ -10631,7 +11887,10 @@ components:
           type: string
           format: date-time
         tender:
-          $ref: '#/components/schemas/Tender:jsonld-write'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Tender:jsonld-write'
         stages:
           type: array
           items:
@@ -10775,7 +12034,7 @@ components:
           nullable: true
     Proposal-read:
       type: object
-      description: 'A proposal is an offer that is made by a provider to make a deal with the tender submitter(s)'
+      description: 'A proposal is an offer that is made by a provider to make a deal with the tender submitter(s).'
       properties:
         id:
           readOnly: true
@@ -10824,7 +12083,7 @@ components:
         - name
     Proposal-write:
       type: object
-      description: 'A proposal is an offer that is made by a provider to make a deal with the tender submitter(s)'
+      description: 'A proposal is an offer that is made by a provider to make a deal with the tender submitter(s).'
       required:
         - name
       properties:
@@ -10856,7 +12115,7 @@ components:
           $ref: '#/components/schemas/Pitch-write'
     'Proposal:jsonld-read':
       type: object
-      description: 'A proposal is an offer that is made by a provider to make a deal with the tender submitter(s)'
+      description: 'A proposal is an offer that is made by a provider to make a deal with the tender submitter(s).'
       properties:
         '@context':
           readOnly: true
@@ -10914,7 +12173,7 @@ components:
         - name
     'Proposal:jsonld-write':
       type: object
-      description: 'A proposal is an offer that is made by a provider to make a deal with the tender submitter(s)'
+      description: 'A proposal is an offer that is made by a provider to make a deal with the tender submitter(s).'
       required:
         - name
       properties:
@@ -10971,15 +12230,14 @@ components:
           description: 'The description of this question.'
           type: string
           nullable: true
-        question:
-          description: 'The question.'
-          type: string
-        answers:
-          description: 'The answer(s) of this question.'
+        submitters:
+          description: 'The submitter(s) of this tender.'
           type: array
           items:
             type: string
-          nullable: true
+        question:
+          description: 'The question.'
+          type: string
         documents:
           description: 'The document(s) added to this question.'
           type: array
@@ -10990,6 +12248,10 @@ components:
           description: 'The status of this question.'
           type: string
           nullable: true
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer-read'
         tender:
           nullable: true
           anyOf:
@@ -11012,11 +12274,15 @@ components:
           nullable: true
       required:
         - name
+        - submitters
+        - question
     Question-write:
       type: object
       description: 'A question is used when people or an organization have questions about the tender.'
       required:
         - name
+        - submitters
+        - question
       properties:
         name:
           description: 'The name of this question.'
@@ -11025,15 +12291,14 @@ components:
           description: 'The description of this question.'
           type: string
           nullable: true
-        question:
-          description: 'The question.'
-          type: string
-        answers:
-          description: 'The answer(s) of this question.'
+        submitters:
+          description: 'The submitter(s) of this tender.'
           type: array
           items:
             type: string
-          nullable: true
+        question:
+          description: 'The question.'
+          type: string
         documents:
           description: 'The document(s) added to this question.'
           type: array
@@ -11044,6 +12309,10 @@ components:
           description: 'The status of this question.'
           type: string
           nullable: true
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer-write'
         tender:
           nullable: true
           anyOf:
@@ -11081,15 +12350,14 @@ components:
           description: 'The description of this question.'
           type: string
           nullable: true
-        question:
-          description: 'The question.'
-          type: string
-        answers:
-          description: 'The answer(s) of this question.'
+        submitters:
+          description: 'The submitter(s) of this tender.'
           type: array
           items:
             type: string
-          nullable: true
+        question:
+          description: 'The question.'
+          type: string
         documents:
           description: 'The document(s) added to this question.'
           type: array
@@ -11100,6 +12368,10 @@ components:
           description: 'The status of this question.'
           type: string
           nullable: true
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer:jsonld-read'
         tender:
           nullable: true
           anyOf:
@@ -11122,11 +12394,15 @@ components:
           nullable: true
       required:
         - name
+        - submitters
+        - question
     'Question:jsonld-write':
       type: object
       description: 'A question is used when people or an organization have questions about the tender.'
       required:
         - name
+        - submitters
+        - question
       properties:
         '@context':
           readOnly: true
@@ -11144,15 +12420,14 @@ components:
           description: 'The description of this question.'
           type: string
           nullable: true
-        question:
-          description: 'The question.'
-          type: string
-        answers:
-          description: 'The answer(s) of this question.'
+        submitters:
+          description: 'The submitter(s) of this tender.'
           type: array
           items:
             type: string
-          nullable: true
+        question:
+          description: 'The question.'
+          type: string
         documents:
           description: 'The document(s) added to this question.'
           type: array
@@ -11163,6 +12438,10 @@ components:
           description: 'The status of this question.'
           type: string
           nullable: true
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer:jsonld-write'
         tender:
           nullable: true
           anyOf:
@@ -11267,11 +12546,13 @@ components:
           nullable: true
       required:
         - name
+        - submitters
     Tender-write:
       type: object
       description: 'A tender can be used by clients to find a provider that can meet up to a certain solution/service/product with a given budget.'
       required:
         - name
+        - submitters
       properties:
         name:
           description: 'The name of this tender.'
@@ -11447,11 +12728,13 @@ components:
           nullable: true
       required:
         - name
+        - submitters
     'Tender:jsonld-write':
       type: object
       description: 'A tender can be used by clients to find a provider that can meet up to a certain solution/service/product with a given budget.'
       required:
         - name
+        - submitters
       properties:
         '@context':
           readOnly: true
@@ -11658,6 +12941,59 @@ components:
           items:
             type: string
 definitions:
+  Answer-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this answer.'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      name:
+        description: 'The name of this answer.'
+        type: string
+        example: 'An answer for a question.'
+        maxLength: 255
+      description:
+        description: 'The description of this answer.'
+        type: string
+        example: 'This answer is an answer to a question made by Swimming Pool Enterprise for a tender.'
+        maxLength: 255
+      submitters:
+        description: 'The submitter(s) of this answer.'
+        type: string
+        example: 'https://cc.zuid-drecht.nl/organizations/'
+      answer:
+        description: 'The answer.'
+        type: string
+        example: 'Yes you can bring apples to the party.'
+      created:
+        description: 'The moment this deal was created'
+        type: \Datetime
+      modified:
+        description: 'The moment this deal was last updated'
+        type: \Datetime
+    required: []
+  Answer-write:
+    properties:
+      name:
+        description: 'The name of this answer.'
+        type: string
+        example: 'An answer for a question.'
+        maxLength: 255
+      description:
+        description: 'The description of this answer.'
+        type: string
+        example: 'This answer is an answer to a question made by Swimming Pool Enterprise for a tender.'
+        maxLength: 255
+      submitters:
+        description: 'The submitter(s) of this answer.'
+        type: string
+        example: 'https://cc.zuid-drecht.nl/organizations/'
+      answer:
+        description: 'The answer.'
+        type: string
+        example: 'Yes you can bring apples to the party.'
+    required: []
   Deal-read:
     properties:
       id:
@@ -11715,65 +13051,105 @@ definitions:
       proposal: []
     required:
       - name
-  Entry-read:
+  Tender-read:
     properties:
       id:
-        description: 'The UUID identifier of this entry.'
+        description: 'The UUID identifier of this tender.'
         type: string
         example: e2984465-190a-4562-829e-a8cca81aa35d
         format: uuid
       name:
-        description: 'The name of this entry.'
+        description: 'The name of this tender.'
         type: string
-        example: 'Entry of SwimmingPool Enterprise'
+        example: 'Swimming pool design and construction'
         maxLength: 255
       description:
-        description: 'The description of this entry.'
+        description: 'The description of this tender.'
         type: string
-        example: 'This entry signs SwimmingPool Enterprise in for a tender'
+        example: 'This tender requires a provider that can design and deliver a swimming pool with 2 water slides.'
         maxLength: 255
       submitters:
         description: 'The submitter(s) of this tender.'
-        type: string
+        type: array
         example: 'https://cc.zuid-drecht.nl/organizations/'
-      dateOfEntry:
+      budget:
+        description: 'The budget of this tender.'
+        type: string
+        example: '100000.00'
+      documents:
+        description: 'The document(s) of this tender.'
+        type: array
+      kind:
+        maxLength: 255
+      selectionCritera:
+        maxLength: 255
+      catchPhrase:
+        maxLength: 255
+      dateClose:
         type: string
         format: date-time
-        example: '2020-06-30 11:55:43'
+        example: '2020-07-14 17:50:56'
       created:
-        description: 'The moment this entry was created'
+        description: 'The moment this tender was created'
         type: \Datetime
       modified:
-        description: 'The moment this entry was last updated'
+        description: 'The moment this tender was last updated'
         type: \Datetime
-      tender: []
+      tenderGroups: []
+      stages: []
+      currentStage: []
       questions: []
+      entries: []
+      pitches: []
+      proposals: []
+      deal: []
     required:
       - name
-  Entry-write:
+      - submitters
+  Tender-write:
     properties:
       name:
-        description: 'The name of this entry.'
+        description: 'The name of this tender.'
         type: string
-        example: 'Entry of SwimmingPool Enterprise'
+        example: 'Swimming pool design and construction'
         maxLength: 255
       description:
-        description: 'The description of this entry.'
+        description: 'The description of this tender.'
         type: string
-        example: 'This entry signs SwimmingPool Enterprise in for a tender'
+        example: 'This tender requires a provider that can design and deliver a swimming pool with 2 water slides.'
         maxLength: 255
       submitters:
         description: 'The submitter(s) of this tender.'
-        type: string
+        type: array
         example: 'https://cc.zuid-drecht.nl/organizations/'
-      dateOfEntry:
+      budget:
+        description: 'The budget of this tender.'
+        type: string
+        example: '100000.00'
+      documents:
+        description: 'The document(s) of this tender.'
+        type: array
+      kind:
+        maxLength: 255
+      selectionCritera:
+        maxLength: 255
+      catchPhrase:
+        maxLength: 255
+      dateClose:
         type: string
         format: date-time
-        example: '2020-06-30 11:55:43'
-      tender: []
+        example: '2020-07-14 17:50:56'
+      tenderGroups: []
+      stages: []
+      currentStage: []
       questions: []
+      entries: []
+      pitches: []
+      proposals: []
+      deal: []
     required:
       - name
+      - submitters
   Group-read:
     properties:
       id:
@@ -11815,6 +13191,191 @@ definitions:
       tenders: []
     required:
       - name
+  TenderStage-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this tender stage.'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      name:
+        description: 'The name of this tender stage.'
+        type: string
+        example: Enrollment
+        maxLength: 255
+      description:
+        description: 'The description of this tender stage.'
+        type: string
+        example: 'During this stage providers can sign up for this tender.'
+        maxLength: 255
+      requirements:
+        description: 'The requirements to complete this tender stage.'
+        type: string
+        example: 'A minimum of 5 providers need to be signed up.'
+      created:
+        description: 'The moment this tender stage was created'
+        type: \Datetime
+      modified:
+        description: 'The moment this tender stage was last updated'
+        type: \Datetime
+    required:
+      - name
+  TenderStage-write:
+    properties:
+      name:
+        description: 'The name of this tender stage.'
+        type: string
+        example: Enrollment
+        maxLength: 255
+      description:
+        description: 'The description of this tender stage.'
+        type: string
+        example: 'During this stage providers can sign up for this tender.'
+        maxLength: 255
+      requirements:
+        description: 'The requirements to complete this tender stage.'
+        type: string
+        example: 'A minimum of 5 providers need to be signed up.'
+    required:
+      - name
+  Question-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this entry.'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      name:
+        description: 'The name of this question.'
+        type: string
+        example: 'Question asked by SwimmingPool Enterprise'
+        maxLength: 255
+      description:
+        description: 'The description of this question.'
+        type: string
+        maxLength: 255
+      submitters:
+        description: 'The submitter(s) of this tender.'
+        type: string
+        example: 'https://cc.zuid-drecht.nl/organizations/'
+      question:
+        description: 'The question.'
+        type: string
+        example: 'Is it possible that that deadline will be extended?'
+        maxLength: 255
+      documents:
+        description: 'The document(s) added to this question.'
+        type: string
+      status:
+        description: 'The status of this question.'
+        type: string
+        example: Answered
+      created:
+        description: 'The moment this question was created'
+        type: \Datetime
+      modified:
+        description: 'The moment this question was last updated'
+        type: \Datetime
+      answers: []
+      tender: []
+      entry: []
+    required:
+      - name
+      - submitters
+      - question
+  Question-write:
+    properties:
+      name:
+        description: 'The name of this question.'
+        type: string
+        example: 'Question asked by SwimmingPool Enterprise'
+        maxLength: 255
+      description:
+        description: 'The description of this question.'
+        type: string
+        maxLength: 255
+      submitters:
+        description: 'The submitter(s) of this tender.'
+        type: string
+        example: 'https://cc.zuid-drecht.nl/organizations/'
+      question:
+        description: 'The question.'
+        type: string
+        example: 'Is it possible that that deadline will be extended?'
+        maxLength: 255
+      documents:
+        description: 'The document(s) added to this question.'
+        type: string
+      status:
+        description: 'The status of this question.'
+        type: string
+        example: Answered
+      answers: []
+      tender: []
+      entry: []
+    required:
+      - name
+      - submitters
+      - question
+  Entry-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this entry.'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      name:
+        description: 'The name of this entry.'
+        type: string
+        example: 'Entry of SwimmingPool Enterprise'
+        maxLength: 255
+      description:
+        description: 'The description of this entry.'
+        type: string
+        example: 'This entry signs SwimmingPool Enterprise in for a tender'
+        maxLength: 255
+      submitters:
+        description: 'The submitter(s) of this tender.'
+        type: string
+        example: 'https://cc.zuid-drecht.nl/organizations/'
+      dateOfEntry:
+        type: string
+        format: date-time
+        example: '2020-07-14 17:50:56'
+      created:
+        description: 'The moment this entry was created'
+        type: \Datetime
+      modified:
+        description: 'The moment this entry was last updated'
+        type: \Datetime
+      tender: []
+      questions: []
+    required:
+      - name
+  Entry-write:
+    properties:
+      name:
+        description: 'The name of this entry.'
+        type: string
+        example: 'Entry of SwimmingPool Enterprise'
+        maxLength: 255
+      description:
+        description: 'The description of this entry.'
+        type: string
+        example: 'This entry signs SwimmingPool Enterprise in for a tender'
+        maxLength: 255
+      submitters:
+        description: 'The submitter(s) of this tender.'
+        type: string
+        example: 'https://cc.zuid-drecht.nl/organizations/'
+      dateOfEntry:
+        type: string
+        format: date-time
+        example: '2020-07-14 17:50:56'
+      tender: []
+      questions: []
+    required:
+      - name
   Pitch-read:
     properties:
       id:
@@ -11832,21 +13393,22 @@ definitions:
         type: string
         example: 'Pitch made by SwimmingPool Enterprise'
         maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this pitch.'
+      submitter:
+        description: 'The submitter of this pitch.'
         type: string
         example: 'https://cc.zuid-drecht.nl/organizations/'
+        format: url
       requiredBudget:
         description: 'The required budget for this pitch.'
         type: string
         example: '150000.00'
       documents:
         description: 'The document(s) of this tender.'
-        type: string
+        type: array
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-06-30 11:55:43'
+        example: '2020-07-14 17:50:56'
       created:
         description: 'The moment this pitch was created'
         type: \Datetime
@@ -11859,6 +13421,7 @@ definitions:
       proposals: []
     required:
       - name
+      - submitter
   Pitch-write:
     properties:
       name:
@@ -11871,27 +13434,29 @@ definitions:
         type: string
         example: 'Pitch made by SwimmingPool Enterprise'
         maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this pitch.'
+      submitter:
+        description: 'The submitter of this pitch.'
         type: string
         example: 'https://cc.zuid-drecht.nl/organizations/'
+        format: url
       requiredBudget:
         description: 'The required budget for this pitch.'
         type: string
         example: '150000.00'
       documents:
         description: 'The document(s) of this tender.'
-        type: string
+        type: array
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-06-30 11:55:43'
+        example: '2020-07-14 17:50:56'
       tender: []
       stages: []
       currentStage: []
       proposals: []
     required:
       - name
+      - submitter
   PitchStage-read:
     properties:
       id:
@@ -11998,223 +13563,59 @@ definitions:
       pitch: []
     required:
       - name
-  Question-read:
+  ChangeLog-read:
     properties:
       id:
-        description: 'The UUID identifier of this entry.'
+        description: 'The UUID identifier of this object'
         type: string
         example: e2984465-190a-4562-829e-a8cca81aa35d
         format: uuid
-      name:
-        description: 'The name of this question.'
+      note:
+        description: 'A note conserning this log lin'
         type: string
-        example: 'Question asked by SwimmingPool Enterprise'
-        maxLength: 255
-      description:
-        description: 'The description of this question.'
+        example: 'This log line is suspicius'
+        maxLength: 2555
+      action:
+        description: ''
         type: string
-        maxLength: 255
-      question:
-        description: 'The question.'
+      objectId:
+        description: ''
         type: string
-        example: 'Is it possible that that deadline will be extended?'
-        maxLength: 255
-      answers:
-        description: 'The answer(s) of this question.'
+      objectClass:
+        description: ''
         type: string
-        example: 'No the deadline will not be altered'
-      documents:
-        description: 'The document(s) added to this question.'
+      version:
+        description: ''
+        type: int
+      data:
+        description: ''
+        type: array
+      username:
+        description: ''
         type: string
-      status:
-        description: 'The status of this question.'
-        type: string
-        example: Answered
-      created:
-        description: 'The moment this question was created'
-        type: \Datetime
-      modified:
-        description: 'The moment this question was last updated'
-        type: \Datetime
-      tender: []
-      entry: []
-    required:
-      - name
-  Question-write:
-    properties:
-      name:
-        description: 'The name of this question.'
-        type: string
-        example: 'Question asked by SwimmingPool Enterprise'
-        maxLength: 255
-      description:
-        description: 'The description of this question.'
+      session:
+        description: 'The moment this request was created'
         type: string
         maxLength: 255
-      question:
-        description: 'The question.'
-        type: string
-        example: 'Is it possible that that deadline will be extended?'
-        maxLength: 255
-      answers:
-        description: 'The answer(s) of this question.'
-        type: string
-        example: 'No the deadline will not be altered'
-      documents:
-        description: 'The document(s) added to this question.'
-        type: string
-      status:
-        description: 'The status of this question.'
-        type: string
-        example: Answered
-      tender: []
-      entry: []
-    required:
-      - name
-  Tender-read:
-    properties:
-      id:
-        description: 'The UUID identifier of this tender.'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      name:
-        description: 'The name of this tender.'
-        type: string
-        example: 'Swimming pool design and construction'
-        maxLength: 255
-      description:
-        description: 'The description of this tender.'
-        type: string
-        example: 'This tender requires a provider that can design and deliver a swimming pool with 2 water slides.'
-        maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this tender.'
-        type: string
-        example: 'https://cc.zuid-drecht.nl/organizations/'
-      budget:
-        description: 'The budget of this tender.'
-        type: string
-        example: '100000.00'
-      documents:
-        description: 'The document(s) of this tender.'
-        type: string
-      kind:
-        maxLength: 255
-      selectionCritera:
-        maxLength: 255
-      catchPhrase:
-        maxLength: 255
-      dateClose:
+      dateCreated:
+        description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-06-30 11:55:43'
-      created:
-        description: 'The moment this tender was created'
-        type: \Datetime
-      modified:
-        description: 'The moment this tender was last updated'
-        type: \Datetime
-      tenderGroups: []
-      stages: []
-      currentStage: []
-      questions: []
-      entries: []
-      pitches: []
-      proposals: []
-      deal: []
-    required:
-      - name
-  Tender-write:
-    properties:
-      name:
-        description: 'The name of this tender.'
-        type: string
-        example: 'Swimming pool design and construction'
-        maxLength: 255
-      description:
-        description: 'The description of this tender.'
-        type: string
-        example: 'This tender requires a provider that can design and deliver a swimming pool with 2 water slides.'
-        maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this tender.'
-        type: string
-        example: 'https://cc.zuid-drecht.nl/organizations/'
-      budget:
-        description: 'The budget of this tender.'
-        type: string
-        example: '100000.00'
-      documents:
-        description: 'The document(s) of this tender.'
-        type: string
-      kind:
-        maxLength: 255
-      selectionCritera:
-        maxLength: 255
-      catchPhrase:
-        maxLength: 255
-      dateClose:
+        example: '2020-07-14 17:50:56'
+      dateModified:
+        description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-06-30 11:55:43'
-      tenderGroups: []
-      stages: []
-      currentStage: []
-      questions: []
-      entries: []
-      pitches: []
-      proposals: []
-      deal: []
-    required:
-      - name
-  TenderStage-read:
+        example: '2020-07-14 17:50:56'
+    required: []
+  ChangeLog-write:
     properties:
-      id:
-        description: 'The UUID identifier of this tender stage.'
+      note:
+        description: 'A note conserning this log lin'
         type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      name:
-        description: 'The name of this tender stage.'
-        type: string
-        example: Enrollment
-        maxLength: 255
-      description:
-        description: 'The description of this tender stage.'
-        type: string
-        example: 'During this stage providers can sign up for this tender.'
-        maxLength: 255
-      requirements:
-        description: 'The requirements to complete this tender stage.'
-        type: string
-        example: 'A minimum of 5 providers need to be signed up.'
-      created:
-        description: 'The moment this tender stage was created'
-        type: \Datetime
-      modified:
-        description: 'The moment this tender stage was last updated'
-        type: \Datetime
-    required:
-      - name
-  TenderStage-write:
-    properties:
-      name:
-        description: 'The name of this tender stage.'
-        type: string
-        example: Enrollment
-        maxLength: 255
-      description:
-        description: 'The description of this tender stage.'
-        type: string
-        example: 'During this stage providers can sign up for this tender.'
-        maxLength: 255
-      requirements:
-        description: 'The requirements to complete this tender stage.'
-        type: string
-        example: 'A minimum of 5 providers need to be signed up.'
-    required:
-      - name
+        example: 'This log line is suspicius'
+        maxLength: 2555
+    required: []
   AuditTrail-read:
     properties:
       id:
@@ -12319,12 +13720,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-06-30 11:55:43'
+        example: '2020-07-14 17:50:56'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-06-30 11:55:43'
+        example: '2020-07-14 17:50:56'
     required: []
   AuditTrail-write:
     properties:
@@ -12334,60 +13735,13 @@ definitions:
         example: 'This log line looks suspicius'
         maxLength: 2555
     required: []
-  ChangeLog-read:
-    properties:
-      id:
-        description: 'The UUID identifier of this object'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      note:
-        description: 'A note conserning this log lin'
-        type: string
-        example: 'This log line is suspicius'
-        maxLength: 2555
-      action:
-        description: ''
-        type: string
-      objectId:
-        description: ''
-        type: string
-      objectClass:
-        description: ''
-        type: string
-      version:
-        description: ''
-        type: int
-      data:
-        description: ''
-        type: array
-      username:
-        description: ''
-        type: string
-      session:
-        description: 'The moment this request was created'
-        type: string
-        maxLength: 255
-      dateCreated:
-        description: 'The moment this request was created'
-        type: string
-        format: date-time
-        example: '2020-06-30 11:55:43'
-      dateModified:
-        description: 'The moment this request last Modified'
-        type: string
-        format: date-time
-        example: '2020-06-30 11:55:43'
-    required: []
-  ChangeLog-write:
-    properties:
-      note:
-        description: 'A note conserning this log lin'
-        type: string
-        example: 'This log line is suspicius'
-        maxLength: 2555
-    required: []
 tags:
+  -
+    name: Answer
+    description: |
+      An answer is used to answer a question.
+      
+      
   -
     name: Deal
     description: |
@@ -12395,15 +13749,33 @@ tags:
       
       
   -
-    name: Entry
+    name: Tender
     description: |
-      A entry is used when an person or group wants to join the tender.
+      A tender can be used by clients to find a provider that can meet up to a certain solution/service/product with a given budget.
       
       
   -
     name: Group
     description: |
       A group is used for sorting tenders.
+      
+      
+  -
+    name: TenderStage
+    description: |
+      A tender stage is part of a tender process.
+      
+      
+  -
+    name: Question
+    description: |
+      A question is used when people or an organization have questions about the tender.
+      
+      
+  -
+    name: Entry
+    description: |
+      A entry is used when an person or group wants to join the tender.
       
       
   -
@@ -12421,35 +13793,17 @@ tags:
   -
     name: Proposal
     description: |
-      A proposal is an offer that is made by a provider to make a deal with the tender submitter(s)
+      A proposal is an offer that is made by a provider to make a deal with the tender submitter(s).
       
       
   -
-    name: Question
-    description: |
-      A question is used when people or an organization have questions about the tender.
-      
-      
-  -
-    name: Tender
-    description: |
-      A tender can be used by clients to find a provider that can meet up to a certain solution/service/product with a given budget.
-      
-      
-  -
-    name: TenderStage
-    description: |
-      A tender stage is part of a tender process.
-      
-      
-  -
-    name: AuditTrail
+    name: ChangeLog
     description: |
       An resource representing a log line.
       
       This entity represents a product that can be ordered via the OrderRegistratieComponent.
   -
-    name: ChangeLog
+    name: AuditTrail
     description: |
       An resource representing a log line.
       
@@ -12460,15 +13814,15 @@ securityDefinitions:
     authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
     flow: implicit
     scopes:
-      read: 'read right to the ChangeLog resource'
-      write: 'write right to the ChangeLog resource'
+      read: 'read right to the AuditTrail resource'
+      write: 'write right to the AuditTrail resource'
   JWT-Token:
     type: apiKey
     in: header
     name: Authorization
     scopes:
-      read: 'read right to the ChangeLog resource'
-      write: 'write right to the ChangeLog resource'
+      read: 'read right to the AuditTrail resource'
+      write: 'write right to the AuditTrail resource'
 host: irc.zaakonline.nl
 servers:
   -

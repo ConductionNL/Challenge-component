@@ -2,7 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\TenderRepository;
 use Cassandra\Decimal;
 use DateTime;
@@ -10,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
@@ -35,7 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              }
  *          },
  *          "get_audit_trail"={
- *              "path"="/tenderrs/{id}/audit_trail",
+ *              "path"="/tenders/{id}/audit_trail",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Audittrail",
@@ -46,6 +51,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass=TenderRepository::class)
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
+ *
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "name": "ipartial",
+ *     "description": "ipartial",
+ *     "submitters": "ipartial"
+ *     })
+ * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
+ * @ApiFilter(RangeFilter::class, properties={"budget"})
  */
 class Tender
 {
@@ -93,14 +106,14 @@ class Tender
     private $description;
 
     /**
-     * @var string The submitter(s) of this tender.
+     * @var array The submitter(s) of this tender.
      *
      * @example https://cc.zuid-drecht.nl/organizations/
      *
      * @Assert\NotNull
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="array", nullable=false)
      */
     private $submitters = [];
 
@@ -123,7 +136,7 @@ class Tender
     private $budget;
 
     /**
-     * @var string The document(s) of this tender.
+     * @var array The document(s) of this tender.
      *
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
@@ -246,9 +259,16 @@ class Tender
         $this->proposals = new ArrayCollection();
     }
 
-    public function getId()
+    public function getId(): Uuid
     {
         return $this->id;
+    }
+
+    public function setId(Uuid $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getName(): ?string
