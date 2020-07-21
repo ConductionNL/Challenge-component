@@ -114,7 +114,7 @@ class Answer
     /**
      * @MaxDepth(1)
      * @ORM\ManyToOne(targetEntity=Question::class, inversedBy="answers")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $question;
 
