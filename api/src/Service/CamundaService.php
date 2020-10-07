@@ -425,7 +425,7 @@ class CamundaService
             var_dump(json_encode($resource));
             var_dump(json_encode($url));
             var_dump($response);
-            die;
+            exit;
         }
 
         return $response;
