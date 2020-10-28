@@ -2,7 +2,12 @@
 
 namespace App\Entity;
 
+
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ProposalRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -44,6 +49,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass=ProposalRepository::class)
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
+ *
+ * @ApiFilter(SearchFilter::class, properties={"tender.id": "exact"})
  */
 class Proposal
 {
