@@ -3,5 +3,10 @@ appVersion: V1.0
 description: 'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'
 name: chrc
 version: 0.1.0
-home: chrc.zaakonline.nl
-icon: chrc.zaakonline.nl
+home: pc.zaakonline.nl
+icon: pc.zaakonline.nl
+dependencies:
+    - name: postgresql
+      version: 8.6.4
+      repository: https://kubernetes-charts.storage.googleapis.com/
+      condition: postgresql.enabled
