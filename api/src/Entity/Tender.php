@@ -175,8 +175,9 @@ class Tender
     private $catchPhrase;
 
     /**
+     * @var Datetime The moment this tender closes
+     *
      * @Gedmo\Versioned
-     * @Assert\DateTime
      * @Groups({"read", "write"})
      * @ORM\Column(type="datetime", nullable=true)
      */
