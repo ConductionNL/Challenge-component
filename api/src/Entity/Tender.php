@@ -53,9 +53,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
  *
  * @ApiFilter(SearchFilter::class, properties={
- *     "name": "partial",
- *     "description": "partial",
- *     "submitters": "partial"
+ *     "name": "ipartial",
+ *     "description": "ipartial",
+ *     "submitters": "ipartial"
  *     })
  * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
  * @ApiFilter(RangeFilter::class, properties={"budget"})
@@ -175,8 +175,9 @@ class Tender
     private $catchPhrase;
 
     /**
+     * @var Datetime The moment this tender closes
+     *
      * @Gedmo\Versioned
-     * @Assert\DateTime
      * @Groups({"read", "write"})
      * @ORM\Column(type="datetime", nullable=true)
      */

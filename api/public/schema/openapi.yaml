@@ -1,16 +1,16 @@
 openapi: 3.0.2
 info:
   title: 'Challenge Component'
-  version: V.0.1
+  version: V1.0
   description: |
     API Details
     - Component: Challenge Component
     - Reference: chrc
     - Enviroment: dev
-    - Version: V.0.1
+    - Version: V1.0
     - Repository: [online](https://github.com/ConductionNL/proto-component) / [zip](https://github.com/ConductionNL/proto-component/archive/master.zip)
     - Docker Image: [online](https://hub.docker.com/repository/docker/conduction/chrc-php) 
-    - Datamodel: [postman](/schema/chrc.postman_collection.json) / [oas](/schema/openapi.yaml) / [pdf](/schema/datamodel.pdf) / [mwb](/schema/datamodel.mwb) 
+    - Datamodel: [postman](/schema/chrc.postman_collection.json) / [oas](/schema/openapi.yaml) / [pdf](/schema/datamodel.pdf) / [modelio (zip)](/schema/Datamodel_Modelio.zip) 
     
     'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'         
     
@@ -7399,6 +7399,22 @@ paths:
                   $ref: '#/components/schemas/Proposal-read'
       parameters:
         -
+          name: tender.id
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'tender.id[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
           name: page
           in: query
           required: false
@@ -10861,18 +10877,23 @@ components:
         route:
           description: 'The moment this request was created'
           type: string
+          nullable: true
         endpoint:
           description: 'The endpoint that the request was made to'
           type: string
+          nullable: true
         method:
           description: 'The method that was used'
           type: string
+          nullable: true
         accept:
           description: 'The contentType that was reqousted'
           type: string
+          nullable: true
         contentType:
           description: 'The contentType that was suplieds'
           type: string
+          nullable: true
         content:
           description: 'The moment this request was created'
           type: string
@@ -10880,6 +10901,7 @@ components:
         ip:
           description: 'The moment this request was created'
           type: string
+          nullable: true
         session:
           description: 'The moment this request was created'
           type: string
@@ -10991,18 +11013,23 @@ components:
         route:
           description: 'The moment this request was created'
           type: string
+          nullable: true
         endpoint:
           description: 'The endpoint that the request was made to'
           type: string
+          nullable: true
         method:
           description: 'The method that was used'
           type: string
+          nullable: true
         accept:
           description: 'The contentType that was reqousted'
           type: string
+          nullable: true
         contentType:
           description: 'The contentType that was suplieds'
           type: string
+          nullable: true
         content:
           description: 'The moment this request was created'
           type: string
@@ -11010,6 +11037,7 @@ components:
         ip:
           description: 'The moment this request was created'
           type: string
+          nullable: true
         session:
           description: 'The moment this request was created'
           type: string
@@ -11213,7 +11241,10 @@ components:
             -
               $ref: '#/components/schemas/Tender-read'
         proposal:
-          $ref: '#/components/schemas/Proposal-read'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Proposal-read'
         created:
           description: 'The moment this deal was created'
           type: string
@@ -11256,7 +11287,10 @@ components:
             -
               $ref: '#/components/schemas/Tender-write'
         proposal:
-          $ref: '#/components/schemas/Proposal-write'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Proposal-write'
     'Deal:jsonld-read':
       type: object
       description: 'A deal is used when the submitter of the tender has an agreement with a person/organization.'
@@ -11301,7 +11335,10 @@ components:
             -
               $ref: '#/components/schemas/Tender:jsonld-read'
         proposal:
-          $ref: '#/components/schemas/Proposal:jsonld-read'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Proposal:jsonld-read'
         created:
           description: 'The moment this deal was created'
           type: string
@@ -11353,7 +11390,10 @@ components:
             -
               $ref: '#/components/schemas/Tender:jsonld-write'
         proposal:
-          $ref: '#/components/schemas/Proposal:jsonld-write'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Proposal:jsonld-write'
     Entry-read:
       type: object
       description: 'A entry is used when an person or group wants to join the tender.'
@@ -13075,7 +13115,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
+        example: '2020-10-29 08:20:04'
       created:
         description: 'The moment this entry was created'
         type: \Datetime
@@ -13105,7 +13145,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
+        example: '2020-10-29 08:20:04'
       tender: []
       questions: []
     required:
@@ -13183,7 +13223,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
+        example: '2020-10-29 08:20:04'
       created:
         description: 'The moment this pitch was created'
         type: \Datetime
@@ -13224,7 +13264,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
+        example: '2020-10-29 08:20:04'
       tender: []
       stages: []
       currentStage: []
@@ -13454,7 +13494,7 @@ definitions:
       dateClose:
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
+        example: '2020-10-29 08:20:04'
       created:
         description: 'The moment this tender was created'
         type: \Datetime
@@ -13504,7 +13544,7 @@ definitions:
       dateClose:
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
+        example: '2020-10-29 08:20:04'
       tenderGroups: []
       stages: []
       currentStage: []
@@ -13667,12 +13707,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
+        example: '2020-10-29 08:20:04'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
+        example: '2020-10-29 08:20:04'
     required: []
   AuditTrail-write:
     properties:
@@ -13720,12 +13760,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
+        example: '2020-10-29 08:20:04'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-13 16:10:21'
+        example: '2020-10-29 08:20:04'
     required: []
   ChangeLog-write:
     properties:

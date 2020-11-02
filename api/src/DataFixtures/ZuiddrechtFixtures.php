@@ -13,7 +13,7 @@ use App\Entity\Tender;
 use App\Entity\TenderStage;
 use Conduction\CommonGroundBundle\Service\CommonGroundService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
@@ -158,7 +158,7 @@ class ZuiddrechtFixtures extends Fixture
         $pitch = new Pitch();
         $pitch->setName('Pitch van Swimming Pool Enterprise');
         $pitch->setDescription('Dit is een test pitch.');
-        $pitch->setSubmitter($this->commonGroundService->cleanUrl(['component'=>'brp', 'type'=>'ingeschrevenpersonen', 'id'=>'f3ff6653-12be-48bc-afb6-42038576eb57']));
+        $pitch->setSubmitter($this->commonGroundService->cleanUrl(['component'=>'brp', 'type'=>'ingeschrevenpersonen/uuid', 'id'=>'f3ff6653-12be-48bc-afb6-42038576eb57']));
         $pitch->setRequiredBudget(100000);
         $pitch->setTender($tender);
         $pitch->setDateSubmitted(new \DateTime(date('2020-7-16T12:00:01+00:00')));

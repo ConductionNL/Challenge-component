@@ -114,6 +114,7 @@ class Deal
      * @Groups({"read","write"})
      * @MaxDepth(1)
      * @ORM\OneToOne(targetEntity=Tender::class, mappedBy="deal", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $tender;
 
@@ -121,7 +122,7 @@ class Deal
      * @Groups({"read","write"})
      * @MaxDepth(1)
      * @ORM\OneToOne(targetEntity=Proposal::class, inversedBy="deal", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $proposal;
 
