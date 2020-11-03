@@ -64,34 +64,6 @@ class Entry
     private $id;
 
     /**
-     * @var string The name of this entry.
-     *
-     * @example Entry of SwimmingPool Enterprise
-     *
-     * @Assert\NotNull
-     * @Assert\Length(
-     *      max = 255
-     * )
-     * @Gedmo\Versioned
-     * @Groups({"read","write"})
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @var string The description of this entry.
-     *
-     * @example This entry signs SwimmingPool Enterprise in for a tender
-     * @Assert\Length(
-     *      max = 255
-     * )
-     * @Gedmo\Versioned
-     * @Groups({"read","write"})
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $description;
-
-    /**
      * @var string The submitter(s) of this tender.
      *
      * @example https://cc.zuid-drecht.nl/organizations/
@@ -156,30 +128,6 @@ class Entry
     public function setId(Uuid $id): self
     {
         $this->id = $id;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
 
         return $this;
     }

@@ -107,8 +107,6 @@ class ZuiddrechtFixtures extends Fixture
 
         $id = Uuid::fromString('181dbbb2-ea6b-4763-ae9c-5f470c2bbe26');
         $entry = new Entry();
-        $entry->setName('Inschrijving van Swimming Pool Enterprise');
-        $entry->setDescription('Dit is een test entry.');
         $entry->setSubmitters(['Swimming Pool Enterprise']);
         $entry->setDateOfEntry(new \DateTime(date('2020-7-07T12:00:01+00:00')));
         $entry->setTender($tender);
