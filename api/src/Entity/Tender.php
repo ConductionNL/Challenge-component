@@ -155,14 +155,15 @@ class Tender
     private $kind;
 
     /**
+     * @var array The selection Critera(s) of this tender.
      * @Assert\Length(
      *      max = 255
      * )
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="array", length=255, nullable=true)
      */
-    private $selectionCritera;
+    private $selectionCritera = [];
 
     /**
      * @Assert\Length(
@@ -370,12 +371,12 @@ class Tender
         return $this;
     }
 
-    public function getSelectionCritera(): ?string
+    public function getSelectionCritera(): ?array
     {
         return $this->selectionCritera;
     }
 
-    public function setSelectionCritera(?string $selectionCritera): self
+    public function setSelectionCritera(?array $selectionCritera): self
     {
         $this->selectionCritera = $selectionCritera;
 
