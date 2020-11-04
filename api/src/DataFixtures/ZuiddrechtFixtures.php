@@ -49,7 +49,7 @@ class ZuiddrechtFixtures extends Fixture
         $tender->setBudget(150000);
         $tender->setKind('Product');
         $tender->setDocuments(['linknaardocument', 'nogeenlinknaardocument']);
-        $tender->setSelectionCritera('Moet 4 jaar ervaren zijn in het ontwerpen van zwembaden.');
+        $tender->setSelectionCritera((array) 'Moet 4 jaar ervaren zijn in het ontwerpen van zwembaden.');
         $tender->setDateClose(new \DateTime(date('2020-12-06T12:00:01+00:00')));
         $manager->persist($tender);
         $tender->setId($id);
