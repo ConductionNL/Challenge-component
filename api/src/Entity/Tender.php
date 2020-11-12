@@ -106,17 +106,17 @@ class Tender
     private $description;
 
     /**
-     * @var array The submitter(s) of this tender.
+     * @var string The submitter of this pitch.
      *
      * @example https://cc.zuid-drecht.nl/organizations/
      *
      * @Assert\NotNull
+     * @Assert\Url
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
-     * @ORM\Column(type="array", nullable=false)
+     * @ORM\Column(type="string")
      */
-    private $submitters = [];
-
+    private $submitter;
     /**
      * @Groups({"read","write"})
      * @MaxDepth(1)
@@ -297,14 +297,14 @@ class Tender
         return $this;
     }
 
-    public function getSubmitters(): ?array
+    public function getSubmitter(): ?string
     {
-        return $this->submitters;
+        return $this->submitter;
     }
 
-    public function setSubmitters(array $submitters): self
+    public function setSubmitter(string $submitter): self
     {
-        $this->submitters = $submitters;
+        $this->submitter = $submitter;
 
         return $this;
     }
