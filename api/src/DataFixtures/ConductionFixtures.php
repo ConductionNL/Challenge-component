@@ -46,7 +46,7 @@ class ConductionFixtures extends Fixture
         $tender = new Tender();
         $tender->setName('Test Tender');
         $tender->setDescription('Dit is een test tender.');
-        $tender->setSubmitters((array) 'Conduction');
+        $tender->setSubmitter('Conduction');
         $tender->setBudget(150000);
         $tender->setKind('Product');
         $tender->setDocuments(['linknaardocument', 'nogeenlinknaardocument']);
@@ -108,7 +108,7 @@ class ConductionFixtures extends Fixture
 
         $id = Uuid::fromString('137f7d74-f131-44d8-9997-990c5193d227');
         $entry = new Entry();
-        $entry->setSubmitters(['Henk']);
+        $entry->setSubmitter('Henk');
         $entry->setDateOfEntry(new \DateTime(date('2020-7-07T12:00:01+00:00')));
         $entry->setTender($tender);
         $manager->persist($entry);
@@ -125,7 +125,7 @@ class ConductionFixtures extends Fixture
         $question = new Question();
         $question->setName('Eerste 5 getallen van PI');
         $question->setDescription('Dit is een test vraag.');
-        $question->setSubmitters(['Wilco Louwerse']);
+        $question->setSubmitter('Wilco Louwerse');
         $question->setQuestion('Wat zijn de eerste 5 getallen van PI, na de comma?');
         $question->setStatus('answered');
         $question->setEntry($entry);
