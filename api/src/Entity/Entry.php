@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A entry is used when an person or group wants to join the tender.
+ * A entry is used when an person or group wants to join a tender.
  *
  * @ApiResource(
  *     attributes={"pagination_items_per_page"=30},
@@ -64,15 +64,17 @@ class Entry
     private $id;
 
     /**
-     * @var string The submitter(s) of this tender.
+     * @var string The submitter of this pitch.
      *
      * @example https://cc.zuid-drecht.nl/organizations/
      *
+     * @Assert\NotNull
+     * @Assert\Url
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="string")
      */
-    private $submitters = [];
+    private $submitter;
 
     /**
      * @Gedmo\Versioned
@@ -132,14 +134,14 @@ class Entry
         return $this;
     }
 
-    public function getSubmitters(): ?array
+    public function getSubmitter(): ?string
     {
-        return $this->submitters;
+        return $this->submitter;
     }
 
-    public function setSubmitters(array $submitters): self
+    public function setSubmitter(string $submitter): self
     {
-        $this->submitters = $submitters;
+        $this->submitter = $submitter;
 
         return $this;
     }

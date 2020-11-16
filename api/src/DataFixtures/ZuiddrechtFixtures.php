@@ -45,7 +45,7 @@ class ZuiddrechtFixtures extends Fixture
         $tender = new Tender();
         $tender->setName('Zwembad in Zuid-Drecht');
         $tender->setDescription('Dit is een test tender.');
-        $tender->setSubmitters((array) 'Gemeente Zuid-Drecht');
+        $tender->setSubmitter('Gemeente Zuid-Drecht');
         $tender->setBudget(150000);
         $tender->setKind('Product');
         $tender->setDocuments(['linknaardocument', 'nogeenlinknaardocument']);
@@ -107,7 +107,7 @@ class ZuiddrechtFixtures extends Fixture
 
         $id = Uuid::fromString('181dbbb2-ea6b-4763-ae9c-5f470c2bbe26');
         $entry = new Entry();
-        $entry->setSubmitters(['Swimming Pool Enterprise']);
+        $entry->setSubmitter('Swimming Pool Enterprise');
         $entry->setDateOfEntry(new \DateTime(date('2020-7-07T12:00:01+00:00')));
         $entry->setTender($tender);
         $manager->persist($entry);
@@ -124,7 +124,7 @@ class ZuiddrechtFixtures extends Fixture
         $question = new Question();
         $question->setName('Grootte van het zwembad');
         $question->setDescription('Dit is een test vraag.');
-        $question->setSubmitters(['Barry Brands']);
+        $question->setSubmitter('Barry Brands');
         $question->setQuestion('Is de grootte van het gevraagde zwembad bespreekbaar?');
         $question->setStatus('answered');
         $question->setEntry($entry);
