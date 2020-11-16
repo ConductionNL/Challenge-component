@@ -332,12 +332,12 @@ class Tender
         return $this;
     }
 
-    public function getBudget(): ?string
+    public function getBudget()
     {
         return $this->budget;
     }
 
-    public function setBudget(?string $budget): self
+    public function setBudget($budget): self
     {
         $this->budget = $budget;
 
