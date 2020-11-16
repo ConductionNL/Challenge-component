@@ -17,7 +17,7 @@ use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class ConductionFixtures extends Fixture
+class StageFixtures extends Fixture
 {
     private $params;
     /**
@@ -37,17 +37,18 @@ class ConductionFixtures extends Fixture
             // If build all fixtures is true we build all the fixtures
             !$this->params->get('app_build_all_fixtures') &&
             $this->params->get('app_domain') != 'zuiddrecht.nl' && strpos($this->params->get('app_domain'), 'zuiddrecht.nl') == false &&
-            $this->params->get('app_domain') != 'zuid-drecht.nl' && strpos($this->params->get('app_domain'), 'zuid-drecht.nl') == false
+            $this->params->get('app_domain') != 'zuid-drecht.nl' && strpos($this->params->get('app_domain'), 'zuid-drecht.nl') == false &&
+            $this->params->get('app_domain') != 'conduction.academy' && strpos($this->params->get('app_domain'), 'conduction.academy') == false
         ) {
             return false;
         }
 
         $id = Uuid::fromString('5f7c339a-bdf1-4b57-8539-be9de88ea24f');
         $tender = new Tender();
-        $tender->setName('Test Tender');
-        $tender->setDescription('Dit is een test tender.');
+        $tender->setName('Test Challenge');
+        $tender->setDescription('Dit is een test Challenge.');
         $tender->setSubmitter('Conduction');
-        $tender->setBudget(150000);
+        $tender->setBudget(100);
         $tender->setKind('Product');
         $tender->setDocuments(['linknaardocument', 'nogeenlinknaardocument']);
         $tender->setSelectionCritera((array) 'Moet deze test tender willen bekijken :).');
@@ -61,7 +62,7 @@ class ConductionFixtures extends Fixture
         $id = Uuid::fromString('2724e604-e1eb-452f-aa3c-dcc278d1ff14');
         $tenderStage1 = new TenderStage();
         $tenderStage1->setName('Inschrijfperiode');
-        $tenderStage1->setDescription('Dit is een test tender stage.');
+        $tenderStage1->setDescription('Dit is een test Challenge stage.');
         $tenderStage1->setRequirements(['Minimaal 5 inschrijvingen', 'Het moet 25 augustus geweest zijn']);
         $manager->persist($tenderStage1);
         $tenderStage1->setId($id);
@@ -76,7 +77,7 @@ class ConductionFixtures extends Fixture
         $id = Uuid::fromString('7bf0dc45-8f86-486a-a1b3-02eeef926022');
         $tenderStage = new TenderStage();
         $tenderStage->setName('Pitchperiode');
-        $tenderStage->setDescription('Dit is een test tender stage.');
+        $tenderStage->setDescription('Dit is een test Challenge stage.');
         $tenderStage->setRequirements(['Minimaal 5 pitches', 'Het moet 25 oktober geweest zijn']);
         $manager->persist($tenderStage);
         $tenderStage->setId($id);
@@ -87,7 +88,7 @@ class ConductionFixtures extends Fixture
         $id = Uuid::fromString('a0fe307c-2c1d-4a41-9274-4e85ab409585');
         $tenderStage = new TenderStage();
         $tenderStage->setName('Voorstelperiode');
-        $tenderStage->setDescription('Dit is een test tender stage.');
+        $tenderStage->setDescription('Dit is een test Challenge stage.');
         $tenderStage->setRequirements(['Minimaal 2 inschrijvingen', 'Het moet 25 augustus geweest zijn']);
         $manager->persist($tenderStage);
         $tenderStage->setId($id);
@@ -98,7 +99,7 @@ class ConductionFixtures extends Fixture
         $id = Uuid::fromString('6d62a077-87ce-4f21-936c-331c369ac601');
         $tenderStage = new TenderStage();
         $tenderStage->setName('Afsluitperiode');
-        $tenderStage->setDescription('Dit is een test tender stage.');
+        $tenderStage->setDescription('Dit is een test Challenge stage.');
         $tenderStage->setRequirements(['Er moet een deal gemaakt zijn', 'De tender moet beëndigd worden']);
         $manager->persist($tenderStage);
         $tenderStage->setId($id);
