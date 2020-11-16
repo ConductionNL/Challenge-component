@@ -12,7 +12,7 @@ info:
     - Docker Image: [online](https://hub.docker.com/repository/docker/conduction/chrc-php) 
     - Datamodel: [postman](/schema/chrc.postman_collection.json) / [oas](/schema/openapi.yaml) / [pdf](/schema/datamodel.pdf) / [modelio (zip)](/schema/Datamodel_Modelio.zip) 
     
-    'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'         
+    Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.         
     
 paths:
   /answers:
@@ -9790,12 +9790,6 @@ paths:
           schema:
             type: string
         -
-          name: submitters
-          in: query
-          required: false
-          schema:
-            type: string
-        -
           name: 'dateClose[before]'
           in: query
           required: false
@@ -11396,7 +11390,7 @@ components:
               $ref: '#/components/schemas/Proposal:jsonld-write'
     Entry-read:
       type: object
-      description: 'A entry is used when an person or group wants to join the tender.'
+      description: 'A entry is used when an person or group wants to join a tender.'
       properties:
         id:
           readOnly: true
@@ -11405,18 +11399,11 @@ components:
             url: 'http://schema.org/identifier'
           type: string
           format: uuid
-        name:
-          description: 'The name of this entry.'
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
           type: string
-        description:
-          description: 'The description of this entry.'
-          type: string
-          nullable: true
-        submitters:
-          description: 'The submitter(s) of this tender.'
-          type: array
-          items:
-            type: string
         dateOfEntry:
           externalDocs:
             url: 'http://schema.org/DateTime'
@@ -11440,25 +11427,18 @@ components:
           format: date-time
           nullable: true
       required:
-        - name
+        - submitter
     Entry-write:
       type: object
-      description: 'A entry is used when an person or group wants to join the tender.'
+      description: 'A entry is used when an person or group wants to join a tender.'
       required:
-        - name
+        - submitter
       properties:
-        name:
-          description: 'The name of this entry.'
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
           type: string
-        description:
-          description: 'The description of this entry.'
-          type: string
-          nullable: true
-        submitters:
-          description: 'The submitter(s) of this tender.'
-          type: array
-          items:
-            type: string
         dateOfEntry:
           externalDocs:
             url: 'http://schema.org/DateTime'
@@ -11473,7 +11453,7 @@ components:
             $ref: '#/components/schemas/Question-write'
     'Entry:jsonld-read':
       type: object
-      description: 'A entry is used when an person or group wants to join the tender.'
+      description: 'A entry is used when an person or group wants to join a tender.'
       properties:
         '@context':
           readOnly: true
@@ -11491,18 +11471,11 @@ components:
             url: 'http://schema.org/identifier'
           type: string
           format: uuid
-        name:
-          description: 'The name of this entry.'
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
           type: string
-        description:
-          description: 'The description of this entry.'
-          type: string
-          nullable: true
-        submitters:
-          description: 'The submitter(s) of this tender.'
-          type: array
-          items:
-            type: string
         dateOfEntry:
           externalDocs:
             url: 'http://schema.org/DateTime'
@@ -11526,12 +11499,12 @@ components:
           format: date-time
           nullable: true
       required:
-        - name
+        - submitter
     'Entry:jsonld-write':
       type: object
-      description: 'A entry is used when an person or group wants to join the tender.'
+      description: 'A entry is used when an person or group wants to join a tender.'
       required:
-        - name
+        - submitter
       properties:
         '@context':
           readOnly: true
@@ -11542,18 +11515,11 @@ components:
         '@type':
           readOnly: true
           type: string
-        name:
-          description: 'The name of this entry.'
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
           type: string
-        description:
-          description: 'The description of this entry.'
-          type: string
-          nullable: true
-        submitters:
-          description: 'The submitter(s) of this tender.'
-          type: array
-          items:
-            type: string
         dateOfEntry:
           externalDocs:
             url: 'http://schema.org/DateTime'
@@ -12270,11 +12236,11 @@ components:
           description: 'The description of this question.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this tender.'
-          type: array
-          items:
-            type: string
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
         question:
           description: 'The question.'
           type: string
@@ -12314,14 +12280,14 @@ components:
           nullable: true
       required:
         - name
-        - submitters
+        - submitter
         - question
     Question-write:
       type: object
       description: 'A question is used when people or an organization have questions about the tender.'
       required:
         - name
-        - submitters
+        - submitter
         - question
       properties:
         name:
@@ -12331,11 +12297,11 @@ components:
           description: 'The description of this question.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this tender.'
-          type: array
-          items:
-            type: string
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
         question:
           description: 'The question.'
           type: string
@@ -12390,11 +12356,11 @@ components:
           description: 'The description of this question.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this tender.'
-          type: array
-          items:
-            type: string
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
         question:
           description: 'The question.'
           type: string
@@ -12434,14 +12400,14 @@ components:
           nullable: true
       required:
         - name
-        - submitters
+        - submitter
         - question
     'Question:jsonld-write':
       type: object
       description: 'A question is used when people or an organization have questions about the tender.'
       required:
         - name
-        - submitters
+        - submitter
         - question
       properties:
         '@context':
@@ -12460,11 +12426,11 @@ components:
           description: 'The description of this question.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this tender.'
-          type: array
-          items:
-            type: string
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
         question:
           description: 'The question.'
           type: string
@@ -12510,11 +12476,11 @@ components:
           description: 'The description of this tender.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this tender.'
-          type: array
-          items:
-            type: string
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
         tenderGroups:
           type: array
           items:
@@ -12533,14 +12499,16 @@ components:
           type: string
           nullable: true
         selectionCritera:
-          type: string
+          description: 'The selection Critera(s) of this tender.'
+          type: array
+          items:
+            type: string
           nullable: true
         catchPhrase:
           type: string
           nullable: true
         dateClose:
-          externalDocs:
-            url: 'http://schema.org/DateTime'
+          description: 'The moment this tender closes'
           type: string
           format: date-time
           nullable: true
@@ -12586,13 +12554,13 @@ components:
           nullable: true
       required:
         - name
-        - submitters
+        - submitter
     Tender-write:
       type: object
       description: 'A tender can be used by clients to find a provider that can meet up to a certain solution/service/product with a given budget.'
       required:
         - name
-        - submitters
+        - submitter
       properties:
         name:
           description: 'The name of this tender.'
@@ -12601,11 +12569,11 @@ components:
           description: 'The description of this tender.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this tender.'
-          type: array
-          items:
-            type: string
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
         tenderGroups:
           type: array
           items:
@@ -12624,14 +12592,16 @@ components:
           type: string
           nullable: true
         selectionCritera:
-          type: string
+          description: 'The selection Critera(s) of this tender.'
+          type: array
+          items:
+            type: string
           nullable: true
         catchPhrase:
           type: string
           nullable: true
         dateClose:
-          externalDocs:
-            url: 'http://schema.org/DateTime'
+          description: 'The moment this tender closes'
           type: string
           format: date-time
           nullable: true
@@ -12692,11 +12662,11 @@ components:
           description: 'The description of this tender.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this tender.'
-          type: array
-          items:
-            type: string
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
         tenderGroups:
           type: array
           items:
@@ -12715,14 +12685,16 @@ components:
           type: string
           nullable: true
         selectionCritera:
-          type: string
+          description: 'The selection Critera(s) of this tender.'
+          type: array
+          items:
+            type: string
           nullable: true
         catchPhrase:
           type: string
           nullable: true
         dateClose:
-          externalDocs:
-            url: 'http://schema.org/DateTime'
+          description: 'The moment this tender closes'
           type: string
           format: date-time
           nullable: true
@@ -12768,13 +12740,13 @@ components:
           nullable: true
       required:
         - name
-        - submitters
+        - submitter
     'Tender:jsonld-write':
       type: object
       description: 'A tender can be used by clients to find a provider that can meet up to a certain solution/service/product with a given budget.'
       required:
         - name
-        - submitters
+        - submitter
       properties:
         '@context':
           readOnly: true
@@ -12792,11 +12764,11 @@ components:
           description: 'The description of this tender.'
           type: string
           nullable: true
-        submitters:
-          description: 'The submitter(s) of this tender.'
-          type: array
-          items:
-            type: string
+        submitter:
+          description: 'The submitter of this pitch.'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
         tenderGroups:
           type: array
           items:
@@ -12815,14 +12787,16 @@ components:
           type: string
           nullable: true
         selectionCritera:
-          type: string
+          description: 'The selection Critera(s) of this tender.'
+          type: array
+          items:
+            type: string
           nullable: true
         catchPhrase:
           type: string
           nullable: true
         dateClose:
-          externalDocs:
-            url: 'http://schema.org/DateTime'
+          description: 'The moment this tender closes'
           type: string
           format: date-time
           nullable: true
@@ -13098,24 +13072,15 @@ definitions:
         type: string
         example: e2984465-190a-4562-829e-a8cca81aa35d
         format: uuid
-      name:
-        description: 'The name of this entry.'
-        type: string
-        example: 'Entry of SwimmingPool Enterprise'
-        maxLength: 255
-      description:
-        description: 'The description of this entry.'
-        type: string
-        example: 'This entry signs SwimmingPool Enterprise in for a tender'
-        maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this tender.'
+      submitter:
+        description: 'The submitter of this pitch.'
         type: string
         example: 'https://cc.zuid-drecht.nl/organizations/'
+        format: url
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-10-29 08:20:04'
+        example: '2020-11-16 09:33:30'
       created:
         description: 'The moment this entry was created'
         type: \Datetime
@@ -13125,31 +13090,22 @@ definitions:
       tender: []
       questions: []
     required:
-      - name
+      - submitter
   Entry-write:
     properties:
-      name:
-        description: 'The name of this entry.'
-        type: string
-        example: 'Entry of SwimmingPool Enterprise'
-        maxLength: 255
-      description:
-        description: 'The description of this entry.'
-        type: string
-        example: 'This entry signs SwimmingPool Enterprise in for a tender'
-        maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this tender.'
+      submitter:
+        description: 'The submitter of this pitch.'
         type: string
         example: 'https://cc.zuid-drecht.nl/organizations/'
+        format: url
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-10-29 08:20:04'
+        example: '2020-11-16 09:33:30'
       tender: []
       questions: []
     required:
-      - name
+      - submitter
   Group-read:
     properties:
       id:
@@ -13223,7 +13179,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-10-29 08:20:04'
+        example: '2020-11-16 09:33:30'
       created:
         description: 'The moment this pitch was created'
         type: \Datetime
@@ -13264,7 +13220,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-10-29 08:20:04'
+        example: '2020-11-16 09:33:30'
       tender: []
       stages: []
       currentStage: []
@@ -13394,10 +13350,11 @@ definitions:
         description: 'The description of this question.'
         type: string
         maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this tender.'
+      submitter:
+        description: 'The submitter of this pitch.'
         type: string
         example: 'https://cc.zuid-drecht.nl/organizations/'
+        format: url
       question:
         description: 'The question.'
         type: string
@@ -13421,7 +13378,7 @@ definitions:
       entry: []
     required:
       - name
-      - submitters
+      - submitter
       - question
   Question-write:
     properties:
@@ -13434,10 +13391,11 @@ definitions:
         description: 'The description of this question.'
         type: string
         maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this tender.'
+      submitter:
+        description: 'The submitter of this pitch.'
         type: string
         example: 'https://cc.zuid-drecht.nl/organizations/'
+        format: url
       question:
         description: 'The question.'
         type: string
@@ -13455,7 +13413,7 @@ definitions:
       entry: []
     required:
       - name
-      - submitters
+      - submitter
       - question
   Tender-read:
     properties:
@@ -13474,10 +13432,11 @@ definitions:
         type: string
         example: 'This tender requires a provider that can design and deliver a swimming pool with 2 water slides.'
         maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this tender.'
-        type: array
+      submitter:
+        description: 'The submitter of this pitch.'
+        type: string
         example: 'https://cc.zuid-drecht.nl/organizations/'
+        format: url
       budget:
         description: 'The budget of this tender.'
         type: string
@@ -13488,13 +13447,14 @@ definitions:
       kind:
         maxLength: 255
       selectionCritera:
+        description: 'The selection Critera(s) of this tender.'
+        type: array
         maxLength: 255
       catchPhrase:
         maxLength: 255
       dateClose:
-        type: string
-        format: date-time
-        example: '2020-10-29 08:20:04'
+        description: 'The moment this tender closes'
+        type: \Datetime
       created:
         description: 'The moment this tender was created'
         type: \Datetime
@@ -13511,7 +13471,7 @@ definitions:
       deal: []
     required:
       - name
-      - submitters
+      - submitter
   Tender-write:
     properties:
       name:
@@ -13524,10 +13484,11 @@ definitions:
         type: string
         example: 'This tender requires a provider that can design and deliver a swimming pool with 2 water slides.'
         maxLength: 255
-      submitters:
-        description: 'The submitter(s) of this tender.'
-        type: array
+      submitter:
+        description: 'The submitter of this pitch.'
+        type: string
         example: 'https://cc.zuid-drecht.nl/organizations/'
+        format: url
       budget:
         description: 'The budget of this tender.'
         type: string
@@ -13538,13 +13499,14 @@ definitions:
       kind:
         maxLength: 255
       selectionCritera:
+        description: 'The selection Critera(s) of this tender.'
+        type: array
         maxLength: 255
       catchPhrase:
         maxLength: 255
       dateClose:
-        type: string
-        format: date-time
-        example: '2020-10-29 08:20:04'
+        description: 'The moment this tender closes'
+        type: \Datetime
       tenderGroups: []
       stages: []
       currentStage: []
@@ -13555,7 +13517,7 @@ definitions:
       deal: []
     required:
       - name
-      - submitters
+      - submitter
   TenderStage-read:
     properties:
       id:
@@ -13707,12 +13669,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-10-29 08:20:04'
+        example: '2020-11-16 09:33:30'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-10-29 08:20:04'
+        example: '2020-11-16 09:33:30'
     required: []
   AuditTrail-write:
     properties:
@@ -13760,12 +13722,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-10-29 08:20:04'
+        example: '2020-11-16 09:33:30'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-10-29 08:20:04'
+        example: '2020-11-16 09:33:30'
     required: []
   ChangeLog-write:
     properties:
@@ -13791,7 +13753,7 @@ tags:
   -
     name: Entry
     description: |
-      A entry is used when an person or group wants to join the tender.
+      A entry is used when an person or group wants to join a tender.
       
       
   -
