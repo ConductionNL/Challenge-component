@@ -50,7 +50,7 @@ class ConductionFixtures extends Fixture
         $tender->setBudget(150000);
         $tender->setKind('Product');
         $tender->setDocuments(['linknaardocument', 'nogeenlinknaardocument']);
-        $tender->setSelectionCritera('Moet deze test tender willen bekijken :).');
+        $tender->setSelectionCritera((array) 'Moet deze test tender willen bekijken :).');
         $tender->setDateClose(new \DateTime(date('2020-12-06T12:00:01+00:00')));
         $manager->persist($tender);
         $tender->setId($id);
@@ -108,8 +108,6 @@ class ConductionFixtures extends Fixture
 
         $id = Uuid::fromString('137f7d74-f131-44d8-9997-990c5193d227');
         $entry = new Entry();
-        $entry->setName('Inschrijving van Henk');
-        $entry->setDescription('Dit is een test entry.');
         $entry->setSubmitters(['Henk']);
         $entry->setDateOfEntry(new \DateTime(date('2020-7-07T12:00:01+00:00')));
         $entry->setTender($tender);

@@ -49,7 +49,7 @@ class ZuiddrechtFixtures extends Fixture
         $tender->setBudget(150000);
         $tender->setKind('Product');
         $tender->setDocuments(['linknaardocument', 'nogeenlinknaardocument']);
-        $tender->setSelectionCritera('Moet 4 jaar ervaren zijn in het ontwerpen van zwembaden.');
+        $tender->setSelectionCritera((array) 'Moet 4 jaar ervaren zijn in het ontwerpen van zwembaden.');
         $tender->setDateClose(new \DateTime(date('2020-12-06T12:00:01+00:00')));
         $manager->persist($tender);
         $tender->setId($id);
@@ -107,8 +107,6 @@ class ZuiddrechtFixtures extends Fixture
 
         $id = Uuid::fromString('181dbbb2-ea6b-4763-ae9c-5f470c2bbe26');
         $entry = new Entry();
-        $entry->setName('Inschrijving van Swimming Pool Enterprise');
-        $entry->setDescription('Dit is een test entry.');
         $entry->setSubmitters(['Swimming Pool Enterprise']);
         $entry->setDateOfEntry(new \DateTime(date('2020-7-07T12:00:01+00:00')));
         $entry->setTender($tender);
