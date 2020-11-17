@@ -97,11 +97,11 @@ class Tender
      * @example This tender requires a provider that can design and deliver a swimming pool with 2 water slides.
      *
      * @Assert\Length(
-     *      max = 255
+     *      max = 7500
      * )
      * @Gedmo\Versioned
      * @Groups({"read","write"})
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", length=7500, nullable=true)
      */
     private $description;
 
