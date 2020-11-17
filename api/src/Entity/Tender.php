@@ -156,12 +156,9 @@ class Tender
 
     /**
      * @var array The selection Critera(s) of this tender.
-     * @Assert\Length(
-     *      max = 255
-     * )
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
-     * @ORM\Column(type="array", length=255, nullable=true)
+     * @ORM\Column(type="array", nullable=true)
      */
     private $selectionCritera = [];
 
@@ -335,12 +332,12 @@ class Tender
         return $this;
     }
 
-    public function getBudget(): ?string
+    public function getBudget()
     {
         return $this->budget;
     }
 
-    public function setBudget(?string $budget): self
+    public function setBudget($budget): self
     {
         $this->budget = $budget;
 
