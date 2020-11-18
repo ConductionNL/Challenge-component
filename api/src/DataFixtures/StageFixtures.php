@@ -229,5 +229,25 @@ class StageFixtures extends Fixture
         $tender->setDeal($deal);
         $manager->persist($tender);
         $manager->flush();
+
+        $id = Uuid::fromString('fb3e6cb4-d291-4bfa-88c0-69b078d7b1ff');
+        $tender = new Tender();
+        $tender->setName('Stage in de 1,5m samenleving');
+        $tender->setDescription("Door de pandemie is het vrijwel onmogelijk geworden om op traditionele wijze stage te lopen. Thuiswerken is de norm waardoor een schrijnend tekort aan fysieke stageplaatsen ontstaat. Het gevolg:\n
+        Zonder stages kan een student niet afstuderen. Zonder doorstroom studenten geen nieuwe aanwas op de arbeidsmarkt. Het gat tussen bedrijfsleven en opleidingen dreigt groter te worden.\n\n
+        Waar zijn wij naar op zoek?\n
+        Wij zijn op zoek naar een digitale oplossing (een community voor studenten en bedrijven) voor dit probleem, dus niet alleen ideeën, maar ook het bouwen van een product hoort bij deze challenge.\n
+Wij verwachten dat dit een groot project zal worden, dus werken met een team is een aanrader, er zijn dan ook meerdere stageplekken beschikbaar op dit project.\n
+Duur van dit project 6 maanden.\n\n
+Wat bieden wij:\n
+Een project/stagebegeleider en een lead-developer. En alles wat verder nodig is om dit project tot een goed einde te brengen.\n
+Dus ben jij een creatieve, bevlogen en stress-bestendige mbo/hbo student en doe je opleiding met betrekking tot het ontwikkelen van Digital skills (bijv. Software development, Graphic design, Digital marketing, Data-analyse)? Ben je in voor een uitdaging en wil je in een hele korte tijd enorm veel hard-skills en ook soft-skills ontwikkelen schrijf je in en pitch je idee!");
+        $tender->setSubmitter('Conduction');
+        $tender->setDateClose(new \DateTime(date('2020-06-30T12:00:01+00:00')));
+        $manager->persist($tender);
+        $tender->setId($id);
+        $manager->persist($tender);
+        $manager->flush();
+        $tender = $manager->getRepository('App:Tender')->findOneBy(['id' => $id]);
     }
 }
