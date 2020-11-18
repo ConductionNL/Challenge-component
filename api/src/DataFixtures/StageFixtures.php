@@ -85,6 +85,10 @@ class StageFixtures extends Fixture
         $manager->flush();
         $tenderStage = $manager->getRepository('App:TenderStage')->findOneBy(['id'=> $id]);
 
+        $tender->addStage($tenderStage);
+        $manager->persist($tender);
+        $manager->flush();
+
         $id = Uuid::fromString('a0fe307c-2c1d-4a41-9274-4e85ab409585');
         $tenderStage = new TenderStage();
         $tenderStage->setName('Voorstelperiode');
@@ -96,6 +100,10 @@ class StageFixtures extends Fixture
         $manager->flush();
         $tenderStage = $manager->getRepository('App:TenderStage')->findOneBy(['id'=> $id]);
 
+        $tender->addStage($tenderStage);
+        $manager->persist($tender);
+        $manager->flush();
+
         $id = Uuid::fromString('6d62a077-87ce-4f21-936c-331c369ac601');
         $tenderStage = new TenderStage();
         $tenderStage->setName('Afsluitperiode');
@@ -106,6 +114,10 @@ class StageFixtures extends Fixture
         $manager->persist($tenderStage);
         $manager->flush();
         $tenderStage = $manager->getRepository('App:TenderStage')->findOneBy(['id'=> $id]);
+
+        $tender->addStage($tenderStage);
+        $manager->persist($tender);
+        $manager->flush();
 
         $id = Uuid::fromString('137f7d74-f131-44d8-9997-990c5193d227');
         $entry = new Entry();
