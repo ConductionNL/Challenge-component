@@ -242,7 +242,7 @@ Duur van dit project 6 maanden.\n\n
 Wat bieden wij:\n
 Een project/stagebegeleider en een lead-developer. En alles wat verder nodig is om dit project tot een goed einde te brengen.\n
 Dus ben jij een creatieve, bevlogen en stress-bestendige mbo/hbo student en doe je opleiding met betrekking tot het ontwikkelen van Digital skills (bijv. Software development, Graphic design, Digital marketing, Data-analyse)? Ben je in voor een uitdaging en wil je in een hele korte tijd enorm veel hard-skills en ook soft-skills ontwikkelen schrijf je in en pitch je idee!");
-        $tender->setSubmitter('Conduction');
+        $tender->setSubmitter($this->commonGroundService->cleanUrl(['component' => 'wrc', 'type' => 'organizations', 'id' => 'ff0662b1-8393-467d-bddb-8a3d4ae521a5']));
         $tender->setDateClose(new \DateTime(date('2020-06-30T12:00:01+00:00')));
         $manager->persist($tender);
         $tender->setId($id);
