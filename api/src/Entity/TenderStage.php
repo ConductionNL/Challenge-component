@@ -2,7 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\TenderStageRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -43,6 +48,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass=TenderStageRepository::class)
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
+ *
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "tender.id": "exact"
+ *     })
+ * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
  */
 class TenderStage
 {
@@ -118,6 +128,12 @@ class TenderStage
      */
     private $modified;
 
+    /**
+     * @MaxDepth(1)
+     * @ORM\ManyToOne(targetEntity=Tender::class, inversedBy="stages")
+     */
+    private $tender;
+
     public function getId(): Uuid
     {
         return $this->id;
@@ -186,6 +202,18 @@ class TenderStage
     public function setModified(\DateTimeInterface $modified): self
     {
         $this->modified = $modified;
+
+        return $this;
+    }
+
+    public function getTender(): ?Tender
+    {
+        return $this->tender;
+    }
+
+    public function setTender(?Tender $tender): self
+    {
+        $this->tender = $tender;
 
         return $this;
     }

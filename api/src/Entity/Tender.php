@@ -184,7 +184,7 @@ class Tender
     /**
      * @Groups({"read","write"})
      * @MaxDepth(1)
-     * @ORM\ManyToMany(targetEntity=TenderStage::class)
+     * @ORM\OneToMany(targetEntity=TenderStage::class, mappedBy="tender")
      */
     private $stages;
 
@@ -404,32 +404,6 @@ class Tender
         return $this;
     }
 
-    /**
-     * @return Collection|TenderStage[]
-     */
-    public function getStages(): Collection
-    {
-        return $this->stages;
-    }
-
-    public function addStage(TenderStage $stage): self
-    {
-        if (!$this->stages->contains($stage)) {
-            $this->stages[] = $stage;
-        }
-
-        return $this;
-    }
-
-    public function removeStage(TenderStage $stage): self
-    {
-        if ($this->stages->contains($stage)) {
-            $this->stages->removeElement($stage);
-        }
-
-        return $this;
-    }
-
     public function getCurrentStage(): ?TenderStage
     {
         return $this->currentStage;
@@ -598,6 +572,37 @@ class Tender
     public function setModified(\DateTimeInterface $modified): self
     {
         $this->modified = $modified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TenderStage[]
+     */
+    public function getStages(): Collection
+    {
+        return $this->stages;
+    }
+
+    public function addStage(TenderStage $stage): self
+    {
+        if (!$this->stages->contains($stage)) {
+            $this->stages[] = $stage;
+            $stage->setTender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStage(TenderStage $stage): self
+    {
+        if ($this->stages->contains($stage)) {
+            $this->stages->removeElement($stage);
+            // set the owning side to null (unless already changed)
+            if ($stage->getTender() === $this) {
+                $stage->setTender(null);
+            }
+        }
 
         return $this;
     }
