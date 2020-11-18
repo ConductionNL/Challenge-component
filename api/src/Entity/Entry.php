@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\EntryRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -44,6 +46,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          }
  *     }
  * )
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "name": "ipartial",
+ *     "description": "ipartial",
+ *     "submitter": "ipartial"
+ *     })
  * @ORM\Entity(repositoryClass=EntryRepository::class)
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
  */
