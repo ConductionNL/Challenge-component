@@ -117,7 +117,7 @@ class ZuiddrechtFixtures extends Fixture
         $tender->addStage($tenderStage);
         $manager->persist($tender);
         $manager->flush();
-        
+
         $id = Uuid::fromString('181dbbb2-ea6b-4763-ae9c-5f470c2bbe26');
         $entry = new Entry();
         $entry->setSubmitter('Swimming Pool Enterprise');
