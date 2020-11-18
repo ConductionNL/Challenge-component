@@ -55,7 +55,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiFilter(SearchFilter::class, properties={
  *     "name": "ipartial",
  *     "description": "ipartial",
- *     "submitters": "ipartial"
+ *     "submitter": "ipartial"
  *     })
  * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
  * @ApiFilter(RangeFilter::class, properties={"budget"})
