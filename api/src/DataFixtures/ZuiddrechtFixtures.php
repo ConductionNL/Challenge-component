@@ -45,11 +45,11 @@ class ZuiddrechtFixtures extends Fixture
         $tender = new Tender();
         $tender->setName('Zwembad in Zuid-Drecht');
         $tender->setDescription('Dit is een test tender.');
-        $tender->setSubmitters((array) 'Gemeente Zuid-Drecht');
+        $tender->setSubmitter('Gemeente Zuid-Drecht');
         $tender->setBudget(150000);
         $tender->setKind('Product');
         $tender->setDocuments(['linknaardocument', 'nogeenlinknaardocument']);
-        $tender->setSelectionCritera('Moet 4 jaar ervaren zijn in het ontwerpen van zwembaden.');
+        $tender->setSelectionCritera((array) 'Moet 4 jaar ervaren zijn in het ontwerpen van zwembaden.');
         $tender->setDateClose(new \DateTime(date('2020-12-06T12:00:01+00:00')));
         $manager->persist($tender);
         $tender->setId($id);
@@ -69,6 +69,7 @@ class ZuiddrechtFixtures extends Fixture
         $tenderStage1 = $manager->getRepository('App:TenderStage')->findOneBy(['id'=> $id]);
 
         $tender->setCurrentStage($tenderStage1);
+        $tender->addStage($tenderStage1);
         $manager->persist($tender);
         $manager->flush();
 
@@ -83,6 +84,10 @@ class ZuiddrechtFixtures extends Fixture
         $manager->flush();
         $tenderStage = $manager->getRepository('App:TenderStage')->findOneBy(['id'=> $id]);
 
+        $tender->addStage($tenderStage);
+        $manager->persist($tender);
+        $manager->flush();
+
         $id = Uuid::fromString('b5027fc5-8d81-4d44-9819-2c629730159c');
         $tenderStage = new TenderStage();
         $tenderStage->setName('Voorstelperiode');
@@ -93,6 +98,10 @@ class ZuiddrechtFixtures extends Fixture
         $manager->persist($tenderStage);
         $manager->flush();
         $tenderStage = $manager->getRepository('App:TenderStage')->findOneBy(['id'=> $id]);
+
+        $tender->addStage($tenderStage);
+        $manager->persist($tender);
+        $manager->flush();
 
         $id = Uuid::fromString('eccd4397-0230-4ad5-bb41-05ccb7a00a63');
         $tenderStage = new TenderStage();
@@ -105,11 +114,13 @@ class ZuiddrechtFixtures extends Fixture
         $manager->flush();
         $tenderStage = $manager->getRepository('App:TenderStage')->findOneBy(['id'=> $id]);
 
+        $tender->addStage($tenderStage);
+        $manager->persist($tender);
+        $manager->flush();
+
         $id = Uuid::fromString('181dbbb2-ea6b-4763-ae9c-5f470c2bbe26');
         $entry = new Entry();
-        $entry->setName('Inschrijving van Swimming Pool Enterprise');
-        $entry->setDescription('Dit is een test entry.');
-        $entry->setSubmitters(['Swimming Pool Enterprise']);
+        $entry->setSubmitter('Swimming Pool Enterprise');
         $entry->setDateOfEntry(new \DateTime(date('2020-7-07T12:00:01+00:00')));
         $entry->setTender($tender);
         $manager->persist($entry);
@@ -126,7 +137,7 @@ class ZuiddrechtFixtures extends Fixture
         $question = new Question();
         $question->setName('Grootte van het zwembad');
         $question->setDescription('Dit is een test vraag.');
-        $question->setSubmitters(['Barry Brands']);
+        $question->setSubmitter('Barry Brands');
         $question->setQuestion('Is de grootte van het gevraagde zwembad bespreekbaar?');
         $question->setStatus('answered');
         $question->setEntry($entry);

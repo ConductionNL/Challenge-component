@@ -17,7 +17,7 @@ use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class ConductionFixtures extends Fixture
+class StageFixtures extends Fixture
 {
     private $params;
     /**
@@ -37,20 +37,21 @@ class ConductionFixtures extends Fixture
             // If build all fixtures is true we build all the fixtures
             !$this->params->get('app_build_all_fixtures') &&
             $this->params->get('app_domain') != 'zuiddrecht.nl' && strpos($this->params->get('app_domain'), 'zuiddrecht.nl') == false &&
-            $this->params->get('app_domain') != 'zuid-drecht.nl' && strpos($this->params->get('app_domain'), 'zuid-drecht.nl') == false
+            $this->params->get('app_domain') != 'zuid-drecht.nl' && strpos($this->params->get('app_domain'), 'zuid-drecht.nl') == false &&
+            $this->params->get('app_domain') != 'conduction.academy' && strpos($this->params->get('app_domain'), 'conduction.academy') == false
         ) {
             return false;
         }
 
         $id = Uuid::fromString('5f7c339a-bdf1-4b57-8539-be9de88ea24f');
         $tender = new Tender();
-        $tender->setName('Test Tender');
-        $tender->setDescription('Dit is een test tender.');
-        $tender->setSubmitters((array) 'Conduction');
-        $tender->setBudget(150000);
+        $tender->setName('Test Challenge');
+        $tender->setDescription('Dit is een test Challenge.');
+        $tender->setSubmitter('Conduction');
+        $tender->setBudget(100);
         $tender->setKind('Product');
         $tender->setDocuments(['linknaardocument', 'nogeenlinknaardocument']);
-        $tender->setSelectionCritera('Moet deze test tender willen bekijken :).');
+        $tender->setSelectionCritera((array) 'Moet deze test tender willen bekijken :).');
         $tender->setDateClose(new \DateTime(date('2020-12-06T12:00:01+00:00')));
         $manager->persist($tender);
         $tender->setId($id);
@@ -61,7 +62,7 @@ class ConductionFixtures extends Fixture
         $id = Uuid::fromString('2724e604-e1eb-452f-aa3c-dcc278d1ff14');
         $tenderStage1 = new TenderStage();
         $tenderStage1->setName('Inschrijfperiode');
-        $tenderStage1->setDescription('Dit is een test tender stage.');
+        $tenderStage1->setDescription('Dit is een test Challenge stage.');
         $tenderStage1->setRequirements(['Minimaal 5 inschrijvingen', 'Het moet 25 augustus geweest zijn']);
         $manager->persist($tenderStage1);
         $tenderStage1->setId($id);
@@ -76,7 +77,7 @@ class ConductionFixtures extends Fixture
         $id = Uuid::fromString('7bf0dc45-8f86-486a-a1b3-02eeef926022');
         $tenderStage = new TenderStage();
         $tenderStage->setName('Pitchperiode');
-        $tenderStage->setDescription('Dit is een test tender stage.');
+        $tenderStage->setDescription('Dit is een test Challenge stage.');
         $tenderStage->setRequirements(['Minimaal 5 pitches', 'Het moet 25 oktober geweest zijn']);
         $manager->persist($tenderStage);
         $tenderStage->setId($id);
@@ -84,10 +85,14 @@ class ConductionFixtures extends Fixture
         $manager->flush();
         $tenderStage = $manager->getRepository('App:TenderStage')->findOneBy(['id'=> $id]);
 
+        $tender->addStage($tenderStage);
+        $manager->persist($tender);
+        $manager->flush();
+
         $id = Uuid::fromString('a0fe307c-2c1d-4a41-9274-4e85ab409585');
         $tenderStage = new TenderStage();
         $tenderStage->setName('Voorstelperiode');
-        $tenderStage->setDescription('Dit is een test tender stage.');
+        $tenderStage->setDescription('Dit is een test Challenge stage.');
         $tenderStage->setRequirements(['Minimaal 2 inschrijvingen', 'Het moet 25 augustus geweest zijn']);
         $manager->persist($tenderStage);
         $tenderStage->setId($id);
@@ -95,10 +100,14 @@ class ConductionFixtures extends Fixture
         $manager->flush();
         $tenderStage = $manager->getRepository('App:TenderStage')->findOneBy(['id'=> $id]);
 
+        $tender->addStage($tenderStage);
+        $manager->persist($tender);
+        $manager->flush();
+
         $id = Uuid::fromString('6d62a077-87ce-4f21-936c-331c369ac601');
         $tenderStage = new TenderStage();
         $tenderStage->setName('Afsluitperiode');
-        $tenderStage->setDescription('Dit is een test tender stage.');
+        $tenderStage->setDescription('Dit is een test Challenge stage.');
         $tenderStage->setRequirements(['Er moet een deal gemaakt zijn', 'De tender moet beëndigd worden']);
         $manager->persist($tenderStage);
         $tenderStage->setId($id);
@@ -106,11 +115,13 @@ class ConductionFixtures extends Fixture
         $manager->flush();
         $tenderStage = $manager->getRepository('App:TenderStage')->findOneBy(['id'=> $id]);
 
+        $tender->addStage($tenderStage);
+        $manager->persist($tender);
+        $manager->flush();
+
         $id = Uuid::fromString('137f7d74-f131-44d8-9997-990c5193d227');
         $entry = new Entry();
-        $entry->setName('Inschrijving van Henk');
-        $entry->setDescription('Dit is een test entry.');
-        $entry->setSubmitters(['Henk']);
+        $entry->setSubmitter('Henk');
         $entry->setDateOfEntry(new \DateTime(date('2020-7-07T12:00:01+00:00')));
         $entry->setTender($tender);
         $manager->persist($entry);
@@ -127,7 +138,7 @@ class ConductionFixtures extends Fixture
         $question = new Question();
         $question->setName('Eerste 5 getallen van PI');
         $question->setDescription('Dit is een test vraag.');
-        $question->setSubmitters(['Wilco Louwerse']);
+        $question->setSubmitter('Wilco Louwerse');
         $question->setQuestion('Wat zijn de eerste 5 getallen van PI, na de comma?');
         $question->setStatus('answered');
         $question->setEntry($entry);
@@ -218,5 +229,25 @@ class ConductionFixtures extends Fixture
         $tender->setDeal($deal);
         $manager->persist($tender);
         $manager->flush();
+
+        $id = Uuid::fromString('fb3e6cb4-d291-4bfa-88c0-69b078d7b1ff');
+        $tender = new Tender();
+        $tender->setName('Stage in de 1,5m samenleving');
+        $tender->setDescription("Door de pandemie is het vrijwel onmogelijk geworden om op traditionele wijze stage te lopen. Thuiswerken is de norm waardoor een schrijnend tekort aan fysieke stageplaatsen ontstaat. Het gevolg:\n
+        Zonder stages kan een student niet afstuderen. Zonder doorstroom studenten geen nieuwe aanwas op de arbeidsmarkt. Het gat tussen bedrijfsleven en opleidingen dreigt groter te worden.\n\n
+        Waar zijn wij naar op zoek?\n
+        Wij zijn op zoek naar een digitale oplossing (een community voor studenten en bedrijven) voor dit probleem, dus niet alleen ideeën, maar ook het bouwen van een product hoort bij deze challenge.\n
+Wij verwachten dat dit een groot project zal worden, dus werken met een team is een aanrader, er zijn dan ook meerdere stageplekken beschikbaar op dit project.\n
+Duur van dit project 6 maanden.\n\n
+Wat bieden wij:\n
+Een project/stagebegeleider en een lead-developer. En alles wat verder nodig is om dit project tot een goed einde te brengen.\n
+Dus ben jij een creatieve, bevlogen en stress-bestendige mbo/hbo student en doe je opleiding met betrekking tot het ontwikkelen van Digital skills (bijv. Software development, Graphic design, Digital marketing, Data-analyse)? Ben je in voor een uitdaging en wil je in een hele korte tijd enorm veel hard-skills en ook soft-skills ontwikkelen schrijf je in en pitch je idee!");
+        $tender->setSubmitter($this->commonGroundService->cleanUrl(['component' => 'wrc', 'type' => 'organizations', 'id' => 'ff0662b1-8393-467d-bddb-8a3d4ae521a5']));
+        $tender->setDateClose(new \DateTime(date('2020-06-30T12:00:01+00:00')));
+        $manager->persist($tender);
+        $tender->setId($id);
+        $manager->persist($tender);
+        $manager->flush();
+        $tender = $manager->getRepository('App:Tender')->findOneBy(['id' => $id]);
     }
 }
