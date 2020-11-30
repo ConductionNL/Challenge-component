@@ -45,7 +45,7 @@ class ZuiddrechtFixtures extends Fixture
         $tender = new Tender();
         $tender->setName('Zwembad in Zuid-Drecht');
         $tender->setDescription('Dit is een test tender.');
-        $tender->setSubmitters((array) 'Gemeente Zuid-Drecht');
+        $tender->setSubmitter('Gemeente Zuid-Drecht');
         $tender->setBudget(150000);
         $tender->setKind('Product');
         $tender->setDocuments(['linknaardocument', 'nogeenlinknaardocument']);
