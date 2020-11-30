@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\EntryRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A entry is used when an person or group wants to join the tender.
+ * A entry is used when an person or group wants to join a tender.
  *
  * @ApiResource(
  *     attributes={"pagination_items_per_page"=30},
@@ -44,6 +46,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          }
  *     }
  * )
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "name": "ipartial",
+ *     "description": "ipartial",
+ *     "submitter": "ipartial"
+ *     })
  * @ORM\Entity(repositoryClass=EntryRepository::class)
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
  */
@@ -64,43 +71,17 @@ class Entry
     private $id;
 
     /**
-     * @var string The name of this entry.
-     *
-     * @example Entry of SwimmingPool Enterprise
-     *
-     * @Assert\NotNull
-     * @Assert\Length(
-     *      max = 255
-     * )
-     * @Gedmo\Versioned
-     * @Groups({"read","write"})
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @var string The description of this entry.
-     *
-     * @example This entry signs SwimmingPool Enterprise in for a tender
-     * @Assert\Length(
-     *      max = 255
-     * )
-     * @Gedmo\Versioned
-     * @Groups({"read","write"})
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $description;
-
-    /**
-     * @var string The submitter(s) of this tender.
+     * @var string The submitter of this pitch.
      *
      * @example https://cc.zuid-drecht.nl/organizations/
      *
+     * @Assert\NotNull
+     * @Assert\Url
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="string")
      */
-    private $submitters = [];
+    private $submitter;
 
     /**
      * @Gedmo\Versioned
@@ -160,38 +141,14 @@ class Entry
         return $this;
     }
 
-    public function getName(): ?string
+    public function getSubmitter(): ?string
     {
-        return $this->name;
+        return $this->submitter;
     }
 
-    public function setName(string $name): self
+    public function setSubmitter(string $submitter): self
     {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getSubmitters(): ?array
-    {
-        return $this->submitters;
-    }
-
-    public function setSubmitters(array $submitters): self
-    {
-        $this->submitters = $submitters;
+        $this->submitter = $submitter;
 
         return $this;
     }

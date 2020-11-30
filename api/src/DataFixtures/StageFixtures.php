@@ -17,7 +17,7 @@ use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class ZuiddrechtFixtures extends Fixture
+class StageFixtures extends Fixture
 {
     private $params;
     /**
@@ -34,22 +34,24 @@ class ZuiddrechtFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         if (
+            // If build all fixtures is true we build all the fixtures
             !$this->params->get('app_build_all_fixtures') &&
             $this->params->get('app_domain') != 'zuiddrecht.nl' && strpos($this->params->get('app_domain'), 'zuiddrecht.nl') == false &&
-            $this->params->get('app_domain') != 'zuid-drecht.nl' && strpos($this->params->get('app_domain'), 'zuid-drecht.nl') == false
+            $this->params->get('app_domain') != 'zuid-drecht.nl' && strpos($this->params->get('app_domain'), 'zuid-drecht.nl') == false &&
+            $this->params->get('app_domain') != 'conduction.academy' && strpos($this->params->get('app_domain'), 'conduction.academy') == false
         ) {
             return false;
         }
 
-        $id = Uuid::fromString('8191183b-ae8e-4d7e-b52e-a3517313491c');
+        $id = Uuid::fromString('5f7c339a-bdf1-4b57-8539-be9de88ea24f');
         $tender = new Tender();
-        $tender->setName('Zwembad in Zuid-Drecht');
-        $tender->setDescription('Dit is een test tender.');
-        $tender->setSubmitter('Gemeente Zuid-Drecht');
-        $tender->setBudget(150000);
+        $tender->setName('Test Challenge');
+        $tender->setDescription('Dit is een test Challenge.');
+        $tender->setSubmitter('Conduction');
+        $tender->setBudget(100);
         $tender->setKind('Product');
         $tender->setDocuments(['linknaardocument', 'nogeenlinknaardocument']);
-        $tender->setSelectionCritera((array) 'Moet 4 jaar ervaren zijn in het ontwerpen van zwembaden.');
+        $tender->setSelectionCritera((array) 'Moet deze test tender willen bekijken :).');
         $tender->setDateClose(new \DateTime(date('2020-12-06T12:00:01+00:00')));
         $manager->persist($tender);
         $tender->setId($id);
@@ -57,11 +59,11 @@ class ZuiddrechtFixtures extends Fixture
         $manager->flush();
         $tender = $manager->getRepository('App:Tender')->findOneBy(['id'=> $id]);
 
-        $id = Uuid::fromString('9269a257-99f2-478e-b19a-c0342e0b6aad');
+        $id = Uuid::fromString('2724e604-e1eb-452f-aa3c-dcc278d1ff14');
         $tenderStage1 = new TenderStage();
         $tenderStage1->setName('Inschrijfperiode');
-        $tenderStage1->setDescription('Dit is een test tender stage.');
-        $tenderStage1->setRequirements(['Minimaal 10 inschrijvingen', 'Het moet 20 augustus geweest zijn']);
+        $tenderStage1->setDescription('Dit is een test Challenge stage.');
+        $tenderStage1->setRequirements(['Minimaal 5 inschrijvingen', 'Het moet 25 augustus geweest zijn']);
         $manager->persist($tenderStage1);
         $tenderStage1->setId($id);
         $manager->persist($tenderStage1);
@@ -69,15 +71,14 @@ class ZuiddrechtFixtures extends Fixture
         $tenderStage1 = $manager->getRepository('App:TenderStage')->findOneBy(['id'=> $id]);
 
         $tender->setCurrentStage($tenderStage1);
-        $tender->addStage($tenderStage1);
         $manager->persist($tender);
         $manager->flush();
 
-        $id = Uuid::fromString('8df25ec9-c01a-4848-b9e2-e50bec4c91aa');
+        $id = Uuid::fromString('7bf0dc45-8f86-486a-a1b3-02eeef926022');
         $tenderStage = new TenderStage();
         $tenderStage->setName('Pitchperiode');
-        $tenderStage->setDescription('Dit is een test tender stage.');
-        $tenderStage->setRequirements(['Minimaal 10 pitches', 'Het moet 20 oktober geweest zijn']);
+        $tenderStage->setDescription('Dit is een test Challenge stage.');
+        $tenderStage->setRequirements(['Minimaal 5 pitches', 'Het moet 25 oktober geweest zijn']);
         $manager->persist($tenderStage);
         $tenderStage->setId($id);
         $manager->persist($tenderStage);
@@ -88,11 +89,11 @@ class ZuiddrechtFixtures extends Fixture
         $manager->persist($tender);
         $manager->flush();
 
-        $id = Uuid::fromString('b5027fc5-8d81-4d44-9819-2c629730159c');
+        $id = Uuid::fromString('a0fe307c-2c1d-4a41-9274-4e85ab409585');
         $tenderStage = new TenderStage();
         $tenderStage->setName('Voorstelperiode');
-        $tenderStage->setDescription('Dit is een test tender stage.');
-        $tenderStage->setRequirements(['Minimaal 4 inschrijvingen', 'Het moet 20 augustus geweest zijn']);
+        $tenderStage->setDescription('Dit is een test Challenge stage.');
+        $tenderStage->setRequirements(['Minimaal 2 inschrijvingen', 'Het moet 25 augustus geweest zijn']);
         $manager->persist($tenderStage);
         $tenderStage->setId($id);
         $manager->persist($tenderStage);
@@ -103,10 +104,10 @@ class ZuiddrechtFixtures extends Fixture
         $manager->persist($tender);
         $manager->flush();
 
-        $id = Uuid::fromString('eccd4397-0230-4ad5-bb41-05ccb7a00a63');
+        $id = Uuid::fromString('6d62a077-87ce-4f21-936c-331c369ac601');
         $tenderStage = new TenderStage();
         $tenderStage->setName('Afsluitperiode');
-        $tenderStage->setDescription('Dit is een test tender stage.');
+        $tenderStage->setDescription('Dit is een test Challenge stage.');
         $tenderStage->setRequirements(['Er moet een deal gemaakt zijn', 'De tender moet beëndigd worden']);
         $manager->persist($tenderStage);
         $tenderStage->setId($id);
@@ -118,9 +119,9 @@ class ZuiddrechtFixtures extends Fixture
         $manager->persist($tender);
         $manager->flush();
 
-        $id = Uuid::fromString('181dbbb2-ea6b-4763-ae9c-5f470c2bbe26');
+        $id = Uuid::fromString('137f7d74-f131-44d8-9997-990c5193d227');
         $entry = new Entry();
-        $entry->setSubmitter('Swimming Pool Enterprise');
+        $entry->setSubmitter('Henk');
         $entry->setDateOfEntry(new \DateTime(date('2020-7-07T12:00:01+00:00')));
         $entry->setTender($tender);
         $manager->persist($entry);
@@ -133,12 +134,12 @@ class ZuiddrechtFixtures extends Fixture
         $manager->persist($tender);
         $manager->flush();
 
-        $id = Uuid::fromString('1e6dc5d8-f81e-47eb-9288-4a058075a2e0');
+        $id = Uuid::fromString('d969b30b-41cc-455f-bdc7-4d5e8969bbbb');
         $question = new Question();
-        $question->setName('Grootte van het zwembad');
+        $question->setName('Eerste 5 getallen van PI');
         $question->setDescription('Dit is een test vraag.');
-        $question->setSubmitter('Barry Brands');
-        $question->setQuestion('Is de grootte van het gevraagde zwembad bespreekbaar?');
+        $question->setSubmitter('Wilco Louwerse');
+        $question->setQuestion('Wat zijn de eerste 5 getallen van PI, na de comma?');
         $question->setStatus('answered');
         $question->setEntry($entry);
         $manager->persist($question);
@@ -147,11 +148,11 @@ class ZuiddrechtFixtures extends Fixture
         $manager->flush();
         $question = $manager->getRepository('App:Question')->findOneBy(['id'=> $id]);
 
-        $id = Uuid::fromString('e48c893e-558c-4f20-88b0-58a8b1e87a78');
+        $id = Uuid::fromString('f554cbe0-33e9-469c-aee4-a6e7c9e1e096');
         $answer = new Answer();
         $answer->setName('Antwoord voor een vraag');
-        $answer->setSubmitters(['Barry Brands']);
-        $answer->setAnswer('Ja het grootte van het zwembad is te bespreken.');
+        $answer->setSubmitters(['Wilco Louwerse']);
+        $answer->setAnswer('3,14159');
         $answer->setQuestion($question);
         $manager->persist($answer);
         $answer->setId($id);
@@ -165,11 +166,11 @@ class ZuiddrechtFixtures extends Fixture
         $manager->persist($tender);
         $manager->flush();
 
-        $id = Uuid::fromString('2ad4af21-ddc8-4264-b343-386307dbb12e');
+        $id = Uuid::fromString('9ba1cbf5-470f-4933-9837-31f81c64f1cb');
         $pitch = new Pitch();
-        $pitch->setName('Pitch van Swimming Pool Enterprise');
+        $pitch->setName('Pitch van Henk');
         $pitch->setDescription('Dit is een test pitch.');
-        $pitch->setSubmitter($this->commonGroundService->cleanUrl(['component'=>'brp', 'type'=>'ingeschrevenpersonen/uuid', 'id'=>'f3ff6653-12be-48bc-afb6-42038576eb57']));
+        $pitch->setSubmitter('Henk');
         $pitch->setRequiredBudget(100000);
         $pitch->setTender($tender);
         $pitch->setDateSubmitted(new \DateTime(date('2020-7-16T12:00:01+00:00')));
@@ -183,11 +184,11 @@ class ZuiddrechtFixtures extends Fixture
         $manager->persist($tender);
         $manager->flush();
 
-        $id = Uuid::fromString('0ae32889-858c-402d-aea6-066a44ba1aa9');
+        $id = Uuid::fromString('ae5934e7-3635-48e9-9ed7-df7d22bebbcf');
         $pitchStage = new PitchStage();
         $pitchStage->setName('Voorbereidingsperiode');
         $pitchStage->setDescription('Dit is een test pitch stage.');
-        $pitchStage->setRequirements(['Het moet 2020-8-12 geweest zijn']);
+        $pitchStage->setRequirements(['Het moet 2020-8-20 geweest zijn']);
         $manager->persist($pitchStage);
         $pitchStage->setId($id);
         $manager->persist($pitchStage);
@@ -198,9 +199,9 @@ class ZuiddrechtFixtures extends Fixture
         $manager->persist($pitch);
         $manager->flush();
 
-        $id = Uuid::fromString('62364034-28d6-450e-b447-e8752f73a417');
+        $id = Uuid::fromString('7daf2eaf-be74-4459-8514-62b211f05dea');
         $proposal = new Proposal();
-        $proposal->setName('Voorstel van Swimming Pool Enterprise');
+        $proposal->setName('Voorstel van Henk');
         $proposal->setDescription('Dit is een test proposal.');
         $proposal->setStatus('In afwachting');
         $proposal->setPitch($pitch);
@@ -212,11 +213,11 @@ class ZuiddrechtFixtures extends Fixture
         $manager->flush();
         $proposal = $manager->getRepository('App:Proposal')->findOneBy(['id'=> $id]);
 
-        $id = Uuid::fromString('750600de-2115-4b78-88b9-1f45b35cc90f');
+        $id = Uuid::fromString('b0d31d3f-ba2f-4dbe-a71b-fa1957e0d6ee');
         $deal = new Deal();
-        $deal->setName('Zwembad Zuid-Drecht');
+        $deal->setName('Tender Test');
         $deal->setDescription('Dit is een test deal.');
-        $deal->setContractors(['Swimming Pool Enterprise']);
+        $deal->setContractors(['Henk']);
         $deal->setProposal($proposal);
         $manager->persist($deal);
         $deal->setId($id);
@@ -228,5 +229,25 @@ class ZuiddrechtFixtures extends Fixture
         $tender->setDeal($deal);
         $manager->persist($tender);
         $manager->flush();
+
+        $id = Uuid::fromString('fb3e6cb4-d291-4bfa-88c0-69b078d7b1ff');
+        $tender = new Tender();
+        $tender->setName('Stage in de 1,5m samenleving');
+        $tender->setDescription("Door de pandemie is het vrijwel onmogelijk geworden om op traditionele wijze stage te lopen. Thuiswerken is de norm waardoor een schrijnend tekort aan fysieke stageplaatsen ontstaat. Het gevolg:\n
+        Zonder stages kan een student niet afstuderen. Zonder doorstroom studenten geen nieuwe aanwas op de arbeidsmarkt. Het gat tussen bedrijfsleven en opleidingen dreigt groter te worden.\n\n
+        Waar zijn wij naar op zoek?\n
+        Wij zijn op zoek naar een digitale oplossing (een community voor studenten en bedrijven) voor dit probleem, dus niet alleen ideeën, maar ook het bouwen van een product hoort bij deze challenge.\n
+Wij verwachten dat dit een groot project zal worden, dus werken met een team is een aanrader, er zijn dan ook meerdere stageplekken beschikbaar op dit project.\n
+Duur van dit project 6 maanden.\n\n
+Wat bieden wij:\n
+Een project/stagebegeleider en een lead-developer. En alles wat verder nodig is om dit project tot een goed einde te brengen.\n
+Dus ben jij een creatieve, bevlogen en stress-bestendige mbo/hbo student en doe je opleiding met betrekking tot het ontwikkelen van Digital skills (bijv. Software development, Graphic design, Digital marketing, Data-analyse)? Ben je in voor een uitdaging en wil je in een hele korte tijd enorm veel hard-skills en ook soft-skills ontwikkelen schrijf je in en pitch je idee!");
+        $tender->setSubmitter($this->commonGroundService->cleanUrl(['component' => 'wrc', 'type' => 'organizations', 'id' => 'ff0662b1-8393-467d-bddb-8a3d4ae521a5']));
+        $tender->setDateClose(new \DateTime(date('2020-06-30T12:00:01+00:00')));
+        $manager->persist($tender);
+        $tender->setId($id);
+        $manager->persist($tender);
+        $manager->flush();
+        $tender = $manager->getRepository('App:Tender')->findOneBy(['id' => $id]);
     }
 }

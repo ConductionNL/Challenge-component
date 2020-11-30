@@ -2,7 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\TenderRepository;
 use Cassandra\Decimal;
 use DateTime;
@@ -36,7 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              }
  *          },
  *          "get_audit_trail"={
- *              "path"="/tenderrs/{id}/audit_trail",
+ *              "path"="/tenders/{id}/audit_trail",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Audittrail",
@@ -47,6 +51,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass=TenderRepository::class)
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
+ *
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "name": "ipartial",
+ *     "description": "ipartial",
+ *     "submitter": "ipartial"
+ *     })
+ * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
+ * @ApiFilter(RangeFilter::class, properties={"budget"})
  */
 class Tender
 {
@@ -85,26 +97,26 @@ class Tender
      * @example This tender requires a provider that can design and deliver a swimming pool with 2 water slides.
      *
      * @Assert\Length(
-     *      max = 255
+     *      max = 7500
      * )
      * @Gedmo\Versioned
      * @Groups({"read","write"})
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", length=7500, nullable=true)
      */
     private $description;
 
     /**
-     * @var string The submitter(s) of this tender.
+     * @var string The submitter of this pitch.
      *
      * @example https://cc.zuid-drecht.nl/organizations/
      *
      * @Assert\NotNull
+     * @Assert\Url
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
-     * @ORM\Column(type="array", nullable=false)
+     * @ORM\Column(type="string")
      */
-    private $submitters = [];
-
+    private $submitter;
     /**
      * @Groups({"read","write"})
      * @MaxDepth(1)
@@ -124,7 +136,7 @@ class Tender
     private $budget;
 
     /**
-     * @var string The document(s) of this tender.
+     * @var array The document(s) of this tender.
      *
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
@@ -143,14 +155,12 @@ class Tender
     private $kind;
 
     /**
-     * @Assert\Length(
-     *      max = 255
-     * )
+     * @var array The selection Critera(s) of this tender.
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="array", nullable=true)
      */
-    private $selectionCritera;
+    private $selectionCritera = [];
 
     /**
      * @Assert\Length(
@@ -163,8 +173,9 @@ class Tender
     private $catchPhrase;
 
     /**
+     * @var Datetime The moment this tender closes
+     *
      * @Gedmo\Versioned
-     * @Assert\DateTime
      * @Groups({"read", "write"})
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -173,7 +184,7 @@ class Tender
     /**
      * @Groups({"read","write"})
      * @MaxDepth(1)
-     * @ORM\ManyToMany(targetEntity=TenderStage::class)
+     * @ORM\OneToMany(targetEntity=TenderStage::class, mappedBy="tender")
      */
     private $stages;
 
@@ -283,14 +294,14 @@ class Tender
         return $this;
     }
 
-    public function getSubmitters(): ?array
+    public function getSubmitter(): ?string
     {
-        return $this->submitters;
+        return $this->submitter;
     }
 
-    public function setSubmitters(array $submitters): self
+    public function setSubmitter(string $submitter): self
     {
-        $this->submitters = $submitters;
+        $this->submitter = $submitter;
 
         return $this;
     }
@@ -321,12 +332,12 @@ class Tender
         return $this;
     }
 
-    public function getBudget(): ?string
+    public function getBudget()
     {
         return $this->budget;
     }
 
-    public function setBudget(?string $budget): self
+    public function setBudget($budget): self
     {
         $this->budget = $budget;
 
@@ -357,12 +368,12 @@ class Tender
         return $this;
     }
 
-    public function getSelectionCritera(): ?string
+    public function getSelectionCritera(): ?array
     {
         return $this->selectionCritera;
     }
 
-    public function setSelectionCritera(?string $selectionCritera): self
+    public function setSelectionCritera(?array $selectionCritera): self
     {
         $this->selectionCritera = $selectionCritera;
 
@@ -389,32 +400,6 @@ class Tender
     public function setDateClose(?\DateTimeInterface $dateClose): self
     {
         $this->dateClose = $dateClose;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|TenderStage[]
-     */
-    public function getStages(): Collection
-    {
-        return $this->stages;
-    }
-
-    public function addStage(TenderStage $stage): self
-    {
-        if (!$this->stages->contains($stage)) {
-            $this->stages[] = $stage;
-        }
-
-        return $this;
-    }
-
-    public function removeStage(TenderStage $stage): self
-    {
-        if ($this->stages->contains($stage)) {
-            $this->stages->removeElement($stage);
-        }
 
         return $this;
     }
@@ -587,6 +572,37 @@ class Tender
     public function setModified(\DateTimeInterface $modified): self
     {
         $this->modified = $modified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TenderStage[]
+     */
+    public function getStages(): Collection
+    {
+        return $this->stages;
+    }
+
+    public function addStage(TenderStage $stage): self
+    {
+        if (!$this->stages->contains($stage)) {
+            $this->stages[] = $stage;
+            $stage->setTender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStage(TenderStage $stage): self
+    {
+        if ($this->stages->contains($stage)) {
+            $this->stages->removeElement($stage);
+            // set the owning side to null (unless already changed)
+            if ($stage->getTender() === $this) {
+                $stage->setTender(null);
+            }
+        }
 
         return $this;
     }
