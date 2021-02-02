@@ -79,12 +79,10 @@ jobs:
             - name: Add docker tags
               if: github.ref == 'refs/heads/master'
               run: |
-                  images=$(docker-compose images -q | xargs docker inspect --format='{{ index .RepoTags 0}}' | cut -d':' -f1)
+                  images=$(docker-compose images -q | xargs docker inspect --format='{{ index .RepoTags 0}}' | cut -d':' -f1 | grep $APP_NAME)
                   for image in $images
                   do
-                    if [[ $image == *"conduction"* ]]; then
-                        docker tag "${image}":latest "${image}":"${APP_BUILD}"
-                    fi
+                    docker tag "${image}":latest "${image}":"${APP_BUILD}"
                   done
                   echo "IMAGES=$images" >> $GITHUB_ENV
             - name: Chores
@@ -106,34 +104,33 @@ jobs:
             - if: steps.dockerhub-login.outputs.success == 'true' && github.ref == 'refs/heads/master'
               name: Push versioned containers to Docker Hub
               run: |
-                  for image in $IMAGES
+                  images=$(docker-compose images -q | xargs docker inspect --format='{{ index .RepoTags 0}}' | cut -d':' -f1 | grep $APP_NAME)
+                  for image in $images
                   do
-                    if [[ $image == *"conduction"* ]]; then
-                        docker push "${image}":"${APP_BUILD}"
-                    fi
+                    docker push "${image}":"${APP_BUILD}"
                   done
             - name: Create kube config
               id: kubeconfig
               if: contains( github.ref, 'development' )
               run: |
-                if [ "${{ secrets.KUBECONFIG }}" != "" ]; then
-                  printf "${{ secrets.KUBECONFIG }}" > kubeconfig.yaml
-                  echo "##[set-output name=success]true"
-                else
-                  echo "##[set-output name=success]false"
-                fi    
+                  if [ "${{ secrets.KUBECONFIG }}" != "" ]; then
+                    printf "${{ secrets.KUBECONFIG }}" > kubeconfig.yaml
+                    echo "##[set-output name=success]true"
+                  else
+                    echo "##[set-output name=success]false"
+                  fi    
             - name: Rollout new containers
               if: (contains( github.ref, 'development' )) && steps.kubeconfig.outputs.success == 'true' && success()
               run: |
-                kubectl rollout restart deployment/$APP_NAME-php --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
-                kubectl rollout restart deployment/$APP_NAME-nginx --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
-                kubectl rollout restart deployment/$APP_NAME-varnish --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
-#            - name: Export release code
-#              if: (success() || failure())
-#              id: releasecode
-#              run: |
-#                  export RELEASE=$APP_BUILD-$(git rev-parse --short $GITHUB_SHA)
-#                  echo "##[set-output name=releasename]$RELEASE"
+                  kubectl rollout restart deployment/$APP_NAME-php --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
+                  kubectl rollout restart deployment/$APP_NAME-nginx --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
+                  kubectl rollout restart deployment/$APP_NAME-varnish --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
+            #            - name: Export release code
+            #              if: (success() || failure())
+            #              id: releasecode
+            #              run: |
+            #                  export RELEASE=$APP_BUILD-$(git rev-parse --short $GITHUB_SHA)
+            #                  echo "##[set-output name=releasename]$RELEASE"
             - name: Print release name
               if: (success() || failure())
               run: echo $RELEASENAME
@@ -151,3 +148,6 @@ jobs:
                   release_name: ${{ steps.releasecode.outputs.releasename }}
                   draft: false
                   prerelease: false
+            - name: Chores
+              if: (success() || failure())
+              run: docker-compose down
