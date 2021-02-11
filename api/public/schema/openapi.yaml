@@ -12,7 +12,7 @@ info:
     - Docker Image: [online](https://hub.docker.com/repository/docker/conduction/chrc-php) 
     - Datamodel: [postman](/schema/chrc.postman_collection.json) / [oas](/schema/openapi.yaml) / [pdf](/schema/datamodel.pdf) / [modelio (zip)](/schema/Datamodel_Modelio.zip) 
     
-    'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'         
+    Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.         
     
 paths:
   /answers:
@@ -3778,6 +3778,12 @@ paths:
                 items:
                   $ref: '#/components/schemas/Entry-read'
       parameters:
+        -
+          name: submitter
+          in: query
+          required: false
+          schema:
+            type: string
         -
           name: page
           in: query
@@ -13150,7 +13156,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-11-18 10:37:19'
+        example: '2021-02-11 09:38:52'
       created:
         description: 'The moment this entry was created'
         type: \Datetime
@@ -13171,7 +13177,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2020-11-18 10:37:19'
+        example: '2021-02-11 09:38:52'
       tender: []
       questions: []
     required:
@@ -13249,7 +13255,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-11-18 10:37:19'
+        example: '2021-02-11 09:38:52'
       created:
         description: 'The moment this pitch was created'
         type: \Datetime
@@ -13290,7 +13296,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2020-11-18 10:37:19'
+        example: '2021-02-11 09:38:52'
       tender: []
       stages: []
       currentStage: []
@@ -13737,12 +13743,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-11-18 10:37:19'
+        example: '2021-02-11 09:38:53'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-11-18 10:37:19'
+        example: '2021-02-11 09:38:53'
     required: []
   AuditTrail-write:
     properties:
@@ -13790,12 +13796,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-11-18 10:37:19'
+        example: '2021-02-11 09:38:53'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-11-18 10:37:19'
+        example: '2021-02-11 09:38:53'
     required: []
   ChangeLog-write:
     properties:

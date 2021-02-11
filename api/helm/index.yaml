@@ -3,10 +3,10 @@ entries:
   chrc:
   - apiVersion: v1
     appVersion: V1.0
-    created: "2020-11-16T10:27:29.1712421Z"
+    created: "2021-02-11T09:34:56.3705254Z"
     description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
       beschikbaar.
-    digest: 916219f2ad2e32ddb2ceb7d50dc376dd844cb80d9f26ec906f614f31bc06db82
+    digest: efcf6279693000ffbf0d1657a8ebaab01cf6e8679621d415ec9523ed1d92016a
     home: chrc.zaakonline.nl
     icon: chrc.zaakonline.nl
     name: chrc
@@ -16,7 +16,7 @@ entries:
   postgresql:
   - apiVersion: v1
     appVersion: 11.7.0
-    created: "2020-11-16T10:27:29.2029759Z"
+    created: "2021-02-11T09:34:56.3821077Z"
     deprecated: true
     description: DEPRECATED Chart for PostgreSQL, an object-relational database management
       system (ORDBMS) with an emphasis on extensibility and on standards-compliance.
@@ -36,4 +36,4 @@ entries:
     urls:
     - charts/postgresql-8.6.4.tgz
     version: 8.6.4
-generated: "2020-11-16T10:27:29.1560942Z"
+generated: "2021-02-11T09:34:56.3585919Z"
