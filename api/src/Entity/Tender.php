@@ -55,7 +55,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiFilter(SearchFilter::class, properties={
  *     "name": "ipartial",
  *     "description": "ipartial",
- *     "submitters": "ipartial"
+ *     "submitter": "ipartial"
  *     })
  * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
  * @ApiFilter(RangeFilter::class, properties={"budget"})
@@ -97,11 +97,11 @@ class Tender
      * @example This tender requires a provider that can design and deliver a swimming pool with 2 water slides.
      *
      * @Assert\Length(
-     *      max = 255
+     *      max = 7500
      * )
      * @Gedmo\Versioned
      * @Groups({"read","write"})
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", length=7500, nullable=true)
      */
     private $description;
 
@@ -156,12 +156,9 @@ class Tender
 
     /**
      * @var array The selection Critera(s) of this tender.
-     * @Assert\Length(
-     *      max = 255
-     * )
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
-     * @ORM\Column(type="array", length=255, nullable=true)
+     * @ORM\Column(type="array", nullable=true)
      */
     private $selectionCritera = [];
 
@@ -187,7 +184,7 @@ class Tender
     /**
      * @Groups({"read","write"})
      * @MaxDepth(1)
-     * @ORM\ManyToMany(targetEntity=TenderStage::class)
+     * @ORM\OneToMany(targetEntity=TenderStage::class, mappedBy="tender")
      */
     private $stages;
 
@@ -335,12 +332,12 @@ class Tender
         return $this;
     }
 
-    public function getBudget(): ?string
+    public function getBudget()
     {
         return $this->budget;
     }
 
-    public function setBudget(?string $budget): self
+    public function setBudget($budget): self
     {
         $this->budget = $budget;
 
@@ -403,32 +400,6 @@ class Tender
     public function setDateClose(?\DateTimeInterface $dateClose): self
     {
         $this->dateClose = $dateClose;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|TenderStage[]
-     */
-    public function getStages(): Collection
-    {
-        return $this->stages;
-    }
-
-    public function addStage(TenderStage $stage): self
-    {
-        if (!$this->stages->contains($stage)) {
-            $this->stages[] = $stage;
-        }
-
-        return $this;
-    }
-
-    public function removeStage(TenderStage $stage): self
-    {
-        if ($this->stages->contains($stage)) {
-            $this->stages->removeElement($stage);
-        }
 
         return $this;
     }
@@ -601,6 +572,37 @@ class Tender
     public function setModified(\DateTimeInterface $modified): self
     {
         $this->modified = $modified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TenderStage[]
+     */
+    public function getStages(): Collection
+    {
+        return $this->stages;
+    }
+
+    public function addStage(TenderStage $stage): self
+    {
+        if (!$this->stages->contains($stage)) {
+            $this->stages[] = $stage;
+            $stage->setTender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStage(TenderStage $stage): self
+    {
+        if ($this->stages->contains($stage)) {
+            $this->stages->removeElement($stage);
+            // set the owning side to null (unless already changed)
+            if ($stage->getTender() === $this) {
+                $stage->setTender(null);
+            }
+        }
 
         return $this;
     }
