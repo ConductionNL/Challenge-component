@@ -3,10 +3,10 @@ entries:
   chrc:
   - apiVersion: v1
     appVersion: V1.0
-    created: "2021-02-16T17:47:59.4227527Z"
+    created: "2021-02-16T23:02:59.1303585Z"
     description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
       beschikbaar.
-    digest: 109583c60309a2511c2cde9a67506997bc60ef4e01b8466bb19d71e3d2bc3958
+    digest: 02b509da7ae11d224b5a018597bbb7d0288bcd6d9bddb11a7166e8b66ffdd016
     home: chrc.zaakonline.nl
     icon: chrc.zaakonline.nl
     name: chrc
@@ -16,7 +16,7 @@ entries:
   pc:
   - apiVersion: v1
     appVersion: V1.0
-    created: "2021-02-16T17:47:59.4560187Z"
+    created: "2021-02-16T23:02:59.1494423Z"
     description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
       beschikbaar.
     digest: 0b48e6b3faa2292b92b7582802ce074575d0d4d05bb3d1e6858e81303e349987
@@ -31,7 +31,7 @@ entries:
       category: Database
     apiVersion: v2
     appVersion: 11.10.0
-    created: "2021-02-16T17:47:59.4715789Z"
+    created: "2021-02-16T23:02:59.1724447Z"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -60,4 +60,4 @@ entries:
     urls:
     - charts/postgresql-10.1.1.tgz
     version: 10.1.1
-generated: "2021-02-16T17:47:59.4039079Z"
+generated: "2021-02-16T23:02:59.1133823Z"
