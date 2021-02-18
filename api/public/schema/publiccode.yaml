@@ -1,13 +1,13 @@
 publiccodeYmlVersion: "0.2"
 
-name: chrc
+name: Challenge-component
 applicationSuite: commonground
-url: "https://github.com/ConductionNL/proto-component"
+url: "https://github.com/ConductionNL/Challenge-component"
 landingURL: "chrc.zaakonline.nl"
-    isBasedOn: "https://github.com/ConductionNL/Proto-component-commonground.git"
+isBasedOn: "https://github.com/ConductionNL/Proto-component-commonground.git"
 softwareVersion: "V1.0"
-releaseDate: "2021-16-02"
-logo: chrc.zaakonline.nl
+releaseDate: "2021-18-02"
+logo: https://conductionnl.github.io/images/conduction_avatar_blue_on_transparant.svg
 monochromeLogo: img/logo-mono.svg
 
 inputTypes:
@@ -40,7 +40,7 @@ usedBy:
     - Gemeente Hoorn
 
 
-roadmap: "https://github.com/ConductionNL/proto-component/blob/master/ROADMAP.md"
+roadmap: "https://github.com/ConductionNL/Challenge-component/blob/master/ROADMAP.md"
 
 developmentStatus: development
 
@@ -69,7 +69,7 @@ description:
         #          on multiple rows. You should note what the software
         #          is and why one should need it.
 
-        documentation: "https://github.com/ConductionNL/proto-component/blob/master/README.md"
+        documentation: "https://github.com/ConductionNL/Challenge-component/blob/master/README.md"
         apiDocumentation: "chrc.zaakonline.nl"
 #
 #    features:
@@ -119,5 +119,5 @@ dependsOn:
 
 installations:
     - type: helm
-      url: "https://github.com/ConductionNL/proto-component/raw/master/api/helm/chrc-0.1.0.tgz"
+      url: "https://raw.githubusercontent.com/ConductionNL/Challenge-component/master/api/helm/"
 
