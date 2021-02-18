@@ -3,20 +3,33 @@ entries:
   chrc:
   - apiVersion: v1
     appVersion: V1.0
-    created: "2021-02-17T17:12:11.1425756Z"
+    created: "2021-02-18T14:46:07.6341409Z"
     description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
       beschikbaar.
-    digest: 5f2ed89d1aa1768ebd9ecc9e3d9925b34ded685326560d56002883f6fea4f066
+    digest: 6467e76df49c53c43b814ce78f2cc42a4b81315499c842d23141998bbaf64547
     home: chrc.zaakonline.nl
     icon: chrc.zaakonline.nl
+    keywords:
+    - commonground
+    - haven
+    - nlx
+    - component
+    maintainers:
+    - email: ruben@conduction.nl
+      name: Ruben van der Linde
+    - email: info@conduction.nl
+      name: Conduction
     name: chrc
+    sources:
+    - https://commonground.conduction.nl/
+    - https://www.commonground.nl/
     urls:
     - chrc-0.1.0.tgz
     version: 0.1.0
   pc:
   - apiVersion: v1
     appVersion: V1.0
-    created: "2021-02-17T17:12:11.1635299Z"
+    created: "2021-02-18T14:46:07.6683141Z"
     description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
       beschikbaar.
     digest: 0b48e6b3faa2292b92b7582802ce074575d0d4d05bb3d1e6858e81303e349987
@@ -31,7 +44,7 @@ entries:
       category: Database
     apiVersion: v2
     appVersion: 11.10.0
-    created: "2021-02-17T17:12:11.1856951Z"
+    created: "2021-02-18T14:46:07.6893968Z"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -60,4 +73,4 @@ entries:
     urls:
     - charts/postgresql-10.1.1.tgz
     version: 10.1.1
-generated: "2021-02-17T17:12:11.0556928Z"
+generated: "2021-02-18T14:46:07.6148703Z"

@@ -250,4 +250,5 @@ Dus ben jij een creatieve, bevlogen en stress-bestendige mbo/hbo student en doe 
         $manager->flush();
         $tender = $manager->getRepository('App:Tender')->findOneBy(['id' => $id]);
     }
+
 }
