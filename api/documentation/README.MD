@@ -1,4 +1,4 @@
-# chrc
+# proto-component
 
 Description
 ----
