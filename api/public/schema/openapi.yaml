@@ -1,16 +1,16 @@
 openapi: 3.0.2
 info:
-  title: 'Challenge Component'
+  title: ''
   version: V1.0
   description: |
     API Details
-    - Component: Challenge Component
-    - Reference: chrc
+    - Component: 
+    - Reference: proto-component
     - Enviroment: dev
     - Version: V1.0
     - Repository: [online](https://github.com/ConductionNL/proto-component) / [zip](https://github.com/ConductionNL/proto-component/archive/master.zip)
-    - Docker Image: [online](https://hub.docker.com/repository/docker/conduction/chrc-php) 
-    - Datamodel: [postman](schema/chrc.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
+    - Docker Image: [online]() 
+    - Datamodel: [postman](schema/proto-component.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
     
     Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.         
     
@@ -13156,7 +13156,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2021-02-16 17:42:30'
+        example: '2021-02-18 18:40:07'
       created:
         description: 'The moment this entry was created'
         type: \Datetime
@@ -13177,7 +13177,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2021-02-16 17:42:30'
+        example: '2021-02-18 18:40:07'
       tender: []
       questions: []
     required:
@@ -13255,7 +13255,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2021-02-16 17:42:30'
+        example: '2021-02-18 18:40:07'
       created:
         description: 'The moment this pitch was created'
         type: \Datetime
@@ -13296,7 +13296,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2021-02-16 17:42:30'
+        example: '2021-02-18 18:40:07'
       tender: []
       stages: []
       currentStage: []
@@ -13743,12 +13743,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-02-16 17:42:30'
+        example: '2021-02-18 18:40:07'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-02-16 17:42:30'
+        example: '2021-02-18 18:40:07'
     required: []
   AuditTrail-write:
     properties:
@@ -13796,12 +13796,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-02-16 17:42:30'
+        example: '2021-02-18 18:40:07'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-02-16 17:42:30'
+        example: '2021-02-18 18:40:07'
     required: []
   ChangeLog-write:
     properties:
@@ -13903,7 +13903,7 @@ host: irc.zaakonline.nl
 servers:
   -
     name: conduction.nl
-    url: chrc.dev.conduction.nl
+    url: proto-component.dev.conduction.nl
 externalDocs:
   -
     description: 'OAS Documentatie'
