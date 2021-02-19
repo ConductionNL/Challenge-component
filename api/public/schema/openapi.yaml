@@ -13156,7 +13156,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2021-02-18 18:40:07'
+        example: '2021-02-19 13:03:11'
       created:
         description: 'The moment this entry was created'
         type: \Datetime
@@ -13177,7 +13177,7 @@ definitions:
       dateOfEntry:
         type: string
         format: date-time
-        example: '2021-02-18 18:40:07'
+        example: '2021-02-19 13:03:11'
       tender: []
       questions: []
     required:
@@ -13255,7 +13255,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2021-02-18 18:40:07'
+        example: '2021-02-19 13:03:11'
       created:
         description: 'The moment this pitch was created'
         type: \Datetime
@@ -13296,7 +13296,7 @@ definitions:
       dateSubmitted:
         type: string
         format: date-time
-        example: '2021-02-18 18:40:07'
+        example: '2021-02-19 13:03:11'
       tender: []
       stages: []
       currentStage: []
@@ -13743,12 +13743,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-02-18 18:40:07'
+        example: '2021-02-19 13:03:11'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-02-18 18:40:07'
+        example: '2021-02-19 13:03:11'
     required: []
   AuditTrail-write:
     properties:
@@ -13796,12 +13796,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-02-18 18:40:07'
+        example: '2021-02-19 13:03:11'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-02-18 18:40:07'
+        example: '2021-02-19 13:03:11'
     required: []
   ChangeLog-write:
     properties:
